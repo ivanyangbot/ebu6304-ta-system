@@ -3,12 +3,12 @@
 ## Group 71
 
 ### Group members：
-  Zhiyuan Yang  231226509
-  Lifeng Sun    231226808
-  Jinhong Cheng  231226705
-  Yucheng Jian  231226554
-  Fei Ye        231226750
-  Yibo Zhang    231226369
+&nbsp;&nbsp;Zhiyuan Yang  231226509<br>
+&nbsp;&nbsp;Lifeng Sun    231226808<br>
+&nbsp;&nbsp;Jinhong Cheng  231226705<br>
+&nbsp;&nbsp;Yucheng Jian  231226554<br>
+&nbsp;&nbsp;Fei Ye        231226750<br>
+&nbsp;&nbsp;Yibo Zhang    231226369
   
 
 ### Project Overview
