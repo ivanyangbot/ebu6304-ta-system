@@ -1,0 +1,44 @@
+[
+  {
+    "id": "job-001",
+    "title": "Programming Lab TA",
+    "moduleName": "Introduction to Java Programming",
+    "description": "Help students during weekly lab sessions, answer simple coding questions, and support marking preparation.",
+    "requiredSkills": [
+      "Java",
+      "Communication",
+      "Tutoring"
+    ],
+    "hours": 6,
+    "postedByMoId": "mo-001",
+    "status": "Open"
+  },
+  {
+    "id": "job-002",
+    "title": "Data Workshop TA",
+    "moduleName": "Data Analytics Fundamentals",
+    "description": "Support the workshop on spreadsheets and introductory data analysis tasks for international students.",
+    "requiredSkills": [
+      "Python",
+      "Data Analysis",
+      "Presentation"
+    ],
+    "hours": 5,
+    "postedByMoId": "mo-001",
+    "status": "Open"
+  },
+  {
+    "id": "job-003",
+    "title": "Office Hour Assistant",
+    "moduleName": "Academic Skills Support",
+    "description": "Assist in office hours, manage attendance, and provide basic academic support to students.",
+    "requiredSkills": [
+      "Communication",
+      "Excel",
+      "Organisation"
+    ],
+    "hours": 4,
+    "postedByMoId": "mo-001",
+    "status": "Open"
+  }
+]
