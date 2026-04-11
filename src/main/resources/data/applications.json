@@ -1,0 +1,23 @@
+[
+  {
+    "id": "app-001",
+    "jobId": "job-001",
+    "applicantId": "applicant-002",
+    "status": "Accepted",
+    "appliedAt": "2026-04-01 10:30"
+  },
+  {
+    "id": "app-002",
+    "jobId": "job-002",
+    "applicantId": "applicant-002",
+    "status": "Accepted",
+    "appliedAt": "2026-04-02 14:20"
+  },
+  {
+    "id": "app-003",
+    "jobId": "job-003",
+    "applicantId": "applicant-001",
+    "status": "Pending",
+    "appliedAt": "2026-04-03 09:15"
+  }
+]
