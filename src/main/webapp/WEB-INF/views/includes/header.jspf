@@ -1,0 +1,76 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${pageTitle} - TA Recruitment System</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+</head>
+<body class="app-body" data-page-title-key="${pageTitleKey}" data-context-path="${pageContext.request.contextPath}">
+<div class="app-shell${empty sessionScope.currentUser ? ' is-guest' : ''}">
+    <c:if test="${not empty sessionScope.currentUser}">
+        <aside class="app-sidebar" data-sidebar>
+            <div class="sidebar-header">
+                <div class="brand-copy">
+                    <p class="sidebar-eyebrow" data-i18n="brand.subtitle">BUPT International School</p>
+                    <h1 class="sidebar-title" data-i18n="brand.title">TA Recruitment System</h1>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a class="nav-link" data-nav-match="/dashboard" data-i18n="nav.dashboard"
+                   href="${pageContext.request.contextPath}/dashboard">Dashboard</a>
+                <c:if test="${sessionScope.currentUser.role == 'APPLICANT'}">
+                    <a class="nav-link" data-nav-match="/applicant/profile" data-i18n="nav.profile"
+                       href="${pageContext.request.contextPath}/applicant/profile">My Profile</a>
+                    <a class="nav-link" data-nav-match="/jobs" data-i18n="nav.jobs"
+                       href="${pageContext.request.contextPath}/jobs">Browse Jobs</a>
+                    <a class="nav-link" data-nav-match="/applicant/applications" data-i18n="nav.myApplications"
+                       href="${pageContext.request.contextPath}/applicant/applications">My Applications</a>
+                </c:if>
+                <c:if test="${sessionScope.currentUser.role == 'MO'}">
+                    <a class="nav-link" data-nav-match="/mo/jobs,/mo/applications" data-i18n="nav.moJobs"
+                       href="${pageContext.request.contextPath}/mo/jobs">My Jobs</a>
+                    <a class="nav-link" data-nav-match="/mo/jobs/create" data-i18n="nav.createJob"
+                       href="${pageContext.request.contextPath}/mo/jobs/create">Create Job</a>
+                </c:if>
+                <c:if test="${sessionScope.currentUser.role == 'ADMIN'}">
+                    <a class="nav-link" data-nav-match="/admin/workload" data-i18n="nav.workload"
+                       href="${pageContext.request.contextPath}/admin/workload">Workload Overview</a>
+                </c:if>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="account-card">
+                    <p class="account-label" data-i18n="sidebar.account">Current Account</p>
+                    <div class="account-name">${sessionScope.currentUser.fullName}</div>
+                    <span class="role-pill" data-role-label="${sessionScope.currentUser.role}">${sessionScope.currentUser.role}</span>
+                </div>
+                <a class="btn btn-light btn-block" data-i18n="action.logout" href="${pageContext.request.contextPath}/logout">Logout</a>
+            </div>
+        </aside>
+        <button class="sidebar-backdrop" type="button" data-sidebar-close aria-label="Close navigation"></button>
+    </c:if>
+
+    <div class="app-main">
+        <header class="workspace-header">
+            <div class="workspace-title-wrap">
+                <c:if test="${not empty sessionScope.currentUser}">
+                    <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-label="Toggle navigation">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </c:if>
+                <div>
+                    <p class="workspace-kicker" data-i18n="workspace.kicker">Recruitment Workspace</p>
+                    <h2 class="workspace-title" data-i18n="${pageTitleKey}">${pageTitle}</h2>
+                </div>
+            </div>
+            <button class="lang-switch" type="button" data-lang-toggle>中文</button>
+        </header>
+
+        <main class="page-content">
