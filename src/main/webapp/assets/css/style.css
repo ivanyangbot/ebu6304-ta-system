@@ -458,6 +458,22 @@ td {
     border-bottom: 1px solid rgba(148, 163, 184, 0.16);
 }
 
+th.text-center,
+td.text-center {
+    text-align: center;
+}
+
+th.text-right,
+td.text-right {
+    text-align: right;
+}
+
+.delete-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
 th {
     height: 58px;
     font-size: 13px;

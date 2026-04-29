@@ -8,14 +8,42 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 public abstract class BaseServlet extends HttpServlet {
+    private static final String CSRF_TOKEN_SESSION_KEY = "csrfToken";
+    private static final SecureRandom secureRandom = new SecureRandom();
+
     protected User getCurrentUser(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return null;
         }
         return (User) session.getAttribute("currentUser");
+    }
+
+    protected String generateCsrfToken(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        byte[] tokenBytes = new byte[32];
+        secureRandom.nextBytes(tokenBytes);
+        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
+        session.setAttribute(CSRF_TOKEN_SESSION_KEY, token);
+        return token;
+    }
+
+    protected String getCsrfToken(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return null;
+        }
+        return (String) session.getAttribute(CSRF_TOKEN_SESSION_KEY);
+    }
+
+    protected boolean validateCsrfToken(HttpServletRequest request) {
+        String sessionToken = getCsrfToken(request);
+        String requestToken = request.getParameter("_csrf");
+        return sessionToken != null && sessionToken.equals(requestToken);
     }
 
     protected boolean requireLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
