@@ -141,6 +141,15 @@
         <url-pattern>/admin/workload</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AdminUserManagementServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminUserManagementServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminUserManagementServlet</servlet-name>
+        <url-pattern>/admin/users</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
