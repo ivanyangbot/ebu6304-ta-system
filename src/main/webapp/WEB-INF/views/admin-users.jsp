@@ -75,6 +75,7 @@
                     <td>${user.username}</td>
                     <td class="text-center"><span class="badge badge-applicant" data-i18n="role.APPLICANT">Applicant</span></td>
                     <td class="text-center">
+                        <button type="button" class="btn btn-secondary btn-sm reset-password-btn" data-user-id="${user.id}" data-i18n="action.resetPassword">Reset Password</button>
                         <form action="${pageContext.request.contextPath}/admin/users" method="post" class="delete-form">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="userId" value="${user.id}">
@@ -115,6 +116,7 @@
                     <td>${user.username}</td>
                     <td class="text-center"><span class="badge badge-mo" data-i18n="role.MO">Module Organiser</span></td>
                     <td class="text-center">
+                        <button type="button" class="btn btn-secondary btn-sm reset-password-btn" data-user-id="${user.id}" data-i18n="action.resetPassword">Reset Password</button>
                         <form action="${pageContext.request.contextPath}/admin/users" method="post" class="delete-form">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="userId" value="${user.id}">
@@ -155,6 +157,7 @@
                     <td>${user.username}</td>
                     <td class="text-center"><span class="badge badge-admin" data-i18n="role.ADMIN">Administrator</span></td>
                     <td class="text-center">
+                        <button type="button" class="btn btn-secondary btn-sm reset-password-btn" data-user-id="${user.id}" data-i18n="action.resetPassword">Reset Password</button>
                         <form action="${pageContext.request.contextPath}/admin/users" method="post" class="delete-form">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="userId" value="${user.id}">
@@ -174,6 +177,30 @@
     </div>
 </div>
 
+<div id="resetPasswordModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <h3 data-i18n="admin.resetPasswordTitle">Reset User Password</h3>
+        <form id="resetPasswordForm" action="${pageContext.request.contextPath}/admin/users" method="post">
+            <input type="hidden" name="action" value="resetPassword">
+            <input type="hidden" name="userId" id="resetUserId">
+            <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+            <div class="form-group">
+                <label data-i18n="form.newPassword">New Password</label>
+                <input type="password" name="newPassword" id="newPassword" required minlength="6" data-i18n-placeholder="form.newPasswordPlaceholder" placeholder="Enter new password (min 6 chars)">
+            </div>
+            <div class="form-group">
+                <label data-i18n="form.confirmPassword">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" required minlength="6" data-i18n-placeholder="form.confirmPasswordPlaceholder" placeholder="Confirm new password">
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn btn-secondary modal-cancel" data-i18n="action.cancel">Cancel</button>
+                <button type="submit" class="btn btn-primary" data-i18n="action.resetPassword">Reset Password</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var deleteForms = document.querySelectorAll('.delete-form');
@@ -190,7 +217,119 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    var resetPasswordModal = document.getElementById('resetPasswordModal');
+    var resetPasswordForms = document.querySelectorAll('.reset-password-btn');
+    var modalClose = document.querySelector('.modal-close');
+    var modalCancel = document.querySelector('.modal-cancel');
+    var resetPasswordForm = document.getElementById('resetPasswordForm');
+
+    resetPasswordForms.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var userId = btn.getAttribute('data-user-id');
+            document.getElementById('resetUserId').value = userId;
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            resetPasswordModal.style.display = 'block';
+        });
+    });
+
+    modalClose.addEventListener('click', function() {
+        resetPasswordModal.style.display = 'none';
+    });
+
+    modalCancel.addEventListener('click', function() {
+        resetPasswordModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target === resetPasswordModal) {
+            resetPasswordModal.style.display = 'none';
+        }
+    });
+
+    resetPasswordForm.addEventListener('submit', function(e) {
+        var newPassword = document.getElementById('newPassword').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+        var translations = {
+            en: "Are you sure you want to reset this user's password?",
+            zh: "确定要重置此用户的密码吗？"
+        };
+        var lang = document.body.getAttribute('data-language') || 'en';
+        var message = translations[lang] || translations.en;
+
+        if (newPassword.length < 6) {
+            var minLengthMsg = lang === 'zh' ? '密码至少需要6个字符' : 'Password must be at least 6 characters';
+            alert(minLengthMsg);
+            e.preventDefault();
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            var mismatchMsg = lang === 'zh' ? '两次输入的密码不一致' : 'Passwords do not match';
+            alert(mismatchMsg);
+            e.preventDefault();
+            return;
+        }
+
+        if (!confirm(message)) {
+            e.preventDefault();
+        }
+    });
 });
 </script>
+
+<style>
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 24px;
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#resetPasswordForm .form-group {
+    margin-bottom: 15px;
+}
+
+#resetPasswordForm input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+</style>
 
 <%@ include file="includes/footer.jspf" %>

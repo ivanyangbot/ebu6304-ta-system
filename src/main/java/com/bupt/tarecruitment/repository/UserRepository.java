@@ -161,6 +161,20 @@ public class UserRepository {
         }
     }
 
+    public void updatePassword(String userId, String newPassword) {
+        synchronized (UserRepository.class) {
+            List<User> users = findAll();
+            for (User user : users) {
+                if (user.getId().equals(userId)) {
+                    user.setPassword(newPassword);
+                    JsonFileUtil.writeJson(filePath, users);
+                    return;
+                }
+            }
+            throw new RuntimeException("User not found: " + userId);
+        }
+    }
+
     public void createMO(MO mo) {
         synchronized (UserRepository.class) {
             List<User> users = findAll();

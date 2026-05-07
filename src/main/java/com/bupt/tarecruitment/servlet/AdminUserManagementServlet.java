@@ -55,6 +55,15 @@ public class AdminUserManagementServlet extends BaseServlet {
             }
             handleDelete(request, response);
             return;
+        } else if ("resetPassword".equals(action)) {
+            if (!validateCsrfToken(request)) {
+                request.setAttribute("errorMessage", "Invalid CSRF token.");
+                loadUsers(request);
+                forwardView(request, response, "admin-users.jsp");
+                return;
+            }
+            handleResetPassword(request, response);
+            return;
         }
 
         loadUsers(request);
@@ -145,6 +154,38 @@ public class AdminUserManagementServlet extends BaseServlet {
             }
             userRepository.deleteUserById(userId);
             request.setAttribute("successMessage", "User deleted successfully.");
+        } catch (Exception e) {
+            request.setAttribute("errorMessage", e.getMessage());
+        }
+
+        loadUsers(request);
+        forwardView(request, response, "admin-users.jsp");
+    }
+
+    private void handleResetPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userId = request.getParameter("userId");
+        String newPassword = request.getParameter("newPassword");
+
+        try {
+            if (userId == null || userId.trim().isEmpty()) {
+                throw new IllegalArgumentException("User ID cannot be empty.");
+            }
+            if (newPassword == null || newPassword.trim().isEmpty()) {
+                throw new IllegalArgumentException("New password cannot be empty.");
+            }
+            if (newPassword.length() < 6) {
+                throw new IllegalArgumentException("Password must be at least 6 characters.");
+            }
+
+            User user = userRepository.findById(userId);
+            if (user == null) {
+                throw new RuntimeException("User not found.");
+            }
+
+            userRepository.updatePassword(userId, newPassword.trim());
+            request.setAttribute("successMessage", "Password reset successfully for user: " + user.getUsername());
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("errorMessage", e.getMessage());
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
         }

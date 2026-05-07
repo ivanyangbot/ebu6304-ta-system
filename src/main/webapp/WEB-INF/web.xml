@@ -88,6 +88,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>WithdrawApplicationServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.WithdrawApplicationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WithdrawApplicationServlet</servlet-name>
+        <url-pattern>/applicant/withdraw</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>MyApplicationsServlet</servlet-name>
         <servlet-class>com.bupt.tarecruitment.servlet.MyApplicationsServlet</servlet-class>
     </servlet>

@@ -83,4 +83,15 @@ public class ApplicationRepository {
         }
         throw new RuntimeException("Application not found: " + applicationId);
     }
+
+    public void delete(String applicationId) {
+        synchronized (ApplicationRepository.class) {
+            List<ApplicationRecord> applications = findAll();
+            boolean removed = applications.removeIf(app -> app.getId().equals(applicationId));
+            if (!removed) {
+                throw new RuntimeException("Application not found: " + applicationId);
+            }
+            JsonFileUtil.writeJson(filePath, applications);
+        }
+    }
 }
