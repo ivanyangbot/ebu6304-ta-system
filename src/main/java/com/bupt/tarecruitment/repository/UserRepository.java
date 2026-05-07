@@ -149,4 +149,87 @@ public class UserRepository {
         }
         throw new RuntimeException("Applicant not found: " + updatedApplicant.getId());
     }
+
+    public void deleteUserById(String id) {
+        synchronized (UserRepository.class) {
+            List<User> users = findAll();
+            boolean removed = users.removeIf(user -> user.getId().equals(id));
+            if (!removed) {
+                throw new RuntimeException("User not found: " + id);
+            }
+            JsonFileUtil.writeJson(filePath, users);
+        }
+    }
+
+    public void updatePassword(String userId, String newPassword) {
+        synchronized (UserRepository.class) {
+            List<User> users = findAll();
+            for (User user : users) {
+                if (user.getId().equals(userId)) {
+                    user.setPassword(newPassword);
+                    JsonFileUtil.writeJson(filePath, users);
+                    return;
+                }
+            }
+            throw new RuntimeException("User not found: " + userId);
+        }
+    }
+
+    public void createMO(MO mo) {
+        synchronized (UserRepository.class) {
+            List<User> users = findAll();
+            for (User user : users) {
+                if (user.getUsername() != null
+                        && user.getUsername().trim().equalsIgnoreCase(mo.getUsername().trim())) {
+                    throw new IllegalArgumentException("Username is already taken.");
+                }
+                if (user.getEmail() != null
+                        && user.getEmail().trim().equalsIgnoreCase(mo.getEmail().trim())) {
+                    throw new IllegalArgumentException("Email is already registered.");
+                }
+            }
+            users.add(mo);
+            JsonFileUtil.writeJson(filePath, users);
+        }
+    }
+
+    public void createAdmin(Admin admin) {
+        synchronized (UserRepository.class) {
+            List<User> users = findAll();
+            for (User user : users) {
+                if (user.getUsername() != null
+                        && user.getUsername().trim().equalsIgnoreCase(admin.getUsername().trim())) {
+                    throw new IllegalArgumentException("Username is already taken.");
+                }
+                if (user.getEmail() != null
+                        && user.getEmail().trim().equalsIgnoreCase(admin.getEmail().trim())) {
+                    throw new IllegalArgumentException("Email is already registered.");
+                }
+            }
+            users.add(admin);
+            JsonFileUtil.writeJson(filePath, users);
+        }
+    }
+
+    public List<MO> findAllMOs() {
+        List<User> users = findAll();
+        List<MO> mos = new ArrayList<>();
+        for (User user : users) {
+            if (user instanceof MO) {
+                mos.add((MO) user);
+            }
+        }
+        return mos;
+    }
+
+    public List<Admin> findAllAdmins() {
+        List<User> users = findAll();
+        List<Admin> admins = new ArrayList<>();
+        for (User user : users) {
+            if (user instanceof Admin) {
+                admins.add((Admin) user);
+            }
+        }
+        return admins;
+    }
 }

@@ -62,4 +62,18 @@ public class ApplicationService {
         }
         applicationRepository.updateStatus(applicationId, status);
     }
+
+    public void withdrawApplication(String applicationId, String applicantId) {
+        ApplicationRecord application = applicationRepository.findById(applicationId);
+        if (application == null) {
+            throw new RuntimeException("Application not found.");
+        }
+        if (!application.getApplicantId().equals(applicantId)) {
+            throw new RuntimeException("You can only withdraw your own application.");
+        }
+        if (!"Pending".equals(application.getStatus())) {
+            throw new RuntimeException("Only pending applications can be withdrawn.");
+        }
+        applicationRepository.delete(applicationId);
+    }
 }

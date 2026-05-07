@@ -26,6 +26,12 @@
         <c:if test="${param.msg == 'duplicate'}">
             <div class="alert alert-error" data-i18n="jobDetail.duplicate">You have already applied for this job.</div>
         </c:if>
+        <c:if test="${param.msg == 'withdrawn'}">
+            <div class="alert alert-success" data-i18n="jobDetail.withdrawn">Application withdrawn successfully.</div>
+        </c:if>
+        <c:if test="${param.msg == 'withdrawError'}">
+            <div class="alert alert-error">${param.error}</div>
+        </c:if>
 
         <p><strong data-i18n="jobDetail.matchScore">Match Score</strong>: ${matchResult.score}%</p>
         <p><strong data-i18n="jobDetail.matchedSkills">Matched Skills</strong>:
@@ -50,6 +56,17 @@
         </p>
 
         <c:choose>
+            <c:when test="${alreadyApplied && currentApplication.status == 'Pending'}">
+                <div class="action-buttons">
+                    <span class="badge badge-info" data-status-label="AlreadyApplied">You already applied</span>
+                    <form action="${pageContext.request.contextPath}/applicant/withdraw" method="post" class="withdraw-form">
+                        <input type="hidden" name="applicationId" value="${currentApplication.id}">
+                        <input type="hidden" name="jobId" value="${job.id}">
+                        <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+                        <button type="submit" class="btn btn-danger" data-i18n="action.withdraw">Withdraw Application</button>
+                    </form>
+                </div>
+            </c:when>
             <c:when test="${alreadyApplied}">
                 <span class="badge badge-info" data-status-label="AlreadyApplied">You already applied</span>
             </c:when>
@@ -62,5 +79,24 @@
         </c:choose>
     </section>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var withdrawForms = document.querySelectorAll('.withdraw-form');
+    withdrawForms.forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            var translations = {
+                en: "Are you sure you want to withdraw this application? Withdrawn applications cannot be restored.",
+                zh: "确定要撤回此申请吗？撤回后将无法恢复。"
+            };
+            var lang = document.body.getAttribute('data-language') || 'en';
+            var message = translations[lang] || translations.en;
+            if (!confirm(message)) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
 
 <%@ include file="includes/footer.jspf" %>

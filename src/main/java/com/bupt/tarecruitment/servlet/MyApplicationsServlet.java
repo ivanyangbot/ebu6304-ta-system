@@ -21,6 +21,8 @@ public class MyApplicationsServlet extends BaseServlet {
             return;
         }
 
+        generateCsrfToken(request);
+
         ApplicationService applicationService = new ApplicationService(getServletContext());
         JobService jobService = new JobService(getServletContext());
         List<ApplicationRecord> records = applicationService.getApplicationsByApplicant(getCurrentUser(request).getId());
