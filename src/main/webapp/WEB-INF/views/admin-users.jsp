@@ -7,7 +7,18 @@
 <section class="section-header">
     <h2 data-i18n="admin.userManagementHeading">User Management</h2>
     <p data-i18n="admin.userManagementDesc">Manage all users in the system. You can view, create, and delete accounts.</p>
+    <a href="${pageContext.request.contextPath}/admin/users/create" class="btn btn-primary" data-i18n="action.createUser">Create New User</a>
 </section>
+
+<div class="search-container">
+    <form action="${pageContext.request.contextPath}/admin/users" method="get" class="search-form">
+        <input type="text" name="searchName" value="${searchName}" placeholder="Search by name..." data-i18n-placeholder="admin.searchPlaceholder">
+        <button type="submit" class="btn btn-secondary search-btn" data-i18n="action.search">Search</button>
+        <c:if test="${not empty searchName}">
+            <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-secondary" data-i18n="action.clear">Clear</a>
+        </c:if>
+    </form>
+</div>
 
 <c:if test="${not empty successMessage}">
     <div class="alert alert-success" role="alert">${successMessage}</div>
@@ -16,43 +27,9 @@
     <div class="alert alert-error" role="alert">${errorMessage}</div>
 </c:if>
 
-<div class="card create-user-card">
-    <h3 data-i18n="admin.createUser">Create New User</h3>
-    <form action="${pageContext.request.contextPath}/admin/users" method="post" class="form-inline">
-        <input type="hidden" name="action" value="create">
-        
-        <div class="form-group">
-            <label data-i18n="form.role">Role</label>
-            <select name="role" required>
-                <option value="APPLICANT" data-i18n="role.APPLICANT">Applicant</option>
-                <option value="MO" data-i18n="role.MO">Module Organiser</option>
-                <option value="ADMIN" data-i18n="role.ADMIN">Administrator</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label data-i18n="form.fullName">Full Name</label>
-            <input type="text" name="fullName" required data-i18n-placeholder="form.fullNamePlaceholder" placeholder="Enter full name">
-        </div>
-        
-        <div class="form-group">
-            <label data-i18n="form.email">Email</label>
-            <input type="email" name="email" required data-i18n-placeholder="form.emailPlaceholder" placeholder="Enter email">
-        </div>
-        
-        <div class="form-group">
-            <label data-i18n="form.username">Username</label>
-            <input type="text" name="username" required data-i18n-placeholder="form.usernamePlaceholder" placeholder="Enter username">
-        </div>
-        
-        <div class="form-group">
-            <label data-i18n="form.password">Password</label>
-            <input type="password" name="password" required data-i18n-placeholder="form.passwordPlaceholder" placeholder="Enter password (min 6 chars)">
-        </div>
-        
-        <button type="submit" class="btn btn-primary" data-i18n="action.create">Create User</button>
-    </form>
-</div>
+<c:if test="${param.msg == 'created'}">
+    <div class="alert alert-success" data-i18n="admin.userCreated">User created successfully.</div>
+</c:if>
 
 <div class="card">
     <h3 data-i18n="admin.applicants">Applicants</h3>

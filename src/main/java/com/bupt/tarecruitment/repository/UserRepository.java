@@ -47,6 +47,25 @@ public class UserRepository {
         return users;
     }
 
+    public List<User> searchByFullName(String searchName) {
+        if (searchName == null || searchName.trim().isEmpty()) {
+            return findAll();
+        }
+
+        String normalizedSearchName = searchName.trim().toLowerCase(Locale.ROOT);
+        List<User> allUsers = findAll();
+        List<User> matchedUsers = new ArrayList<>();
+
+        for (User user : allUsers) {
+            if (user.getFullName() != null
+                    && user.getFullName().trim().toLowerCase(Locale.ROOT).contains(normalizedSearchName)) {
+                matchedUsers.add(user);
+            }
+        }
+
+        return matchedUsers;
+    }
+
     public User findById(String id) {
         List<User> users = findAll();
         for (User user : users) {

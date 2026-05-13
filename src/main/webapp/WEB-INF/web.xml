@@ -159,6 +159,15 @@
         <url-pattern>/admin/users</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AdminCreateUserServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminCreateUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminCreateUserServlet</servlet-name>
+        <url-pattern>/admin/users/create</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

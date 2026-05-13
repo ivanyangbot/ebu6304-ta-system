@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "action.withdraw": "Withdraw Application",
             "action.resetPassword": "Reset Password",
             "action.cancel": "Cancel",
+            "action.createUser": "Create New User",
             "role.APPLICANT": "Applicant",
             "role.MO": "Module Organiser",
             "role.ADMIN": "Administrator",
@@ -147,6 +148,8 @@ document.addEventListener("DOMContentLoaded", function () {
             "admin.userManagementHeading": "User Management",
             "admin.userManagementDesc": "Manage all users in the system. You can view, create, and delete accounts.",
             "admin.createUser": "Create New User",
+            "admin.createUserDesc": "Create a new user account for the system.",
+            "admin.userCreated": "User created successfully.",
             "admin.applicants": "Applicants",
             "admin.mos": "Module Organizers (MO)",
             "admin.admins": "Administrators",
@@ -195,7 +198,10 @@ document.addEventListener("DOMContentLoaded", function () {
             "form.usernamePlaceholder": "Enter username",
             "form.passwordPlaceholder": "Enter password (min 6 chars)",
             "form.newPasswordPlaceholder": "Enter new password (min 6 chars)",
-            "form.confirmPasswordPlaceholder": "Confirm new password"
+            "form.confirmPasswordPlaceholder": "Confirm new password",
+            "admin.searchPlaceholder": "Search by name...",
+            "action.search": "Search",
+            "action.clear": "Clear"
         },
         zh: {
             "brand.title": "助教招聘系统",
@@ -242,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "action.withdraw": "撤回申请",
             "action.resetPassword": "重置密码",
             "action.cancel": "取消",
+            "action.createUser": "创建新用户",
             "role.APPLICANT": "申请人",
             "role.MO": "课程负责人",
             "role.ADMIN": "管理员",
@@ -343,6 +350,8 @@ document.addEventListener("DOMContentLoaded", function () {
             "admin.userManagementHeading": "账号管理",
             "admin.userManagementDesc": "管理系统中的所有用户。可以查看、创建和删除账号。",
             "admin.createUser": "创建新用户",
+            "admin.createUserDesc": "为系统创建新的用户账号。",
+            "admin.userCreated": "用户创建成功。",
             "admin.applicants": "申请人",
             "admin.mos": "课程负责人 (MO)",
             "admin.admins": "管理员",
@@ -389,9 +398,12 @@ document.addEventListener("DOMContentLoaded", function () {
             "form.fullNamePlaceholder": "请输入姓名",
             "form.emailPlaceholder": "请输入邮箱",
             "form.usernamePlaceholder": "请输入用户名",
-            "form.passwordPlaceholder": "请输入密码（至少6位）",
+            "form.passwordPlaceholder": "请输入密码",
             "form.newPasswordPlaceholder": "请输入新密码（至少6位）",
-            "form.confirmPasswordPlaceholder": "请确认新密码"
+            "form.confirmPasswordPlaceholder": "请确认密码",
+            "admin.searchPlaceholder": "按姓名搜索...",
+            "action.search": "搜索",
+            "action.clear": "清除"
         }
     };
 
