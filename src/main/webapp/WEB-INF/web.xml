@@ -168,6 +168,15 @@
         <url-pattern>/admin/users/create</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DeleteNotificationServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.DeleteNotificationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteNotificationServlet</servlet-name>
+        <url-pattern>/notification/delete</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
