@@ -20,14 +20,7 @@ public class JobService {
     }
 
     public List<Job> getOpenJobs() {
-        List<Job> allJobs = jobRepository.findAll();
-        List<Job> openJobs = new ArrayList<>();
-        for (Job job : allJobs) {
-            if (!"Closed".equalsIgnoreCase(job.getStatus())) {
-                openJobs.add(job);
-            }
-        }
-        return openJobs;
+        return jobRepository.findAllOpen();
     }
 
     public Job getJobById(String id) {

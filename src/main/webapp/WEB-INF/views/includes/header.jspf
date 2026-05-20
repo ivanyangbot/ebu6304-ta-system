@@ -40,6 +40,8 @@
                 <c:if test="${sessionScope.currentUser.role == 'ADMIN'}">
                     <a class="nav-link" data-nav-match="/admin/workload" data-i18n="nav.workload"
                        href="${pageContext.request.contextPath}/admin/workload">Workload Overview</a>
+                    <a class="nav-link" data-nav-match="/admin/users" data-i18n="nav.userManagement"
+                       href="${pageContext.request.contextPath}/admin/users">User Management</a>
                 </c:if>
             </nav>
 

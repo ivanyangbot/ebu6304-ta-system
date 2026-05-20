@@ -56,8 +56,9 @@
             <a class="btn btn-primary" data-i18n="action.viewWorkload" href="${pageContext.request.contextPath}/admin/workload">View Workload</a>
         </div>
         <div class="card">
-            <h3 data-i18n="dashboard.workloadRuleTitle">Workload Rule</h3>
-            <p data-i18n="dashboard.workloadRuleDesc">Applicants with accepted workload above 10 hours are marked as overloaded.</p>
+            <h3 data-i18n="dashboard.userManagementTitle">User Management</h3>
+            <p data-i18n="dashboard.userManagementDesc">Create, view, and manage all user accounts in the system.</p>
+            <a class="btn btn-secondary" data-i18n="action.manageUsers" href="${pageContext.request.contextPath}/admin/users">Manage Users</a>
         </div>
     </c:if>
 </div>

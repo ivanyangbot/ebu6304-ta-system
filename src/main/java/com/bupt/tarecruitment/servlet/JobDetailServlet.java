@@ -21,6 +21,8 @@ public class JobDetailServlet extends BaseServlet {
             return;
         }
 
+        generateCsrfToken(request);
+
         String jobId = request.getParameter("id");
         JobService jobService = new JobService(getServletContext());
         Job job = jobService.getJobById(jobId);
@@ -35,9 +37,20 @@ public class JobDetailServlet extends BaseServlet {
         MatchService matchService = new MatchService();
         MatchResult matchResult = matchService.calculateMatch(applicant.getSkills(), job.getRequiredSkills());
 
+        boolean alreadyApplied = applicationService.hasApplied(jobId, applicant.getId());
         request.setAttribute("job", job);
         request.setAttribute("matchResult", matchResult);
-        request.setAttribute("alreadyApplied", applicationService.hasApplied(jobId, applicant.getId()));
+        request.setAttribute("alreadyApplied", alreadyApplied);
+
+        if (alreadyApplied) {
+            com.bupt.tarecruitment.model.ApplicationRecord appRecord = applicationService.getApplicationsByApplicant(applicant.getId())
+                    .stream()
+                    .filter(a -> a.getJobId().equals(jobId))
+                    .findFirst()
+                    .orElse(null);
+            request.setAttribute("currentApplication", appRecord);
+        }
+
         forwardView(request, response, "job-detail.jsp");
     }
 }
