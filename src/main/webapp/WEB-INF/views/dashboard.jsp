@@ -21,6 +21,44 @@
     </p>
 </section>
 
+<c:if test="${not empty notifications}">
+    <div class="card notifications-card">
+        <div class="card-header">
+            <h3 data-i18n="dashboard.notifications">Notifications</h3>
+            <c:if test="${unreadCount > 0}">
+                <span class="badge badge-notification">${unreadCount}</span>
+            </c:if>
+        </div>
+        <div class="notifications-list">
+            <c:forEach items="${notifications}" var="notification">
+                <div class="notification-item ${notification.read ? 'read' : 'unread'}">
+                    <div class="notification-content">
+                        <span class="notification-type" data-type="${notification.type}">
+                            <c:if test="${notification.type == 'APPLICATION_STATUS'}">
+                                <span data-i18n="notification.type.applicationStatus">Application Status</span>
+                            </c:if>
+                            <c:if test="${notification.type == 'NEW_APPLICATION'}">
+                                <span data-i18n="notification.type.newApplication">New Application</span>
+                            </c:if>
+                        </span>
+                        <p>${notification.message}</p>
+                        <span class="notification-time">${notification.createdAt}</span>
+                    </div>
+                    <form action="${pageContext.request.contextPath}/notification/delete" method="post" class="delete-notification-form">
+                        <input type="hidden" name="notificationId" value="${notification.id}">
+                        <button type="submit" class="delete-notification-btn" title="Delete notification">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</c:if>
+
 <div class="grid-two">
     <c:if test="${sessionScope.currentUser.role == 'APPLICANT'}">
         <div class="card">
@@ -62,5 +100,97 @@
         </div>
     </c:if>
 </div>
+
+<style>
+.notifications-card {
+    margin-bottom: 20px;
+}
+
+.notifications-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.notification-item.unread {
+    background-color: #e3f2fd;
+    border-left-color: #28a745;
+}
+
+.notification-item.read {
+    background-color: #f8f9fa;
+    border-left-color: #6c757d;
+}
+
+.notification-content {
+    flex: 1;
+    padding-right: 15px;
+}
+
+.notification-type {
+    font-size: 12px;
+    font-weight: bold;
+    color: #007bff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notification-item p {
+    margin: 8px 0;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.delete-notification-form {
+    margin: 0;
+}
+
+.delete-notification-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding: 0 8px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.delete-notification-btn:hover {
+    color: #dc3545;
+}
+
+.badge-notification {
+    background-color: #dc3545;
+    color: white;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+</style>
 
 <%@ include file="includes/footer.jspf" %>

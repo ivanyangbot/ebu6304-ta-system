@@ -2,6 +2,8 @@ package com.bupt.tarecruitment.servlet;
 
 import com.bupt.tarecruitment.model.ApplicationRecord;
 import com.bupt.tarecruitment.model.Job;
+import com.bupt.tarecruitment.repository.NotificationRepository;
+import com.bupt.tarecruitment.repository.UserRepository;
 import com.bupt.tarecruitment.service.ApplicationService;
 import com.bupt.tarecruitment.service.JobService;
 
@@ -24,6 +26,7 @@ public class UpdateApplicationStatusServlet extends BaseServlet {
 
         ApplicationService applicationService = new ApplicationService(getServletContext());
         JobService jobService = new JobService(getServletContext());
+        NotificationRepository notificationRepository = new NotificationRepository(getServletContext());
         ApplicationRecord record = applicationService.getApplicationById(applicationId);
         Job job = jobService.getJobById(jobId);
 
@@ -40,6 +43,14 @@ public class UpdateApplicationStatusServlet extends BaseServlet {
 
         try {
             applicationService.updateApplicationStatus(applicationId, status);
+            
+            notificationRepository.createApplicationStatusNotification(
+                    record.getApplicantId(),
+                    job.getTitle(),
+                    status,
+                    applicationId
+            );
+            
             response.sendRedirect(request.getContextPath() + "/mo/applications?jobId=" + jobId + "&msg=updated");
         } catch (RuntimeException e) {
             forwardError(request, response, e.getMessage(), request.getContextPath() + "/mo/applications?jobId=" + jobId);
