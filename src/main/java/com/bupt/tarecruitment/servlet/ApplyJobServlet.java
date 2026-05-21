@@ -35,16 +35,20 @@ public class ApplyJobServlet extends BaseServlet {
         try {
             ApplicationRecord newApplication = applicationService.applyForJob(jobId, currentUser.getId());
             
-            notificationRepository.createNewApplicationNotification(
-                    job.getPostedByMoId(),
-                    job.getTitle(),
-                    currentUser.getFullName(),
-                    newApplication.getId(),
-                    jobId
-            );
+            try {
+                notificationRepository.createNewApplicationNotification(
+                        job.getPostedByMoId(),
+                        job.getTitle(),
+                        currentUser.getFullName(),
+                        newApplication.getId(),
+                        jobId
+                );
+            } catch (RuntimeException e) {
+                System.err.println("Failed to create notification for job application: " + e.getMessage());
+            }
             
             response.sendRedirect(request.getContextPath() + "/jobs/detail?id=" + jobId + "&msg=applied");
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             response.sendRedirect(request.getContextPath() + "/jobs/detail?id=" + jobId + "&msg=duplicate");
         }
     }

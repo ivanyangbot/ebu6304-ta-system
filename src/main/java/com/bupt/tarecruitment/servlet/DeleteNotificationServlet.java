@@ -24,6 +24,13 @@ public class DeleteNotificationServlet extends BaseServlet {
         }
 
         NotificationRepository notificationRepository = new NotificationRepository(getServletContext());
+        Notification notification = notificationRepository.findById(notificationId);
+        
+        if (notification == null || !notification.getUserId().equals(getCurrentUser(request).getId())) {
+            response.sendRedirect(request.getContextPath() + "/dashboard?msg=error");
+            return;
+        }
+        
         notificationRepository.deleteNotification(notificationId);
 
         response.sendRedirect(request.getContextPath() + "/dashboard");

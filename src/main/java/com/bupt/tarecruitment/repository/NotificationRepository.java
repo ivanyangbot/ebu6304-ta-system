@@ -114,6 +114,16 @@ public class NotificationRepository {
         }
     }
 
+    public Notification findById(String notificationId) {
+        List<Notification> notifications = findAll();
+        for (Notification notification : notifications) {
+            if (notification.getId().equals(notificationId)) {
+                return notification;
+            }
+        }
+        return null;
+    }
+
     public void deleteNotification(String notificationId) {
         synchronized (NotificationRepository.class) {
             List<Notification> notifications = findAll();
