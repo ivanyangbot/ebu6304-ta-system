@@ -23,9 +23,13 @@
             <th data-i18n="profile.skills">Skills</th>
             <th data-i18n="moApplications.matchScore">Match Score</th>
             <th data-i18n="moApplications.missingSkills">Missing Skills</th>
-            <th data-i18n="cv.heading">CV</th>
+            <th data-i18n="moApplications.priorityScore">Priority Score</th>
+            <th data-i18n="moApplications.decisionBand">Decision Band</th>
+            <th data-i18n="moApplications.fitScore">Fit Score</th>
+            <th data-i18n="moApplications.nextStep">Next Step</th>
+            <th data-i18n="moApplications.projectedWorkload">Projected Workload</th>
             <th data-i18n="common.status">Status</th>
-            <th data-i18n="moApplications.update">Update &amp; Feedback</th>
+            <th data-i18n="moApplications.update">Update</th>
         </tr>
         </thead>
         <tbody>
@@ -57,18 +61,51 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td class="cv-cell">
+                <td>
                     <c:choose>
-                        <c:when test="${item.applicant.hasCv()}">
-                            <a class="btn btn-secondary btn-small"
-                               href="${pageContext.request.contextPath}/cv/download?applicantId=${item.applicant.id}"
-                               title="${item.applicant.cvFileName}"
-                               data-i18n="cv.download">
-                                📄 Download CV
-                            </a>
-                        </c:when>
+                        <c:when test="${empty item.priorityView}"><span data-i18n="common.none">None</span></c:when>
+                        <c:otherwise>${item.priorityView.priorityScore}%</c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${empty item.priorityView}"><span data-i18n="common.none">None</span></c:when>
                         <c:otherwise>
-                            <span class="cv-none" data-i18n="cv.none">—</span>
+                            <span class="badge badge-${item.priorityView.decisionBand}"
+                                  data-status-label="${item.priorityView.decisionBand}">${item.priorityView.decisionBand}</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${empty item.fitSnapshot}"><span data-i18n="common.none">None</span></c:when>
+                        <c:otherwise>${item.fitSnapshot.fitScore}%</c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${empty item.fitSnapshot}"><span data-i18n="common.none">None</span></c:when>
+                        <c:otherwise>
+                            <span class="badge badge-${item.fitSnapshot.nextStep}"
+                                  data-status-label="${item.fitSnapshot.nextStep}">${item.fitSnapshot.nextStep}</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${empty item.loadProjection}"><span data-i18n="common.none">None</span></c:when>
+                        <c:otherwise>
+                            <span class="badge badge-${item.loadProjection.workloadBand}"
+                                  data-status-label="${item.loadProjection.workloadBand}">${item.loadProjection.workloadBand}</span>
+                            <div class="hint">
+                                <span data-i18n="moApplications.projectedHours">Projected hours</span>:
+                                ${item.loadProjection.projectedHours}
+                            </div>
+                            <c:if test="${item.loadProjection.workloadBand == 'Heavy' || item.loadProjection.workloadBand == 'Critical'}">
+                                <div class="hint workload-warning" data-i18n="moApplications.workloadWarning">
+                                    Review workload before accepting.
+                                </div>
+                            </c:if>
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -80,34 +117,23 @@
                           data-confirm-key="confirm.updateApplication">
                         <input type="hidden" name="applicationId" value="${item.application.id}">
                         <input type="hidden" name="jobId" value="${job.id}">
-                        <select name="status" class="feedback-status-select">
+                        <select name="status">
                             <option value="Pending" data-status-option="Pending" <c:if test="${item.application.status == 'Pending'}">selected</c:if>>Pending</option>
                             <option value="Accepted" data-status-option="Accepted" <c:if test="${item.application.status == 'Accepted'}">selected</c:if>>Accepted</option>
                             <option value="Rejected" data-status-option="Rejected" <c:if test="${item.application.status == 'Rejected'}">selected</c:if>>Rejected</option>
                         </select>
-                        <div class="feedback-area" style="margin-top:6px;">
-                            <textarea name="moFeedback" rows="2"
-                                      style="width:100%;font-size:12px;padding:4px;border:1px solid #ced4da;border-radius:4px;resize:vertical;"
-                                      data-i18n-placeholder="moApplications.feedbackPlaceholder"
-                                      placeholder="Optional: reason for decision (visible to applicant)">${item.application.moFeedback}</textarea>
-                        </div>
-                        <button class="btn btn-primary btn-small" data-i18n="action.save" type="submit" style="margin-top:4px;">Save</button>
+                        <button class="btn btn-primary btn-small" data-i18n="action.save" type="submit">Save</button>
                     </form>
                 </td>
             </tr>
         </c:forEach>
         <c:if test="${empty applicationDisplays}">
             <tr>
-                <td colspan="9" class="empty-row" data-i18n="moApplications.empty">No applicants yet for this job.</td>
+                <td colspan="13" class="empty-row" data-i18n="moApplications.empty">No applicants yet for this job.</td>
             </tr>
         </c:if>
         </tbody>
     </table>
 </div>
-
-<style>
-.cv-cell { white-space: nowrap; }
-.cv-none  { color: #bbb; font-size: 16px; }
-</style>
 
 <%@ include file="includes/footer.jspf" %>
