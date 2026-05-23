@@ -169,6 +169,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>AdminApplicationsServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminApplicationsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminApplicationsServlet</servlet-name>
+        <url-pattern>/admin/applications</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>DeleteNotificationServlet</servlet-name>
         <servlet-class>com.bupt.tarecruitment.servlet.DeleteNotificationServlet</servlet-class>
     </servlet>

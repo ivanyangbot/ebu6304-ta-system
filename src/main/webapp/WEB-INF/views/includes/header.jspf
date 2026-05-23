@@ -42,6 +42,8 @@
                        href="${pageContext.request.contextPath}/admin/workload">Workload Overview</a>
                     <a class="nav-link" data-nav-match="/admin/users" data-i18n="nav.userManagement"
                        href="${pageContext.request.contextPath}/admin/users">User Management</a>
+                    <a class="nav-link" data-nav-match="/admin/applications" data-i18n="nav.allApplications"
+                       href="${pageContext.request.contextPath}/admin/applications">All Applications</a>
                 </c:if>
             </nav>
 
