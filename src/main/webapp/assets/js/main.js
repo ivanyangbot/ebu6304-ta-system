@@ -239,7 +239,32 @@ document.addEventListener("DOMContentLoaded", function () {
             "activity.empty": "No activity records found.",
             "activity.dashboardEmpty": "No recent activity. Start by browsing jobs or managing your postings.",
             "activity.resultCount": "Showing",
-            "activity.resultSuffix": "record(s)"
+            "activity.resultSuffix": "record(s)",
+            "cv.heading": "Resume / CV",
+            "cv.desc": "Upload your CV so Module Organisers can review it alongside your application.",
+            "cv.upload": "Upload CV",
+            "cv.replace": "Replace CV",
+            "cv.download": "Download CV",
+            "cv.delete": "Delete CV",
+            "cv.empty": "No resume uploaded yet.",
+            "cv.none": "—",
+            "cv.chooseFile": "Choose file…",
+            "cv.hint": "PDF, DOC, DOCX — max 2 MB",
+            "cv.uploaded": "CV uploaded successfully.",
+            "cv.replaced": "CV replaced successfully.",
+            "cv.deleted": "CV deleted successfully.",
+            "cv.error.empty": "No file selected. Please choose a file before uploading.",
+            "cv.error.size": "File is too large. Maximum allowed size is 2 MB.",
+            "cv.error.type": "Invalid file type. Only PDF, DOC, and DOCX files are accepted.",
+            "cv.error.sizeClient": "File exceeds the 2 MB limit. Please choose a smaller file.",
+            "confirm.deleteCV": "Are you sure you want to delete your CV? This action cannot be undone.",
+            "table.applicationId": "Application ID",
+            "table.applicant": "Applicant",
+            "table.job": "Job",
+            "table.appliedAt": "Applied At",
+            "admin.allApplicationsHeading": "All Applications",
+            "admin.allApplicationsDesc": "View all applications submitted by applicants across all jobs.",
+            "admin.noApplications": "No applications found."
         },
         zh: {
             "brand.title": "助教招聘系统",
@@ -479,7 +504,32 @@ document.addEventListener("DOMContentLoaded", function () {
             "activity.empty": "暂无操作记录。",
             "activity.dashboardEmpty": "暂无最近操作。浏览岗位或管理你的招聘开始记录吧。",
             "activity.resultCount": "共",
-            "activity.resultSuffix": "条记录"
+            "activity.resultSuffix": "条记录",
+            "cv.heading": "简历 / CV",
+            "cv.desc": "上传你的简历，方便课程负责人在审核申请时一并查阅。",
+            "cv.upload": "上传简历",
+            "cv.replace": "替换简历",
+            "cv.download": "下载简历",
+            "cv.delete": "删除简历",
+            "cv.empty": "尚未上传简历。",
+            "cv.none": "—",
+            "cv.chooseFile": "选择文件…",
+            "cv.hint": "支持 PDF、DOC、DOCX，最大 2 MB",
+            "cv.uploaded": "简历上传成功。",
+            "cv.replaced": "简历替换成功。",
+            "cv.deleted": "简历已删除。",
+            "cv.error.empty": "未选择文件，请先选择文件再上传。",
+            "cv.error.size": "文件过大，最大允许 2 MB。",
+            "cv.error.type": "文件类型不支持，仅接受 PDF、DOC 和 DOCX 格式。",
+            "cv.error.sizeClient": "文件超过 2 MB 限制，请选择更小的文件。",
+            "confirm.deleteCV": "确定要删除你的简历吗？此操作无法撤销。",
+            "table.applicationId": "申请编号",
+            "table.applicant": "申请人",
+            "table.job": "岗位",
+            "table.appliedAt": "申请时间",
+            "admin.allApplicationsHeading": "全部申请",
+            "admin.allApplicationsDesc": "查看系统中所有岗位的全部申请记录。",
+            "admin.noApplications": "暂无申请记录。"
         }
     };
 
@@ -900,6 +950,106 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    /**
+     * CV upload client-side validation.
+     * Validates file size (≤ 2 MB) and MIME type / extension before the form
+     * is submitted, giving the user immediate feedback without a server round-trip.
+     */
+    function setupCvUploadValidation() {
+        var MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
+        var ALLOWED_EXTENSIONS = ["pdf", "doc", "docx"];
+        var ALLOWED_MIME = ["application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+
+        var form = document.querySelector("form.cv-upload-form");
+        var fileInput = document.getElementById("cvFile");
+        var errorContainer = document.querySelector(".cv-client-error");
+
+        if (!form || !fileInput) {
+            return;
+        }
+
+        // Create inline error element if not already present in the DOM
+        if (!errorContainer) {
+            errorContainer = document.createElement("p");
+            errorContainer.className = "cv-client-error alert alert-error";
+            errorContainer.style.display = "none";
+            form.insertBefore(errorContainer, form.firstChild);
+        }
+
+        function showError(msg) {
+            errorContainer.textContent = msg;
+            errorContainer.style.display = "";
+            fileInput.focus();
+        }
+
+        function clearError() {
+            errorContainer.textContent = "";
+            errorContainer.style.display = "none";
+        }
+
+        // Live feedback when user picks a file
+        fileInput.addEventListener("change", function () {
+            clearError();
+            var files = this.files;
+            if (!files || files.length === 0) {
+                return;
+            }
+            var file = files[0];
+            var lang = getLanguage();
+
+            // Extension check
+            var nameParts = file.name.split(".");
+            var ext = nameParts.length > 1 ? nameParts[nameParts.length - 1].toLowerCase() : "";
+            if (ALLOWED_EXTENSIONS.indexOf(ext) === -1) {
+                showError(t("cv.error.type", lang));
+                return;
+            }
+
+            // Size check
+            if (file.size > MAX_SIZE_BYTES) {
+                showError(t("cv.error.sizeClient", lang));
+            }
+        });
+
+        // Block submit if validation fails
+        form.addEventListener("submit", function (e) {
+            clearError();
+            var files = fileInput.files;
+            var lang = getLanguage();
+
+            if (!files || files.length === 0) {
+                // Let the server-side empty check handle this (form action=upload).
+                return;
+            }
+
+            var file = files[0];
+
+            // Extension check
+            var nameParts = file.name.split(".");
+            var ext = nameParts.length > 1 ? nameParts[nameParts.length - 1].toLowerCase() : "";
+            if (ALLOWED_EXTENSIONS.indexOf(ext) === -1) {
+                e.preventDefault();
+                showError(t("cv.error.type", lang));
+                return;
+            }
+
+            // MIME check (best-effort; may be empty on some browsers)
+            if (file.type && ALLOWED_MIME.indexOf(file.type) === -1) {
+                e.preventDefault();
+                showError(t("cv.error.type", lang));
+                return;
+            }
+
+            // Size check
+            if (file.size > MAX_SIZE_BYTES) {
+                e.preventDefault();
+                showError(t("cv.error.sizeClient", lang));
+            }
+        });
+    }
+
     translatePage(getLanguage());
     setupLanguageToggle();
     setupAuthMode();
@@ -908,4 +1058,5 @@ document.addEventListener("DOMContentLoaded", function () {
     setupSidebar();
     setupActiveNav();
     setupStableTranslationSizing();
+    setupCvUploadValidation();
 });

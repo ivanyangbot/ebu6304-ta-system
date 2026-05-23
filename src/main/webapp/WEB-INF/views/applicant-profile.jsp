@@ -77,7 +77,8 @@
                    href="${pageContext.request.contextPath}/cv/download?applicantId=${applicant.id}"
                    data-i18n="cv.download">Download</a>
                 <form action="${pageContext.request.contextPath}/applicant/cv/upload"
-                      method="post" class="cv-delete-form" style="display:inline;">
+                      method="post" class="cv-delete-form" style="display:inline;"
+                      data-confirm-key="confirm.deleteCV">
                     <input type="hidden" name="action" value="delete">
                     <button type="submit" class="btn btn-danger btn-small" data-i18n="cv.delete">Delete CV</button>
                 </form>
@@ -179,32 +180,18 @@
 
 <script>
 (function () {
-    // Show selected filename in the placeholder span
+    // Show selected filename in the placeholder span after user picks a file
     var input = document.getElementById('cvFile');
     if (input) {
         input.addEventListener('change', function () {
             var placeholder = this.parentElement.querySelector('.cv-file-placeholder');
             if (placeholder) {
-                placeholder.textContent = this.files.length > 0 ? this.files[0].name : 'Choose file…';
+                placeholder.textContent = this.files.length > 0 ? this.files[0].name : 'Choose file\u2026';
             }
         });
     }
-
-    // Confirm before deleting CV
-    var deleteForm = document.querySelector('.cv-delete-form');
-    if (deleteForm) {
-        deleteForm.addEventListener('submit', function (e) {
-            var translations = {
-                en: 'Are you sure you want to delete your CV? This action cannot be undone.',
-                zh: '确定要删除您的简历吗？此操作无法撤销。'
-            };
-            var lang = document.body.getAttribute('data-language') || 'en';
-            var msg = translations[lang] || translations.en;
-            if (!confirm(msg)) {
-                e.preventDefault();
-            }
-        });
-    }
+    // Delete confirmation and upload validation are handled globally by main.js
+    // (setupConfirmForms via data-confirm-key, setupCvUploadValidation via .cv-upload-form)
 })();
 </script>
 
