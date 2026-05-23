@@ -39,6 +39,10 @@ public class ActivityLogService {
     public static final String UPDATE_APPLICATION_STATUS = "UPDATE_APPLICATION_STATUS";
     public static final String CREATE_USER = "CREATE_USER";
     public static final String DELETE_USER = "DELETE_USER";
+    /** Action type recorded when an applicant uploads or replaces their CV. */
+    public static final String UPLOAD_CV = "UPLOAD_CV";
+    /** Action type recorded when an applicant deletes their CV. */
+    public static final String DELETE_CV = "DELETE_CV";
 
     private final ActivityLogRepository repository;
 
@@ -140,6 +144,34 @@ public class ActivityLogService {
         log(operator, DELETE_USER,
                 "Deleted user: " + deletedUserName + " (" + deletedUserRole + ")",
                 deletedUserId, null, null);
+    }
+
+    /**
+     * Records a CV upload (or replace) event.
+     *
+     * @param operator     the applicant who uploaded the CV
+     * @param fileName     the original filename of the uploaded file
+     * @param hadPrevious  {@code true} if a previous CV was replaced
+     */
+    public void logUploadCv(User operator, String fileName, boolean hadPrevious) {
+        String desc = hadPrevious
+                ? "Replaced CV with: " + fileName
+                : "Uploaded CV: " + fileName;
+        log(operator, UPLOAD_CV, desc, operator.getId(),
+                hadPrevious ? "cv_exists" : null,
+                "cv_exists");
+    }
+
+    /**
+     * Records a CV deletion event.
+     *
+     * @param operator the applicant who deleted the CV
+     * @param fileName the original filename of the deleted file
+     */
+    public void logDeleteCv(User operator, String fileName) {
+        log(operator, DELETE_CV,
+                "Deleted CV: " + fileName,
+                operator.getId(), "cv_exists", null);
     }
 
     // ---- Query methods ----
