@@ -38,6 +38,7 @@
    - 6.5 [Delete a User Account](#65-delete-a-user-account)
    - 6.6 [Activity Log (System-wide)](#66-activity-log-system-wide)
    - 6.7 [All Applications Overview](#67-all-applications-overview)
+   - 6.8 [Deadline Monitor](#68-deadline-monitor)
 7. [Notifications](#7-notifications)
 8. [Language Switch](#8-language-switch)
 9. [Troubleshooting](#9-troubleshooting)
@@ -168,10 +169,15 @@ A green success banner confirms the update.
 
 Navigate to **Jobs** in the top menu or click **"Browse Jobs"** on the Dashboard.
 
-The page lists all **Open** TA positions as a table with columns: Title, Module, Hours, Required Skills, Status, Action.
+The page lists all **Open** TA positions as a table with columns: Title, Module, Hours, Required Skills, Status, **Deadline**, Action.
 
 - Click **"View Detail"** to see full job information and your skill match.
 - An **"Applied"** badge is shown next to jobs you have already applied for.
+- The **Deadline** column shows the application cut-off date with colour cues:
+  - No colour – deadline is more than 3 days away
+  - 🟠 Orange – deadline is within 3 days (e.g. *2026-06-01 (2d left)*)
+  - 🔴 Red + **Closed** label – the deadline has already passed and the position is no longer accepting applications
+  - “—” – no deadline set for this job
 
 <!-- SCREENSHOT: screenshots/05-job-list.png -->
 > 📸 **Insert screenshot here:** `screenshots/05-job-list.png`
@@ -193,6 +199,8 @@ Clicking **"View Detail"** opens the Job Detail page with two panels:
 
 To apply, click **"Apply Now"**. A confirmation alert appears; confirm to submit.
 
+> **Note:** If the application deadline has passed, clicking **"Apply Now"** will redirect you back to the Job Detail page with the message *"The application deadline has passed. Your application was not submitted."*
+
 <!-- SCREENSHOT: screenshots/06-job-detail-match.png -->
 > 📸 **Insert screenshot here:** `screenshots/06-job-detail-match.png`
 > *(Job detail page showing both panels; match score visible, Apply Now button highlighted)*
@@ -205,7 +213,7 @@ After applying successfully, the button is replaced by a *"You already applied"*
 
 Navigate to **My Applications** in the top menu to see all applications you have submitted.
 
-The table shows: Job Title, Module, Hours, Applied Date, Status.
+The table shows: Job Title, Module, Status, Applied At, **Decision Feedback**, Actions.
 
 Status values:
 
@@ -214,6 +222,8 @@ Status values:
 | 🟡 **Pending** | Awaiting MO review |
 | 🟢 **Accepted** | The MO has accepted you |
 | 🔴 **Rejected** | The MO has rejected your application |
+
+The **Decision Feedback** column shows any comment the MO attached to their decision. If no feedback was provided, the cell shows “—”.
 
 <!-- SCREENSHOT: screenshots/07-my-applications.png -->
 > 📸 **Insert screenshot here:** `screenshots/07-my-applications.png`
@@ -313,6 +323,7 @@ After logging in as an MO you will see:
    - **Description** (required)
    - **Required Skills** – comma-separated (optional)
    - **Hours per Week** – a positive integer (required)
+   - **Application Deadline** – date picker (optional). Once set, applicants will not be able to submit new applications after this date.
 3. Click **"Post Job"**.
 
 The new job appears immediately in the Open Jobs list.
@@ -358,9 +369,13 @@ Applicants are ranked from highest to lowest match score to help you prioritise.
 
 ### 5.5 Accept or Reject an Applicant
 
-On the Applications page, use the **Status** dropdown in the Action column to change an application status to **Accepted** or **Rejected**, then click **"Update"**.
+On the Applications page, use the **Status** dropdown and the optional **Feedback** textarea in the Action column:
 
-The applicant will receive a notification about the status change.
+1. Change the **Status** dropdown to **Accepted**, **Rejected**, or **Pending**.
+2. Optionally type a short reason or message in the **Feedback** textarea (visible to the applicant in their *My Applications* page).
+3. Click **"Save"**.
+
+The applicant receives a notification about the status change. The feedback text (if any) is stored and displayed immediately to the applicant.
 
 <!-- SCREENSHOT: screenshots/13-update-application-status.png -->
 > 📸 **Insert screenshot here:** `screenshots/13-update-application-status.png`
@@ -515,6 +530,36 @@ This page gives administrators a bird's-eye view of recruitment activity and all
 <!-- SCREENSHOT: screenshots/20-admin-all-applications.png -->
 > 📸 **Insert screenshot here:** `screenshots/20-admin-all-applications.png`
 > *(All Applications table with CV download buttons visible in the CV column)*
+
+---
+
+### 6.8 Deadline Monitor
+
+Navigate to **Deadlines** (Admin menu) to track TA job postings whose application windows are closing soon or have already expired.
+
+The page contains two sections:
+
+**Expiring Soon (within 7 days)**
+
+A table of all **Open** jobs whose deadline falls within the next 7 days:
+
+| Column | Description |
+|--------|-------------|
+| Job Title | Name of the position |
+| Module | Associated module name |
+| Deadline | The cut-off date |
+| Days Left | Countdown in days |
+| Posted By | Username of the MO who created the job |
+
+**Overdue Open Jobs**
+
+A table of jobs that are still in **Open** status but whose deadline has already passed. These positions are blocking new applications even though they appear active. Admins should notify the relevant MO to either close or extend the deadline.
+
+> **Tip:** Use this page as a daily check-in to ensure MOs review applications before deadlines expire.
+
+<!-- SCREENSHOT: screenshots/22-admin-deadlines.png -->
+> 📸 **Insert screenshot here:** `screenshots/22-admin-deadlines.png`
+> *(Deadline Monitor page showing both Expiring Soon and Overdue tables)*
 
 ---
 
