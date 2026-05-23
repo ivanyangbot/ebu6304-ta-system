@@ -26,6 +26,9 @@
 <c:if test="${param.msg == 'created'}">
     <div class="alert alert-success" data-i18n="moJobs.created">Job created successfully.</div>
 </c:if>
+<c:if test="${param.msg == 'updated'}">
+    <div class="alert alert-success" data-i18n="moJobs.updated">Job updated successfully.</div>
+</c:if>
 
 <div class="card">
     <h3 data-i18n="moJobs.openJobs">Open Jobs</h3>
@@ -56,6 +59,8 @@
                     <td>
                         <a class="btn btn-secondary btn-sm" data-i18n="action.viewApplications"
                            href="${pageContext.request.contextPath}/mo/applications?jobId=${job.id}">View Applications</a>
+                        <a class="btn btn-info btn-sm" data-i18n="action.editJob"
+                           href="${pageContext.request.contextPath}/mo/jobs/edit?id=${job.id}">Edit</a>
                         <form action="${pageContext.request.contextPath}/mo/jobs" method="post" class="complete-form" style="display: inline;">
                             <input type="hidden" name="action" value="complete">
                             <input type="hidden" name="jobId" value="${job.id}">
