@@ -21,7 +21,7 @@ import java.util.Set;
  * <pre>
  *   fitScore = (coverageScore × 0.85) + statementBonus
  * </pre>
- * where {@code coverageScore} is the percentage of required skills covered and
+ * <p>where {@code coverageScore} is the percentage of required skills covered and
  * {@code statementBonus} is up to 15 points based on the length of the
  * applicant's self-introduction.</p>
  *
