@@ -75,7 +75,7 @@ public class ActivityLogRepository {
      */
     public List<ActivityLog> findRecentByUserId(String userId, int limit) {
         List<ActivityLog> all = findByUserId(userId);
-        return all.size() <= limit ? all : all.subList(0, limit);
+        return all.size() <= limit ? all : new ArrayList<>(all.subList(0, limit));
     }
 
     /**
@@ -86,7 +86,7 @@ public class ActivityLogRepository {
         List<ActivityLog> result = new ArrayList<>();
         for (ActivityLog log : findAll()) {
             if (userFullName != null && !userFullName.isEmpty()
-                    && !log.getUserFullName().toLowerCase().contains(userFullName.toLowerCase())) {
+                    && (log.getUserFullName() == null || !log.getUserFullName().toLowerCase().contains(userFullName.toLowerCase()))) {
                 continue;
             }
             if (actionType != null && !actionType.isEmpty()
@@ -94,7 +94,7 @@ public class ActivityLogRepository {
                 continue;
             }
             if (userRole != null && !userRole.isEmpty()
-                    && !userRole.equalsIgnoreCase(log.getUserRole())) {
+                    && (log.getUserRole() == null || !userRole.equalsIgnoreCase(log.getUserRole()))) {
                 continue;
             }
             if (fromTime != null && log.getCreatedAt().isBefore(fromTime)) {
