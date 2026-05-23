@@ -70,8 +70,8 @@ public class AiRecommendationService {
     /** Maximum characters allowed in any single AI-generated text field. */
     private static final int MAX_FIELD_LENGTH = 600;
 
-    /** HTTP request timeout (seconds). */
-    private static final int TIMEOUT_SECONDS = 20;
+    /** HTTP request timeout (seconds). GLM reasoning models can take 30-50 s. */
+    private static final int TIMEOUT_SECONDS = 60;
 
     private final String apiKey;
     private final String modelId;
@@ -242,15 +242,23 @@ public class AiRecommendationService {
 
         try {
             String prompt = buildPrompt(missingSkills, jobTitle, moduleName);
+            writeDebugLog("recommend() calling API for skills: " + missingSkills);
             String rawJson = callApi(prompt);
+            writeDebugLog("API returned " + (rawJson == null ? "null" : rawJson.length()) + " chars. Preview: " + (rawJson == null ? "null" : rawJson.substring(0, Math.min(200, rawJson.length()))));
             List<SkillRecommendation> parsed = parseResponse(rawJson, missingSkills);
+            writeDebugLog("parseResponse returned " + (parsed == null ? "null" : parsed.size()) + " items");
             if (parsed != null && !parsed.isEmpty()) {
                 return parsed;
             }
+            writeDebugLog("WARN: parsed list is empty, falling back to static");
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "AI recommendation API call failed, using static fallback. Reason: " + e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, "AI recommendation API call failed, using static fallback. Reason: " + e.getMessage(), e);
+            System.err.println("[AiRecommendationService] FATAL: API call failed: " + e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace(System.err);
+            writeDebugLog("EXCEPTION " + e.getClass().getName() + ": " + e.getMessage() + "\n" + java.util.Arrays.stream(e.getStackTrace()).limit(8).map(StackTraceElement::toString).reduce("", (a, b) -> a + "\n  at " + b));
         }
 
+        writeDebugLog("Returning static fallback for: " + missingSkills);
         return buildStaticFallback(missingSkills);
     }
 
@@ -341,8 +349,9 @@ public class AiRecommendationService {
 
         int statusCode = response.statusCode();
         if (statusCode != 200) {
-            throw new IOException("Volcano Engine API returned HTTP " + statusCode
-                    + ": " + response.body());
+            String errorBody = response.body();
+            System.err.println("[AiRecommendationService] HTTP " + statusCode + " from API: " + errorBody);
+            throw new IOException("Volcano Engine API returned HTTP " + statusCode + ": " + errorBody);
         }
 
         // Extract "choices[0].message.content" from the OpenAI-compatible response format
@@ -604,6 +613,22 @@ public class AiRecommendationService {
             return el.getAsInt();
         } catch (Exception e) {
             return defaultValue;
+        }
+    }
+
+    /**
+     * Writes a debug line to /tmp/ai_debug.log for diagnosing issues in embedded Tomcat.
+     */
+    private static void writeDebugLog(String msg) {
+        try {
+            String line = new java.util.Date() + " " + msg + "\n";
+            java.nio.file.Files.write(
+                java.nio.file.Paths.get("/tmp/ai_debug.log"),
+                line.getBytes(java.nio.charset.StandardCharsets.UTF_8),
+                java.nio.file.StandardOpenOption.CREATE,
+                java.nio.file.StandardOpenOption.APPEND);
+        } catch (Exception ignored) {
+            System.err.println("[AiRecommendationService] writeDebugLog failed: " + msg);
         }
     }
 }

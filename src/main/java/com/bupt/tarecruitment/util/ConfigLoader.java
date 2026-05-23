@@ -104,10 +104,15 @@ public final class ConfigLoader {
         }
 
         // 4. Inject non-placeholder values into the servlet context
+        LOGGER.info("ConfigLoader: properties loaded: " + props.stringPropertyNames());
         for (String name : props.stringPropertyNames()) {
             String value = props.getProperty(name, "").trim();
             if (!value.isEmpty() && !PLACEHOLDER.equals(value)) {
                 context.setInitParameter(name, value);
+                LOGGER.info("ConfigLoader: injected param [" + name + "] = "
+                        + (name.contains("key") ? value.substring(0, Math.min(8, value.length())) + "..." : value));
+            } else {
+                LOGGER.warning("ConfigLoader: skipped param [" + name + "] (blank or placeholder)");
             }
         }
 
@@ -131,8 +136,10 @@ public final class ConfigLoader {
     private static boolean tryLoadFromFilesystem(Properties props, ServletContext context) {
         // candidate 1: web-app root (works for exploded WAR)
         String realPath = context.getRealPath("/");
+        LOGGER.info("ConfigLoader: web-app realPath = " + realPath);
         if (realPath != null) {
             Path candidate = Paths.get(realPath, PROPS_FILE);
+            LOGGER.info("ConfigLoader: trying filesystem candidate 1: " + candidate);
             if (loadFile(props, candidate)) {
                 LOGGER.info("ConfigLoader: Loaded " + PROPS_FILE + " from " + candidate);
                 return true;
@@ -140,12 +147,16 @@ public final class ConfigLoader {
         }
 
         // candidate 2: JVM working directory (typical IDE run)
-        Path candidate = Paths.get(System.getProperty("user.dir", "."), PROPS_FILE);
+        String userDir = System.getProperty("user.dir", ".");
+        LOGGER.info("ConfigLoader: user.dir = " + userDir);
+        Path candidate = Paths.get(userDir, PROPS_FILE);
+        LOGGER.info("ConfigLoader: trying filesystem candidate 2: " + candidate);
         if (loadFile(props, candidate)) {
             LOGGER.info("ConfigLoader: Loaded " + PROPS_FILE + " from " + candidate);
             return true;
         }
 
+        LOGGER.warning("ConfigLoader: " + PROPS_FILE + " not found on filesystem.");
         return false;
     }
 

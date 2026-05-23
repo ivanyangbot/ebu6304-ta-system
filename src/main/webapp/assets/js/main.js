@@ -653,7 +653,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "skillRecommend.title": "AI 技能学习路径",
             "skillRecommend.subtitle": "针对当前岗位的缺失技能，为你生成个性化学习路径建议。",
             "skillRecommend.disclaimerTitle": "AI 输出说明：",
-            "skillRecommend.disclaimer": "以下建议由大语言模型生成，并经过结构化逻辑校验后展示。每张卡片包含"为什么这项技能很重要"的理由，以满足可解释性要求。资源链接均验证为 HTTPS 并经过精选目录核对。请始终运用自己的判断参考 AI 生成的学习计划。",
+            "skillRecommend.disclaimer": "以下建议由大语言模型生成，并经过结构化逻辑校验后展示。每张卡片包含\u300c为什么这项技能很重要\u300d的理由，以满足可解释性要求。资源链接均验证为 HTTPS 并经过精选目录核对。请始终运用自己的判断参考 AI 生成的学习计划。",
             "skillRecommend.allMatched": "你已具备所有必需技能！",
             "skillRecommend.allMatchedSub": "恭喜！你目前的技能完全满足该岗位要求，可以直接申请，无需额外准备。",
             "skillRecommend.whyMatters": "为什么这项技能很重要",
@@ -1234,6 +1234,54 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    /**
+     * AI Loading Overlay
+     *
+     * - Injects a full-screen frosted-glass overlay into every page.
+     * - Any link/button with [data-ai-link] shows the overlay on click,
+     *   then navigates normally (the server does the heavy AI work).
+     * - skill-recommend pages hide the overlay immediately on load
+     *   because rendering is already complete by the time the browser
+     *   receives the response.
+     */
+    function setupAiLoadingOverlay() {
+        var lang = getLanguage();
+
+        // Build overlay DOM
+        var overlay = document.createElement("div");
+        overlay.className = "ai-loading-overlay";
+        overlay.setAttribute("aria-live", "polite");
+        overlay.setAttribute("aria-label", lang === "zh" ? "AI 正在思考中" : "AI is thinking");
+        overlay.innerHTML =
+            '<div class="ai-loading-card">' +
+              '<div class="ai-loading-spinner"></div>' +
+              '<p class="ai-loading-title">' +
+                (lang === "zh" ? "AI 正在生成学习路径…" : "AI is generating your learning path…") +
+              '</p>' +
+              '<p class="ai-loading-sub">' +
+                (lang === "zh"
+                  ? "大语言模型正在思考，通常需要 20–40 秒，请稍候。"
+                  : "The language model is thinking. This usually takes 20–40 seconds.") +
+              '</p>' +
+            '</div>';
+        document.body.appendChild(overlay);
+
+        // Show overlay when any [data-ai-link] is clicked
+        var aiLinks = document.querySelectorAll("[data-ai-link]");
+        for (var i = 0; i < aiLinks.length; i++) {
+            aiLinks[i].addEventListener("click", function () {
+                overlay.classList.add("visible");
+            });
+        }
+
+        // Hide overlay immediately if we are already on the result page
+        // (skill-recommend page is fully rendered server-side)
+        var path = window.location.pathname;
+        if (path.indexOf("skill-recommend") !== -1) {
+            overlay.classList.remove("visible");
+        }
+    }
+
     translatePage(getLanguage());
     setupLanguageToggle();
     setupAuthMode();
@@ -1243,4 +1291,5 @@ document.addEventListener("DOMContentLoaded", function () {
     setupActiveNav();
     setupStableTranslationSizing();
     setupCvUploadValidation();
+    setupAiLoadingOverlay();
 });

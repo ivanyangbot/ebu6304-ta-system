@@ -23,7 +23,11 @@
     -->
     <context-param>
         <param-name>volcengine.api.key</param-name>
-        <param-value>YOUR_VOLCANO_ENGINE_API_KEY_HERE</param-value>
+        <param-value>577134a1-e263-4d4a-a7cb-9b37af4540d5</param-value>
+    </context-param>
+    <context-param>
+        <param-name>volcengine.model.id</param-name>
+        <param-value>glm-4-7-251222</param-value>
     </context-param>
 
     <listener>

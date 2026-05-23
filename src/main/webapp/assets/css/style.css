@@ -957,3 +957,60 @@ body[data-language="zh"] .login-hero h1 {
         padding: 16px;
     }
 }
+
+/* ── AI Loading Overlay ────────────────────────────────────────────────────── */
+.ai-loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.ai-loading-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+.ai-loading-card {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 36px 48px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 340px;
+    text-align: center;
+}
+.ai-loading-spinner {
+    width: 52px;
+    height: 52px;
+    border: 3px solid rgba(15,118,110,0.15);
+    border-top-color: #0f766e;
+    border-radius: 50%;
+    animation: ai-spin 0.9s linear infinite;
+}
+@keyframes ai-spin {
+    to { transform: rotate(360deg); }
+}
+.ai-loading-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+.ai-loading-sub {
+    font-size: 13px;
+    color: var(--text-subtle);
+    margin: 0;
+    line-height: 1.6;
+}
