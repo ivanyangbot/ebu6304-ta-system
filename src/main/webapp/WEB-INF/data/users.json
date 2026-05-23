@@ -1,33 +1,33 @@
 [
   {
-    "id": "applicant-001",
-    "username": "applicant1",
-    "password": "123456",
-    "role": "APPLICANT",
-    "fullName": "Alice Zhang",
-    "email": "alice.zhang@bupt.edu.cn",
-    "selfIntroduction": "Second-year student with Java tutoring experience and strong classroom communication skills.",
     "skills": [
       "Java",
       "Communication",
       "Excel",
       "Tutoring"
-    ]
-  },
-  {
-    "id": "applicant-002",
-    "username": "applicant2",
+    ],
+    "selfIntroduction": "Second-year student with Java tutoring experience and strong classroom communication skills.",
+    "id": "applicant-001",
+    "username": "applicant1",
     "password": "123456",
     "role": "APPLICANT",
-    "fullName": "Bob Chen",
-    "email": "bob.chen@bupt.edu.cn",
-    "selfIntroduction": "Interested in data analysis and student support, with experience preparing tutorials and presentation materials.",
+    "fullName": "Alice Zhang",
+    "email": "alice.zhang@bupt.edu.cn"
+  },
+  {
     "skills": [
       "Python",
       "Data Analysis",
       "Presentation",
       "Communication"
-    ]
+    ],
+    "selfIntroduction": "Interested in data analysis and student support, with experience preparing tutorials and presentation materials.",
+    "id": "applicant-002",
+    "username": "applicant2",
+    "password": "123456",
+    "role": "APPLICANT",
+    "fullName": "Bob Chen",
+    "email": "bob.chen@bupt.edu.cn"
   },
   {
     "id": "mo-001",
@@ -44,5 +44,15 @@
     "role": "ADMIN",
     "fullName": "System Admin",
     "email": "admin@bupt.edu.cn"
+  },
+  {
+    "skills": [],
+    "selfIntroduction": "",
+    "id": "applicant-ba522de2",
+    "username": "ivanyang",
+    "password": "a222111221121",
+    "role": "APPLICANT",
+    "fullName": "杨志远",
+    "email": "ivanyangbot@gmail.com"
   }
 ]
