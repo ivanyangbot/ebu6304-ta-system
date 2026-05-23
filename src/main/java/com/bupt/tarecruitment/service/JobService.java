@@ -8,29 +8,92 @@ import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Business-logic service for managing TA job postings.
+ *
+ * <p>This service provides operations for creating, retrieving, and filtering
+ * {@link Job} objects. It delegates persistence to
+ * {@link JobRepository} and handles the generation of unique IDs via
+ * {@link IdUtil}.</p>
+ *
+ * <p>Typical call flow for a Module Organiser posting a new job:</p>
+ * <ol>
+ *   <li>MO submits the job-creation form ({@link com.bupt.tarecruitment.servlet.JobCreateServlet})</li>
+ *   <li>Servlet calls {@link #createJob(String, String, String, List, int, String)}</li>
+ *   <li>Service creates the {@link Job}, assigns an ID, and saves it via the repository</li>
+ * </ol>
+ *
+ * @author  Group 71
+ * @version 1.0
+ * @see     JobRepository
+ * @see     com.bupt.tarecruitment.servlet.JobCreateServlet
+ * @see     com.bupt.tarecruitment.servlet.JobListServlet
+ */
 public class JobService {
+
     private final JobRepository jobRepository;
 
+    /**
+     * Creates a {@code JobService} backed by the JSON job store.
+     *
+     * @param servletContext the servlet context used to resolve the data file path
+     */
     public JobService(ServletContext servletContext) {
         this.jobRepository = new JobRepository(servletContext);
     }
 
+    /**
+     * Returns all jobs in the system regardless of status.
+     *
+     * @return list of all {@link Job} objects; never {@code null}
+     */
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
     }
 
+    /**
+     * Returns only jobs whose status is {@code "Open"}.
+     *
+     * @return list of open {@link Job} objects; never {@code null}
+     */
     public List<Job> getOpenJobs() {
         return jobRepository.findAllOpen();
     }
 
+    /**
+     * Looks up a single job by its unique identifier.
+     *
+     * @param id the job ID to search for
+     * @return the matching {@link Job}, or {@code null} if not found
+     */
     public Job getJobById(String id) {
         return jobRepository.findById(id);
     }
 
+    /**
+     * Returns all jobs posted by a specific Module Organiser.
+     *
+     * @param moId the user ID of the Module Organiser
+     * @return list of {@link Job} objects posted by the given MO; never {@code null}
+     */
     public List<Job> getJobsByMo(String moId) {
         return jobRepository.findByMoId(moId);
     }
 
+    /**
+     * Creates and persists a new job posting.
+     *
+     * <p>A unique job ID is generated automatically and the initial status is set
+     * to {@code "Open"}.</p>
+     *
+     * @param title          short title of the position
+     * @param moduleName     name of the related academic module
+     * @param description    detailed description of duties
+     * @param requiredSkills list of required skill strings (may be {@code null} or empty)
+     * @param hours          estimated weekly hours for the position
+     * @param moId           user ID of the Module Organiser creating this posting
+     * @return the newly created and persisted {@link Job}
+     */
     public Job createJob(String title, String moduleName, String description, List<String> requiredSkills, int hours,
                          String moId) {
         Job job = new Job();
