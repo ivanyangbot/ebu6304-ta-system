@@ -64,8 +64,8 @@ public class AiRecommendationService {
     private static final String API_ENDPOINT =
             "https://ark.cn-beijing.volces.com/api/v3/chat/completions";
 
-    /** Model ID for Doubao-lite-4k. */
-    private static final String MODEL_ID = "doubao-lite-4k-240628";
+    /** Default model ID (GLM-4). Can be overridden via constructor. */
+    private static final String DEFAULT_MODEL_ID = "glm-4-7-251222";
 
     /** Maximum characters allowed in any single AI-generated text field. */
     private static final int MAX_FIELD_LENGTH = 600;
@@ -74,6 +74,7 @@ public class AiRecommendationService {
     private static final int TIMEOUT_SECONDS = 20;
 
     private final String apiKey;
+    private final String modelId;
     private final HttpClient httpClient;
     private final Gson gson;
 
@@ -180,20 +181,33 @@ public class AiRecommendationService {
     // -------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@code AiRecommendationService} with the provided API key.
+     * Constructs a new {@code AiRecommendationService} with the provided API key
+     * and model ID.
      *
-     * @param apiKey Volcano Engine API key; must not be {@code null} or empty
+     * @param apiKey  Volcano Engine API key; must not be {@code null} or empty
+     * @param modelId model endpoint ID (e.g. {@code glm-4-7-251222}); if blank,
+     *                falls back to {@link #DEFAULT_MODEL_ID}
      * @throws IllegalArgumentException if {@code apiKey} is blank
      */
-    public AiRecommendationService(String apiKey) {
+    public AiRecommendationService(String apiKey, String modelId) {
         if (apiKey == null || apiKey.isBlank()) {
             throw new IllegalArgumentException("Volcano Engine API key must not be blank");
         }
         this.apiKey = apiKey;
+        this.modelId = (modelId != null && !modelId.isBlank()) ? modelId.trim() : DEFAULT_MODEL_ID;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(TIMEOUT_SECONDS))
                 .build();
         this.gson = new Gson();
+    }
+
+    /**
+     * Convenience constructor using the default model ID.
+     *
+     * @param apiKey Volcano Engine API key; must not be {@code null} or empty
+     */
+    public AiRecommendationService(String apiKey) {
+        this(apiKey, DEFAULT_MODEL_ID);
     }
 
     // -------------------------------------------------------------------------
@@ -294,7 +308,7 @@ public class AiRecommendationService {
     private String callApi(String userPrompt) throws IOException, InterruptedException {
         // Build request body as JSON
         JsonObject body = new JsonObject();
-        body.addProperty("model", MODEL_ID);
+        body.addProperty("model", modelId);
 
         JsonArray messages = new JsonArray();
         JsonObject systemMsg = new JsonObject();

@@ -59,6 +59,9 @@ public final class ConfigLoader {
     /** Property key for the Volcano Engine API key. */
     public static final String KEY_VOLCENGINE_API = "volcengine.api.key";
 
+    /** Property key for the model endpoint ID. */
+    public static final String KEY_VOLCENGINE_MODEL = "volcengine.model.id";
+
     /** Environment variable name that can override the file-based key. */
     private static final String ENV_VOLCENGINE_API = "VOLCENGINE_API_KEY";
 

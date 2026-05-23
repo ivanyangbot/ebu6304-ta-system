@@ -64,6 +64,12 @@ public class SkillRecommendServlet extends BaseServlet {
     private static final String API_KEY_PARAM = "volcengine.api.key";
 
     /**
+     * Name of the context init-param (loaded from {@code local.properties}) that
+     * holds the model endpoint ID, e.g. {@code glm-4-7-251222}.
+     */
+    private static final String MODEL_ID_PARAM = "volcengine.model.id";
+
+    /**
      * Handles GET requests to the skill recommendation page.
      *
      * <p>Workflow:</p>
@@ -134,7 +140,8 @@ public class SkillRecommendServlet extends BaseServlet {
                 aiStatus = "fallback";
             } else {
                 try {
-                    AiRecommendationService aiService = new AiRecommendationService(apiKey);
+                    String modelId = getServletContext().getInitParameter(MODEL_ID_PARAM);
+                    AiRecommendationService aiService = new AiRecommendationService(apiKey, modelId);
                     recommendations = aiService.recommend(
                             matchResult.getMissingSkills(), job.getTitle(), job.getModuleName());
                     aiStatus = "ai";
