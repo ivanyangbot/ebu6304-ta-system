@@ -302,56 +302,89 @@ Error messages:
 
 > **Available to:** Applicants only.
 
-The AI Skill Learning Path page generates a personalised study plan for every skill you are missing for a specific job. Recommendations are produced by the **Volcano Engine Doubao LLM**; if the AI service is unavailable the system automatically falls back to a curated static catalogue — you always receive useful guidance.
+The AI Skill Learning Path page generates a personalised study plan for every skill you are missing for a specific job. Recommendations are produced live by the **GLM-4 large language model via Volcano Engine (火山方舟)**; each suggestion is validated by structured logic before display. If the AI service is temporarily unavailable, the system automatically falls back to a curated static catalogue — you always receive useful guidance.
+
+> **Response time:** Because a large language model performs on-the-fly reasoning, page generation typically takes **20–40 seconds**. A full-screen loading animation is shown while you wait; do not refresh the page.
 
 #### How to open the page
 
-There are two entry points:
+There are **three** entry points:
 
 | Entry point | How to reach it |
 |-------------|----------------|
-| **Navigation menu** | Click **AI Skill Path** (or **AI 技能路径**) in the left sidebar |
-| **Job Detail page** | Click **"Get AI Learning Path"** button in the Missing Skills section of any job |
+| **Job List page** | Click the robot-icon **AI Skill Path** button in the Actions column of any job row |
+| **Job Detail page** | Click **"Get AI Learning Path"** in the Missing Skills section of a specific job |
+| **Navigation sidebar** | Click **AI Skill Path** (or **AI 技能路径**) in the left sidebar — opens the path for the most recently viewed job |
 
-> **Note:** The navigation sidebar entry opens the most recently viewed job's learning path. For best results, navigate from the Job Detail page of the specific position you intend to apply for.
+> **Tip:** The sidebar link is a shortcut; for the most accurate results always enter from the Job List or Job Detail page so the correct `jobId` is attached.
 
-#### Reading the page
+#### Loading animation
 
-**Hero banner** – shows the job title and module the recommendations are tailored to, plus a badge indicating the data source:
+When you click any AI Skill Path entry point, a **frosted-glass overlay** immediately covers the screen showing:
 
-| Badge | Meaning |
-|-------|---------|
-| ✦ **AI-Powered – Doubao LLM via Volcano Engine** (green) | Recommendations were generated live by the AI model |
-| 📖 **Curated Resources – Static Catalogue** (amber) | AI was unavailable; verified fallback resources are shown |
+- A spinning indicator
+- The message *"AI is generating your learning path…"* (or *"AI 正在生成学习路径…"* in Chinese)
+- A sub-message reminding you the model typically needs 20–40 seconds
 
-**Match Summary Strip** – a compact bar below the hero showing your current match score, matched skills (green tags), and missing skills (red tags) for quick reference.
+The overlay disappears automatically once the result page has finished rendering. **Do not refresh or navigate away** while the overlay is visible; doing so will cancel the request and you will need to click the button again.
 
-**AI Output Notice** – a disclaimer reminding you that:
-- All AI output is validated by structured logic before display.
-- Each card includes a *"Why this skill matters"* reason to satisfy the explainability requirement.
-- Learning resource URLs are verified against a curated HTTPS catalogue.
-- You should exercise your own judgement when following AI-generated advice.
+#### Reading the result page
+
+**Hero banner** – displays the job title and module the recommendations are tailored to, plus a data-source badge:
+
+| Badge colour | Label | Meaning |
+|---|---|---|
+| Green | **AI-Powered – GLM-4 via Volcano Engine** | Recommendations were generated live by the language model |
+| Amber | **Curated Resources – Static Catalogue** | AI was unavailable; a verified fallback catalogue is shown instead |
+
+**Match Summary Strip** – a compact row below the hero banner showing:
+- Your current skill match score (percentage)
+- **Matched skills** (green tags) — skills you already have
+- **Missing skills** (red tags) — skills addressed by the recommendation cards
+
+**AI Output Notice** – a collapsible disclaimer box reminding you that:
+- All AI output passes a structured logic validation check before display.
+- Each card includes a *"Why this skill matters"* explanation to satisfy the explainability requirement.
+- Resource URLs are verified to be HTTPS and cross-checked against a curated directory.
+- You should always exercise your own judgement when following AI-generated study plans.
 
 **Recommendation cards** – one card per missing skill, each containing:
 
 | Section | Description |
-|---------|-------------|
-| **Skill name** | The missing skill this card addresses |
-| **~Xh to learn** badge | Estimated hours to reach basic proficiency |
-| **Why this skill matters** | AI-generated rationale explaining why the skill is required for this role |
-| **Suggested Learning Path** | Numbered steps (e.g. *"Start with official documentation"*, *"Complete a hands-on project"*) |
-| **Learning Resources** | Clickable links (open in a new tab) to free or widely available courses, documentation, or tutorials |
+|---|---|
+| **Skill name** | The name of the missing skill this card addresses |
+| **~X h to learn** badge | AI-estimated hours to reach basic working proficiency |
+| **Why this skill matters** | AI-generated rationale explaining why the role specifically requires this skill |
+| **Suggested Learning Path** | Ordered steps (e.g. *"Read the official docs"*, *"Build a small project"*, *"Complete a structured course"*) |
+| **Learning Resources** | Clickable HTTPS links to freely available courses, documentation, or tutorials — each opens in a new tab |
 
-**All-skills-matched banner** – if you already have every required skill, the cards are replaced by a congratulatory banner and a direct link back to the job detail page.
+**All-skills-matched state** – if your profile already lists every skill required by the job, no recommendation cards are shown. Instead a congratulatory banner appears with a direct link back to the job detail page.
+
+#### Explainability & AI transparency
+
+The system is designed to meet the *"AI outputs must be explainable"* requirement:
+
+1. **Reason field** – every recommendation card contains a *"Why this skill matters"* section generated by the model, not a template string.
+2. **Structured validation** – the raw model output is parsed as JSON and each field is validated for type, length, and content before being rendered.
+3. **Source badge** – the green / amber badge makes it immediately clear whether you are viewing live AI output or the static fallback.
+4. **Disclaimer** – the AI Output Notice on every result page sets honest expectations about the nature of AI-generated content.
+
+#### Graceful fallback behaviour
+
+If the Volcano Engine API is unreachable (network error, expired key, quota exceeded, or timeout after 60 seconds), the system silently switches to a built-in static resource catalogue. The amber badge is shown so you can tell the difference. The fallback catalogue covers the most common TA skill areas and is always available, ensuring you still receive actionable guidance.
 
 #### Navigating away
 
-- **Back to Job** – returns to the Job Detail page for this specific job.
-- **Browse All Jobs** – returns to the full job listing.
+- **Back to Job** – returns you to the Job Detail page for this specific position.
+- **Browse All Jobs** – returns you to the full open-jobs listing.
+
+<!-- SCREENSHOT: screenshots/23-ai-skill-path-loading.png -->
+> 📸 **Insert screenshot here:** `screenshots/23-ai-skill-path-loading.png`
+> *(Full-screen frosted-glass loading overlay with spinner and "AI is generating…" message)*
 
 <!-- SCREENSHOT: screenshots/23-ai-skill-path.png -->
 > 📸 **Insert screenshot here:** `screenshots/23-ai-skill-path.png`
-> *(AI Skill Learning Path page showing the hero banner with AI-Powered badge, match summary strip, and two recommendation cards with reason, learning path steps, and resource links)*
+> *(AI Skill Learning Path result page: green AI-Powered badge, match summary strip, and two recommendation cards each showing the skill name, estimated hours, "Why this skill matters" rationale, numbered learning path, and resource links)*
 
 ---
 
@@ -653,8 +686,11 @@ The interface supports **English** and **中文 (Chinese)**. Click the language 
 | Page shows "No jobs available" | No open positions at this time | Check back later or contact an MO |
 | 500 / error page | Server or data file issue | Check Tomcat logs; ensure `WEB-INF/data/` is writable |
 | Data appears stale after restart | Data files stored in deploy directory | The system reloads JSON files on every request; restart Tomcat |
-| AI Skill Path shows amber *"Curated Resources"* badge | Volcano Engine API key not configured or request failed | Check that `local.properties` contains a valid `volcengine.api.key`; the amber badge is expected behaviour when the key is absent |
-| AI Skill Path shows no cards | You already have all required skills | This is correct — a congratulations banner is shown instead |
+| AI Skill Path shows amber *"Curated Resources"* badge | Volcano Engine API key missing, expired, or request timed out | Verify `local.properties` contains a valid `volcengine.api.key` and `volcengine.model.id`; restart Tomcat after editing the file. The amber badge is normal expected behaviour when the key is absent |
+| AI Skill Path shows no recommendation cards | You already satisfy every required skill for the job | This is correct — a congratulatory banner is displayed instead of cards |
+| Loading overlay stays on screen indefinitely | Page navigation was interrupted, or the browser cached a stale page | Refresh the browser tab; if the overlay reappears immediately, clear the browser cache and try again |
+| AI result page shows an error or blank content instead of cards | The AI request exceeded the 60-second timeout | Wait a minute and try again; if the problem persists, check Tomcat logs for API errors |
+| Clicking *"AI Skill Path"* in the sidebar shows an error about missing `jobId` | The sidebar link was used without having visited a job page first | Navigate to a specific job via **Browse Jobs** and click the AI Skill Path button on that job row or detail page |
 
 ---
 
