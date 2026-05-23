@@ -21,6 +21,7 @@
    - 4.5 [My Applications](#45-my-applications)
    - 4.6 [Withdraw an Application](#46-withdraw-an-application)
    - 4.7 [My Activity Log](#47-my-activity-log)
+   - 4.8 [Upload / Manage Your CV](#48-upload--manage-your-cv)
 5. [Module Organiser (MO) Guide](#5-module-organiser-mo-guide)
    - 5.1 [Dashboard (MO)](#51-dashboard-mo)
    - 5.2 [Create a New Job Posting](#52-create-a-new-job-posting)
@@ -242,6 +243,47 @@ Use the filter dropdowns to narrow results by **Action Type**. Each entry shows 
 
 ---
 
+### 4.8 Upload / Manage Your CV
+
+You can attach a CV / résumé to your profile so that Module Organisers can download it when reviewing your application.
+
+The CV section is located at the bottom of the **Profile** page (`Profile` → scroll down to *Resume / CV*).
+
+**Uploading a CV**
+
+1. Click the dashed file-picker area (labelled *Choose file…*).
+2. Select a PDF, DOC, or DOCX file **no larger than 2 MB**.
+3. The filename appears in the picker area to confirm your selection.
+4. Click **"Upload CV"** (or **"Replace CV"** if you already have one on file).
+
+A green success banner confirms the upload.
+
+**Replacing an existing CV**
+
+Follow the same upload steps above. The old file is automatically replaced by the new one.
+
+**Deleting your CV**
+
+If a CV is already on file, a **📄 Download** link and a **"Delete CV"** button are shown above the upload form:
+1. Click **"Delete CV"**.
+2. Confirm in the dialog that appears.
+
+The CV is removed from your profile immediately.
+
+Error messages:
+
+| Message | Cause |
+|---------|-------|
+| *No file selected* | You clicked Upload without choosing a file |
+| *File too large* | The chosen file exceeds the 2 MB limit |
+| *Invalid file type* | Only PDF, DOC, and DOCX are accepted |
+
+<!-- SCREENSHOT: screenshots/21-applicant-cv.png -->
+> 📸 **Insert screenshot here:** `screenshots/21-applicant-cv.png`
+> *(Profile page showing CV section with an uploaded CV, Download and Delete CV buttons, and the upload form below)*
+
+---
+
 ## 5. Module Organiser (MO) Guide
 
 ### 5.1 Dashboard (MO)
@@ -297,8 +339,11 @@ Navigate to **My Jobs** to see two sections:
 Click **"View Applications"** for any job. The page lists all applicants for that position, with:
 
 - Applicant name and email
+- Self-introduction text
+- Declared skills
 - Match score (%)
-- Matched and missing skills
+- Missing skills
+- **CV** – a **📄 Download CV** button if the applicant has uploaded one; "—" otherwise
 - Current application status
 
 Applicants are ranked from highest to lowest match score to help you prioritise.
