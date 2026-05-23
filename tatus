@@ -1,0 +1,53 @@
+[1mdiff --git a/pom.xml b/pom.xml[m
+[1mindex cbe7fc4..0a117e2 100644[m
+[1m--- a/pom.xml[m
+[1m+++ b/pom.xml[m
+[36m@@ -53,6 +53,15 @@[m
+                 <artifactId>maven-war-plugin</artifactId>[m
+                 <version>3.4.0</version>[m
+             </plugin>[m
+[32m+[m[32m            <plugin>[m
+[32m+[m[32m                <groupId>org.apache.tomcat.maven</groupId>[m
+[32m+[m[32m                <artifactId>tomcat7-maven-plugin</artifactId>[m
+[32m+[m[32m                <version>2.2</version>[m
+[32m+[m[32m                <configuration>[m
+[32m+[m[32m                    <port>8080</port>[m
+[32m+[m[32m                    <path>/ta-system</path>[m
+[32m+[m[32m                </configuration>[m
+[32m+[m[32m            </plugin>[m
+         </plugins>[m
+     </build>[m
+ </project>[m
+[1mdiff --git a/src/main/webapp/WEB-INF/views/includes/header.jspf b/src/main/webapp/WEB-INF/views/includes/header.jspf[m
+[1mindex f7acc77..f9bd72e 100644[m
+[1m--- a/src/main/webapp/WEB-INF/views/includes/header.jspf[m
+[1m+++ b/src/main/webapp/WEB-INF/views/includes/header.jspf[m
+[36m@@ -42,6 +42,8 @@[m
+                        href="${pageContext.request.contextPath}/admin/workload">Workload Overview</a>[m
+                     <a class="nav-link" data-nav-match="/admin/users" data-i18n="nav.userManagement"[m
+                        href="${pageContext.request.contextPath}/admin/users">User Management</a>[m
+[32m+[m[32m                    <a class="nav-link" data-nav-match="/admin/applications" data-i18n="nav.allApplications"[m
+[32m+[m[32m                       href="${pageContext.request.contextPath}/admin/applications">All Applications</a>[m
+                 </c:if>[m
+             </nav>[m
+ [m
+[1mdiff --git a/src/main/webapp/WEB-INF/web.xml b/src/main/webapp/WEB-INF/web.xml[m
+[1mindex b95dafd..36140f7 100644[m
+[1m--- a/src/main/webapp/WEB-INF/web.xml[m
+[1m+++ b/src/main/webapp/WEB-INF/web.xml[m
+[36m@@ -168,6 +168,15 @@[m
+         <url-pattern>/admin/users/create</url-pattern>[m
+     </servlet-mapping>[m
+ [m
+[32m+[m[32m    <servlet>[m
+[32m+[m[32m        <servlet-name>AdminApplicationsServlet</servlet-name>[m
+[32m+[m[32m        <servlet-class>com.bupt.tarecruitment.servlet.AdminApplicationsServlet</servlet-class>[m
+[32m+[m[32m    </servlet>[m
+[32m+[m[32m    <servlet-mapping>[m
+[32m+[m[32m        <servlet-name>AdminApplicationsServlet</servlet-name>[m
+[32m+[m[32m        <url-pattern>/admin/applications</url-pattern>[m
+[32m+[m[32m    </servlet-mapping>[m
+[32m+[m
+     <servlet>[m
+         <servlet-name>DeleteNotificationServlet</servlet-name>[m
+         <servlet-class>com.bupt.tarecruitment.servlet.DeleteNotificationServlet</servlet-class>[m

@@ -23,3 +23,5 @@ Thumbs.db
 *.log
 *.tmp
 *.temp
+.smarttomcat/
+.idea/
