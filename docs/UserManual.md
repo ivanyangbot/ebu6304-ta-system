@@ -28,6 +28,7 @@
    - 5.4 [Review Applications](#54-review-applications)
    - 5.5 [Accept or Reject an Applicant](#55-accept-or-reject-an-applicant)
    - 5.6 [Mark a Job as Completed / Reopen](#56-mark-a-job-as-completed--reopen)
+   - 5.7 [Edit a Job Posting](#57-edit-a-job-posting)
 6. [Administrator Guide](#6-administrator-guide)
    - 6.1 [Dashboard (Admin)](#61-dashboard-admin)
    - 6.2 [Workload Overview](#62-workload-overview)
@@ -294,7 +295,7 @@ The new job appears immediately in the Open Jobs list.
 
 Navigate to **My Jobs** to see two sections:
 
-- **Open Jobs** – accepting applications; actions: *View Applications*, *Mark as Completed*
+- **Open Jobs** – accepting applications; actions: *View Applications*, *Edit*, *Mark as Completed*
 - **Completed Jobs** – closed positions; actions: *View Applications*, *Reopen*
 
 <!-- SCREENSHOT: screenshots/11-mo-jobs.png -->
@@ -340,6 +341,33 @@ The applicant receives a notification about the status change. The feedback text
 
 - **Mark as Completed**: on the Open Jobs table, click **"Mark as Completed"**. A confirmation dialog appears. Once confirmed, the job moves to the Completed section and no longer accepts new applications.
 - **Reopen**: on the Completed Jobs table, click **"Reopen"**. The job returns to Open status and becomes visible to applicants again.
+
+---
+
+### 5.7 Edit a Job Posting
+
+You can update the details of any of your **Open** jobs at any time before it is completed.
+
+1. On the **My Jobs** page, click **"Edit"** next to the open job you want to modify.
+2. The edit form pre-fills the current values for:
+   - **Job Title** (required)
+   - **Module Name** (required)
+   - **Description** (required)
+   - **Required Skills** – comma-separated (optional)
+   - **Hours per Week** – positive integer (required)
+3. Make your changes and click **"Save Changes"**.
+
+Validation rules:
+- All required fields must be non-empty.
+- Hours must be a positive whole number.
+
+On success you are redirected back to **My Jobs** with a confirmation message. The edit action is recorded in the system activity log.
+
+> **Note:** Only **Open** jobs can be edited. Completed jobs are locked to preserve historical recruitment data.
+
+<!-- SCREENSHOT: screenshots/19-mo-edit-job.png -->
+> 📸 **Insert screenshot here:** `screenshots/19-mo-edit-job.png`
+> *(Edit job form pre-filled with existing values, Save Changes button visible)*
 
 ---
 
