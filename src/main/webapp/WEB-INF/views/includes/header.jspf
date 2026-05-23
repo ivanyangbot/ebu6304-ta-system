@@ -30,18 +30,26 @@
                        href="${pageContext.request.contextPath}/jobs">Browse Jobs</a>
                     <a class="nav-link" data-nav-match="/applicant/applications" data-i18n="nav.myApplications"
                        href="${pageContext.request.contextPath}/applicant/applications">My Applications</a>
+                    <a class="nav-link" data-nav-match="/activity/my" data-i18n="nav.myActivity"
+                       href="${pageContext.request.contextPath}/activity/my">My Activity</a>
                 </c:if>
                 <c:if test="${sessionScope.currentUser.role == 'MO'}">
                     <a class="nav-link" data-nav-match="/mo/jobs,/mo/applications" data-i18n="nav.moJobs"
                        href="${pageContext.request.contextPath}/mo/jobs">My Jobs</a>
                     <a class="nav-link" data-nav-match="/mo/jobs/create" data-i18n="nav.createJob"
                        href="${pageContext.request.contextPath}/mo/jobs/create">Create Job</a>
+                    <a class="nav-link" data-nav-match="/activity/my" data-i18n="nav.myActivity"
+                       href="${pageContext.request.contextPath}/activity/my">My Activity</a>
                 </c:if>
                 <c:if test="${sessionScope.currentUser.role == 'ADMIN'}">
                     <a class="nav-link" data-nav-match="/admin/workload" data-i18n="nav.workload"
                        href="${pageContext.request.contextPath}/admin/workload">Workload Overview</a>
                     <a class="nav-link" data-nav-match="/admin/users" data-i18n="nav.userManagement"
                        href="${pageContext.request.contextPath}/admin/users">User Management</a>
+                    <a class="nav-link" data-nav-match="/admin/activity" data-i18n="nav.activityLog"
+                       href="${pageContext.request.contextPath}/admin/activity">Activity Log</a>
+                    <a class="nav-link" data-nav-match="/activity/my" data-i18n="nav.myActivity"
+                       href="${pageContext.request.contextPath}/activity/my">My Activity</a>
                 </c:if>
             </nav>
 
