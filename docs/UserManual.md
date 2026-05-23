@@ -22,6 +22,7 @@
    - 4.6 [Withdraw an Application](#46-withdraw-an-application)
    - 4.7 [My Activity Log](#47-my-activity-log)
    - 4.8 [Upload / Manage Your CV](#48-upload--manage-your-cv)
+   - 4.9 [AI Skill Learning Path](#49-ai-skill-learning-path)
 5. [Module Organiser (MO) Guide](#5-module-organiser-mo-guide)
    - 5.1 [Dashboard (MO)](#51-dashboard-mo)
    - 5.2 [Create a New Job Posting](#52-create-a-new-job-posting)
@@ -54,6 +55,7 @@ Key features:
 - Module Organisers can post jobs, review ranked candidate lists, and update application outcomes.
 - Administrators can monitor every applicant's total accepted workload and manage all user accounts.
 - An AI-powered skill-matching engine computes a percentage match score and highlights missing skills for every application.
+- An **AI Skill Learning Path** feature generates personalised, explainable learning recommendations for every missing skill, powered by the Volcano Engine Doubao LLM with automatic fallback to a curated static catalogue.
 
 ---
 
@@ -293,6 +295,63 @@ Error messages:
 <!-- SCREENSHOT: screenshots/21-applicant-cv.png -->
 > 📸 **Insert screenshot here:** `screenshots/21-applicant-cv.png`
 > *(Profile page showing CV section with an uploaded CV, Download and Delete CV buttons, and the upload form below)*
+
+---
+
+### 4.9 AI Skill Learning Path
+
+> **Available to:** Applicants only.
+
+The AI Skill Learning Path page generates a personalised study plan for every skill you are missing for a specific job. Recommendations are produced by the **Volcano Engine Doubao LLM**; if the AI service is unavailable the system automatically falls back to a curated static catalogue — you always receive useful guidance.
+
+#### How to open the page
+
+There are two entry points:
+
+| Entry point | How to reach it |
+|-------------|----------------|
+| **Navigation menu** | Click **AI Skill Path** (or **AI 技能路径**) in the left sidebar |
+| **Job Detail page** | Click **"Get AI Learning Path"** button in the Missing Skills section of any job |
+
+> **Note:** The navigation sidebar entry opens the most recently viewed job's learning path. For best results, navigate from the Job Detail page of the specific position you intend to apply for.
+
+#### Reading the page
+
+**Hero banner** – shows the job title and module the recommendations are tailored to, plus a badge indicating the data source:
+
+| Badge | Meaning |
+|-------|---------|
+| ✦ **AI-Powered – Doubao LLM via Volcano Engine** (green) | Recommendations were generated live by the AI model |
+| 📖 **Curated Resources – Static Catalogue** (amber) | AI was unavailable; verified fallback resources are shown |
+
+**Match Summary Strip** – a compact bar below the hero showing your current match score, matched skills (green tags), and missing skills (red tags) for quick reference.
+
+**AI Output Notice** – a disclaimer reminding you that:
+- All AI output is validated by structured logic before display.
+- Each card includes a *"Why this skill matters"* reason to satisfy the explainability requirement.
+- Learning resource URLs are verified against a curated HTTPS catalogue.
+- You should exercise your own judgement when following AI-generated advice.
+
+**Recommendation cards** – one card per missing skill, each containing:
+
+| Section | Description |
+|---------|-------------|
+| **Skill name** | The missing skill this card addresses |
+| **~Xh to learn** badge | Estimated hours to reach basic proficiency |
+| **Why this skill matters** | AI-generated rationale explaining why the skill is required for this role |
+| **Suggested Learning Path** | Numbered steps (e.g. *"Start with official documentation"*, *"Complete a hands-on project"*) |
+| **Learning Resources** | Clickable links (open in a new tab) to free or widely available courses, documentation, or tutorials |
+
+**All-skills-matched banner** – if you already have every required skill, the cards are replaced by a congratulatory banner and a direct link back to the job detail page.
+
+#### Navigating away
+
+- **Back to Job** – returns to the Job Detail page for this specific job.
+- **Browse All Jobs** – returns to the full job listing.
+
+<!-- SCREENSHOT: screenshots/23-ai-skill-path.png -->
+> 📸 **Insert screenshot here:** `screenshots/23-ai-skill-path.png`
+> *(AI Skill Learning Path page showing the hero banner with AI-Powered badge, match summary strip, and two recommendation cards with reason, learning path steps, and resource links)*
 
 ---
 
@@ -594,6 +653,8 @@ The interface supports **English** and **中文 (Chinese)**. Click the language 
 | Page shows "No jobs available" | No open positions at this time | Check back later or contact an MO |
 | 500 / error page | Server or data file issue | Check Tomcat logs; ensure `WEB-INF/data/` is writable |
 | Data appears stale after restart | Data files stored in deploy directory | The system reloads JSON files on every request; restart Tomcat |
+| AI Skill Path shows amber *"Curated Resources"* badge | Volcano Engine API key not configured or request failed | Check that `local.properties` contains a valid `volcengine.api.key`; the amber badge is expected behaviour when the key is absent |
+| AI Skill Path shows no cards | You already have all required skills | This is correct — a congratulations banner is shown instead |
 
 ---
 
