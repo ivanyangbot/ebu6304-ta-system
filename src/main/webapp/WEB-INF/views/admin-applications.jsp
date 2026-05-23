@@ -16,6 +16,7 @@
             <th data-i18n="table.applicationId">Application ID</th>
             <th data-i18n="table.applicant">Applicant</th>
             <th data-i18n="table.job">Job</th>
+            <th data-i18n="cv.heading" class="text-center">CV</th>
             <th data-i18n="table.status" class="text-center">Status</th>
             <th data-i18n="table.appliedAt">Applied At</th>
         </tr>
@@ -44,6 +45,21 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
+                <td class="text-center cv-cell">
+                    <c:choose>
+                        <c:when test="${not empty item.applicant and item.applicant.hasCv()}">
+                            <a class="btn btn-secondary btn-small"
+                               href="${pageContext.request.contextPath}/cv/download?applicantId=${item.applicant.id}"
+                               title="${item.applicant.cvFileName}"
+                               data-i18n="cv.download">
+                                📄 Download CV
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="cv-none" data-i18n="cv.none">—</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
                 <td class="text-center">
                     <span class="badge badge-${item.application.status}" data-status-label="${item.application.status}">${item.application.status}</span>
                 </td>
@@ -52,7 +68,7 @@
         </c:forEach>
         <c:if test="${empty applications}">
             <tr>
-                <td colspan="5" class="empty-row" data-i18n="admin.noApplications">No applications found.</td>
+                <td colspan="6" class="empty-row" data-i18n="admin.noApplications">No applications found.</td>
             </tr>
         </c:if>
         </tbody>
@@ -63,6 +79,8 @@
 .text-muted {
     color: #999;
 }
+.cv-cell { white-space: nowrap; }
+.cv-none  { color: #bbb; font-size: 16px; }
 </style>
 
 <%@ include file="includes/footer.jspf" %>
