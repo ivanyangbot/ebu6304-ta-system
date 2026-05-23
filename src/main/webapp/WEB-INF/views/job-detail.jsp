@@ -16,6 +16,18 @@
         </p>
         <p><strong data-i18n="common.hours">Hours</strong>: ${job.hours}</p>
         <p><strong data-i18n="common.status">Status</strong>: <span class="badge badge-${job.status}" data-status-label="${job.status}">${job.status}</span></p>
+        <c:if test="${job.deadline != null}">
+            <p><strong data-i18n="jobDetail.deadline">Application Deadline</strong>:
+                <span class="${deadlinePassed ? 'text-danger' : (job.daysUntilDeadline <= 3 ? 'text-warning' : '')}">
+                    ${job.deadline}
+                    <c:choose>
+                        <c:when test="${deadlinePassed}"> &mdash; <span data-i18n="jobDetail.deadlinePassed" style="color:#dc3545;font-weight:bold;">Closed</span></c:when>
+                        <c:when test="${job.daysUntilDeadline == 0}"> &mdash; <span style="color:#fd7e14;font-weight:bold;" data-i18n="jobDetail.deadlineToday">Closes today!</span></c:when>
+                        <c:when test="${job.daysUntilDeadline > 0}"> &mdash; <span style="color:#fd7e14;">${job.daysUntilDeadline} <span data-i18n="jobDetail.daysLeft">days left</span></span></c:when>
+                    </c:choose>
+                </span>
+            </p>
+        </c:if>
     </section>
 
     <section class="card">
@@ -31,6 +43,9 @@
         </c:if>
         <c:if test="${param.msg == 'withdrawError'}">
             <div class="alert alert-error">${param.error}</div>
+        </c:if>
+        <c:if test="${param.msg == 'deadlinePassed'}">
+            <div class="alert alert-error" data-i18n="jobDetail.deadlineExpired">The application deadline has passed. Your application was not submitted.</div>
         </c:if>
 
         <p><strong data-i18n="jobDetail.matchScore">Match Score</strong>: ${matchResult.score}%</p>
@@ -69,6 +84,9 @@
             </c:when>
             <c:when test="${alreadyApplied}">
                 <span class="badge badge-info" data-status-label="AlreadyApplied">You already applied</span>
+            </c:when>
+            <c:when test="${deadlinePassed}">
+                <div class="alert alert-error" data-i18n="jobDetail.deadlineExpired">The application deadline for this position has passed. No new applications are accepted.</div>
             </c:when>
             <c:otherwise>
                 <form action="${pageContext.request.contextPath}/jobs/apply" method="post" data-confirm-key="confirm.submitApplication">

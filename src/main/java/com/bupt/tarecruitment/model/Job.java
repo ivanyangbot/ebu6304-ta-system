@@ -1,5 +1,6 @@
 package com.bupt.tarecruitment.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,9 @@ import java.util.List;
  *   <li>{@code "Open"}      – accepting new applications</li>
  *   <li>{@code "Completed"} – position filled / closed by the MO</li>
  * </ol>
+ *
+ * <p>If a {@link #deadline} is set, the system automatically prevents new
+ * applications once the current date is past that date.</p>
  *
  * @author  Group 71
  * @version 1.0
@@ -51,12 +55,52 @@ public class Job {
     private String status;
 
     /**
+     * Optional application deadline.
+     * If set, applicants cannot submit new applications after this date.
+     * {@code null} means no deadline enforced.
+     */
+    private LocalDate deadline;
+
+    /**
      * Default no-argument constructor. Initialises {@code requiredSkills} to an
      * empty list and {@code status} to {@code "Open"}.
      */
     public Job() {
         this.requiredSkills = new ArrayList<>();
         this.status = "Open";
+    }
+
+    /**
+     * Returns whether the application deadline has passed.
+     * Returns {@code false} if no deadline is set.
+     *
+     * @return {@code true} if today is after the deadline, {@code false} otherwise
+     */
+    public boolean isDeadlinePassed() {
+        if (deadline == null) return false;
+        return LocalDate.now().isAfter(deadline);
+    }
+
+    /**
+     * Returns whether this job is currently accepting applications.
+     * A job accepts applications only when its status is {@code "Open"}
+     * and the deadline (if set) has not yet passed.
+     *
+     * @return {@code true} if applications are currently accepted
+     */
+    public boolean isAcceptingApplications() {
+        return "Open".equals(status) && !isDeadlinePassed();
+    }
+
+    /**
+     * Returns the number of days remaining until the deadline.
+     * Returns -1 if no deadline is set, or a negative number if already past.
+     *
+     * @return days until deadline, or -1 if no deadline
+     */
+    public long getDaysUntilDeadline() {
+        if (deadline == null) return -1;
+        return java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), deadline);
     }
 
     /**
@@ -229,5 +273,24 @@ public class Job {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * Returns the application deadline for this job.
+     *
+     * @return the deadline as a {@link LocalDate}, or {@code null} if not set
+     */
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    /**
+     * Sets the application deadline.
+     *
+     * @param deadline the last date on which applications are accepted;
+     *                 {@code null} removes the deadline constraint
+     */
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 }

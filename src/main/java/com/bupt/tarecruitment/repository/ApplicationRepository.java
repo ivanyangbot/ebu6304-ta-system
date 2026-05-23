@@ -84,6 +84,21 @@ public class ApplicationRepository {
         throw new RuntimeException("Application not found: " + applicationId);
     }
 
+    public void updateStatusWithFeedback(String applicationId, String status, String feedback) {
+        List<ApplicationRecord> applications = findAll();
+        for (ApplicationRecord application : applications) {
+            if (application.getId().equals(applicationId)) {
+                application.setStatus(status);
+                if (feedback != null && !feedback.trim().isEmpty()) {
+                    application.setMoFeedback(feedback.trim());
+                }
+                JsonFileUtil.writeJson(filePath, applications);
+                return;
+            }
+        }
+        throw new RuntimeException("Application not found: " + applicationId);
+    }
+
     public void delete(String applicationId) {
         synchronized (ApplicationRepository.class) {
             List<ApplicationRecord> applications = findAll();

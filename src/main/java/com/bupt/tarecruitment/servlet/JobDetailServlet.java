@@ -38,9 +38,11 @@ public class JobDetailServlet extends BaseServlet {
         MatchResult matchResult = matchService.calculateMatch(applicant.getSkills(), job.getRequiredSkills());
 
         boolean alreadyApplied = applicationService.hasApplied(jobId, applicant.getId());
+        boolean deadlinePassed = job.isDeadlinePassed();
         request.setAttribute("job", job);
         request.setAttribute("matchResult", matchResult);
         request.setAttribute("alreadyApplied", alreadyApplied);
+        request.setAttribute("deadlinePassed", deadlinePassed);
 
         if (alreadyApplied) {
             com.bupt.tarecruitment.model.ApplicationRecord appRecord = applicationService.getApplicationsByApplicant(applicant.getId())

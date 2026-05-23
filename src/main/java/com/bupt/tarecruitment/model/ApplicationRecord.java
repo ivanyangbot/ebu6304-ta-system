@@ -14,6 +14,10 @@ package com.bupt.tarecruitment.model;
  *   <li>{@code "Rejected"} – MO has rejected the application</li>
  * </ol>
  *
+ * <p>When the MO updates the status to {@code "Accepted"} or {@code "Rejected"},
+ * they may optionally provide a {@link #moFeedback} explanation so the applicant
+ * can understand the decision (supports explainability of AI-assisted ranking).</p>
+ *
  * @author  Group 71
  * @version 1.0
  * @see     com.bupt.tarecruitment.service.ApplicationService
@@ -40,6 +44,13 @@ public class ApplicationRecord {
     private String appliedAt;
 
     /**
+     * Optional feedback message left by the Module Organiser when updating the
+     * application status. Provides the applicant with an explanation of the
+     * decision (e.g. missing skills, workload reason). May be {@code null} or empty.
+     */
+    private String moFeedback;
+
+    /**
      * Default no-argument constructor. Sets the initial status to {@code "Pending"}.
      */
     public ApplicationRecord() {
@@ -61,6 +72,25 @@ public class ApplicationRecord {
         this.applicantId = applicantId;
         this.status = status;
         this.appliedAt = appliedAt;
+    }
+
+    /**
+     * Constructor with feedback.
+     *
+     * @param id          unique identifier
+     * @param jobId       target job ID
+     * @param applicantId applicant user ID
+     * @param status      review status string
+     * @param appliedAt   formatted timestamp of submission
+     * @param moFeedback  optional MO feedback message
+     */
+    public ApplicationRecord(String id, String jobId, String applicantId, String status, String appliedAt, String moFeedback) {
+        this.id = id;
+        this.jobId = jobId;
+        this.applicantId = applicantId;
+        this.status = status;
+        this.appliedAt = appliedAt;
+        this.moFeedback = moFeedback;
     }
 
     /**
@@ -151,5 +181,23 @@ public class ApplicationRecord {
      */
     public void setAppliedAt(String appliedAt) {
         this.appliedAt = appliedAt;
+    }
+
+    /**
+     * Returns the MO's feedback message for this application decision.
+     *
+     * @return feedback text, or {@code null} if no feedback was provided
+     */
+    public String getMoFeedback() {
+        return moFeedback;
+    }
+
+    /**
+     * Sets the MO's feedback message.
+     *
+     * @param moFeedback the feedback text explaining the decision; may be {@code null}
+     */
+    public void setMoFeedback(String moFeedback) {
+        this.moFeedback = moFeedback;
     }
 }
