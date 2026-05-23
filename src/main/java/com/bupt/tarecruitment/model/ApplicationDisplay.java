@@ -1,52 +1,64 @@
 package com.bupt.tarecruitment.model;
 
 /**
- * A composite view object that aggregates an application with its related entities.
+ * Composite view model used by JSP pages that display application records.
  *
- * <p>This class is a read-only view model used by servlet layer to pass
- * rich application information to JSP views. It bundles together an
- * {@link ApplicationRecord}, the corresponding {@link Job}, the
- * {@link Applicant}, and the skill {@link MatchResult} so that a single
- * object can be forwarded as a request attribute.</p>
+ * <p>The object joins the raw application record with its related job,
+ * applicant, match score, and optional decision-support data. Keeping these
+ * values together prevents JSP pages from performing repository lookups or
+ * business calculations directly.</p>
  *
- * <p>Instances are typically built in
- * {@link com.bupt.tarecruitment.servlet.MOApplicationsServlet} or
- * {@link com.bupt.tarecruitment.servlet.MyApplicationsServlet}.</p>
+ * <p>This class is not persisted to JSON. It is assembled per request by
+ * servlets such as {@link com.bupt.tarecruitment.servlet.MyApplicationsServlet}
+ * and {@link com.bupt.tarecruitment.servlet.MOApplicationsServlet} for display
+ * only.</p>
  *
  * @author  Group 71
  * @version 1.0
  * @see     ApplicationRecord
- * @see     Job
- * @see     Applicant
  * @see     MatchResult
+ * @see     ApplicationPriorityView
+ * @see     CandidateFitSnapshot
+ * @see     LoadProjection
  */
 public class ApplicationDisplay {
-
-    /** The underlying application record. */
+    /** Raw application record being displayed. */
     private ApplicationRecord application;
 
-    /** The job posting this application relates to. */
+    /** Job targeted by the application. */
     private Job job;
 
-    /** The applicant who submitted this application. */
+    /** Applicant who submitted the application. */
     private Applicant applicant;
 
-    /** The skill match result between the applicant and the job. */
+    /** Skill-match result between the applicant profile and the target job. */
     private MatchResult matchResult;
 
+    /** Optional ranking output used by the MO review table. */
+    private ApplicationPriorityView priorityView;
+
+    /** Optional shortlist guidance used by the MO review table. */
+    private CandidateFitSnapshot fitSnapshot;
+
+    /** Optional projected workload if the applicant is accepted for the job. */
+    private LoadProjection loadProjection;
+
+    /** i18n key suffix describing the current application status for applicants. */
+    private String statusDescription;
+
     /**
-     * Default no-argument constructor.
+     * Creates an empty display model for frameworks and JSP expression access.
      */
     public ApplicationDisplay() {
     }
 
     /**
-     * Full constructor.
+     * Creates the base display model shared by applicant and MO application pages.
      *
-     * @param application  the application record
-     * @param job          the related job posting
-     * @param applicant    the applicant who applied
-     * @param matchResult  the calculated skill match result
+     * @param application application record being displayed
+     * @param job         related job posting
+     * @param applicant   related applicant
+     * @param matchResult skill match result for the applicant and job
      */
     public ApplicationDisplay(ApplicationRecord application, Job job, Applicant applicant, MatchResult matchResult) {
         this.application = application;
@@ -56,58 +68,146 @@ public class ApplicationDisplay {
     }
 
     /**
-     * Returns the application record.
+     * Returns the raw application record.
      *
-     * @return the {@link ApplicationRecord}
+     * @return application record, or {@code null} if not assigned
      */
-    public ApplicationRecord getApplication() { return application; }
+    public ApplicationRecord getApplication() {
+        return application;
+    }
 
     /**
-     * Sets the application record.
+     * Sets the raw application record.
      *
-     * @param application the application record
+     * @param application application record to display
      */
-    public void setApplication(ApplicationRecord application) { this.application = application; }
+    public void setApplication(ApplicationRecord application) {
+        this.application = application;
+    }
 
     /**
-     * Returns the related job posting.
+     * Returns the job related to the application.
      *
-     * @return the {@link Job}
+     * @return related job, or {@code null} if the job no longer exists
      */
-    public Job getJob() { return job; }
+    public Job getJob() {
+        return job;
+    }
 
     /**
-     * Sets the related job posting.
+     * Sets the job related to the application.
      *
-     * @param job the job posting
+     * @param job related job
      */
-    public void setJob(Job job) { this.job = job; }
+    public void setJob(Job job) {
+        this.job = job;
+    }
 
     /**
-     * Returns the applicant.
+     * Returns the applicant related to the application.
      *
-     * @return the {@link Applicant}
+     * @return related applicant, or {@code null} if the applicant no longer exists
      */
-    public Applicant getApplicant() { return applicant; }
+    public Applicant getApplicant() {
+        return applicant;
+    }
 
     /**
-     * Sets the applicant.
+     * Sets the applicant related to the application.
      *
-     * @param applicant the applicant
+     * @param applicant related applicant
      */
-    public void setApplicant(Applicant applicant) { this.applicant = applicant; }
+    public void setApplicant(Applicant applicant) {
+        this.applicant = applicant;
+    }
 
     /**
-     * Returns the skill match result.
+     * Returns the skill-match result for the application row.
      *
-     * @return the {@link MatchResult}
+     * @return match result, or {@code null} when it has not been calculated
      */
-    public MatchResult getMatchResult() { return matchResult; }
+    public MatchResult getMatchResult() {
+        return matchResult;
+    }
 
     /**
-     * Sets the skill match result.
+     * Sets the skill-match result for the application row.
      *
-     * @param matchResult the match result
+     * @param matchResult calculated match result
      */
-    public void setMatchResult(MatchResult matchResult) { this.matchResult = matchResult; }
+    public void setMatchResult(MatchResult matchResult) {
+        this.matchResult = matchResult;
+    }
+
+    /**
+     * Returns the priority ranking result for MO review.
+     *
+     * @return priority view, or {@code null} outside the MO review page
+     */
+    public ApplicationPriorityView getPriorityView() {
+        return priorityView;
+    }
+
+    /**
+     * Sets the priority ranking result for MO review.
+     *
+     * @param priorityView ranking result to display
+     */
+    public void setPriorityView(ApplicationPriorityView priorityView) {
+        this.priorityView = priorityView;
+    }
+
+    /**
+     * Returns the shortlist fit snapshot for MO review.
+     *
+     * @return fit snapshot, or {@code null} outside the MO review page
+     */
+    public CandidateFitSnapshot getFitSnapshot() {
+        return fitSnapshot;
+    }
+
+    /**
+     * Sets the shortlist fit snapshot for MO review.
+     *
+     * @param fitSnapshot fit snapshot to display
+     */
+    public void setFitSnapshot(CandidateFitSnapshot fitSnapshot) {
+        this.fitSnapshot = fitSnapshot;
+    }
+
+    /**
+     * Returns the projected workload for accepting the applicant.
+     *
+     * @return load projection, or {@code null} if projection is unavailable
+     */
+    public LoadProjection getLoadProjection() {
+        return loadProjection;
+    }
+
+    /**
+     * Sets the projected workload for accepting the applicant.
+     *
+     * @param loadProjection projected workload to display
+     */
+    public void setLoadProjection(LoadProjection loadProjection) {
+        this.loadProjection = loadProjection;
+    }
+
+    /**
+     * Returns the i18n key suffix describing the status.
+     *
+     * @return normalized status description suffix such as {@code "Pending"}
+     */
+    public String getStatusDescription() {
+        return statusDescription;
+    }
+
+    /**
+     * Sets the i18n key suffix describing the status.
+     *
+     * @param statusDescription normalized status description suffix
+     */
+    public void setStatusDescription(String statusDescription) {
+        this.statusDescription = statusDescription;
+    }
 }
