@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -48,10 +49,14 @@ public class JsonFileUtil {
     /** Formatter used for {@link LocalDateTime} serialisation/deserialisation. */
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-    /** Shared, thread-safe Gson instance with pretty printing and LocalDateTime support. */
+    /** Formatter used for {@link LocalDate} serialisation/deserialisation. */
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
+
+    /** Shared, thread-safe Gson instance with pretty printing and LocalDateTime/LocalDate support. */
     private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+            .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
 
     /** Private constructor to prevent instantiation. */
@@ -162,6 +167,37 @@ public class JsonFileUtil {
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to prepare JSON file: " + path, e);
+        }
+    }
+
+    /**
+     * Gson {@link TypeAdapter} that serialises and deserialises {@link LocalDateTime}
+     * using the ISO-8601 format ({@code yyyy-MM-dd'T'HH:mm:ss}).
+     */
+    /**
+     * Gson {@link TypeAdapter} for {@link LocalDate} using ISO-8601 date format ({@code yyyy-MM-dd}).
+     */
+    private static class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+        @Override
+        public void write(JsonWriter out, LocalDate value) throws IOException {
+            if (value == null) {
+                out.nullValue();
+            } else {
+                out.value(value.format(DATE_FORMATTER));
+            }
+        }
+
+        @Override
+        public LocalDate read(JsonReader in) throws IOException {
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
+            }
+            String value = in.nextString();
+            if (value == null || value.isEmpty()) {
+                return null;
+            }
+            return LocalDate.parse(value, DATE_FORMATTER);
         }
     }
 

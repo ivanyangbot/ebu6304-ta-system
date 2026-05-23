@@ -4,6 +4,8 @@ import com.bupt.tarecruitment.model.Job;
 import com.bupt.tarecruitment.service.ActivityLogService;
 import com.bupt.tarecruitment.service.JobService;
 
+import java.time.LocalDate;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +35,7 @@ public class JobCreateServlet extends BaseServlet {
         String description = request.getParameter("description");
         String requiredSkillsText = request.getParameter("requiredSkills");
         String hoursText = request.getParameter("hours");
+        String deadlineText = request.getParameter("deadline");
 
         if (isBlank(title) || isBlank(moduleName) || isBlank(description) || isBlank(hoursText)) {
             request.setAttribute("errorMessage", "Please complete all required fields.");
@@ -52,9 +55,20 @@ public class JobCreateServlet extends BaseServlet {
             return;
         }
 
+        LocalDate deadline = null;
+        if (!isBlank(deadlineText)) {
+            try {
+                deadline = LocalDate.parse(deadlineText);
+            } catch (Exception e) {
+                request.setAttribute("errorMessage", "Invalid deadline format. Use YYYY-MM-DD.");
+                forwardView(request, response, "create-job.jsp");
+                return;
+            }
+        }
+
         JobService jobService = new JobService(getServletContext());
         Job newJob = jobService.createJob(title.trim(), moduleName.trim(), description.trim(),
-                parseSkills(requiredSkillsText), hours, getCurrentUser(request).getId());
+                parseSkills(requiredSkillsText), hours, getCurrentUser(request).getId(), deadline);
         new ActivityLogService(getServletContext()).logCreateJob(getCurrentUser(request), newJob.getTitle(), newJob.getId());
         response.sendRedirect(request.getContextPath() + "/mo/jobs?msg=created");
     }

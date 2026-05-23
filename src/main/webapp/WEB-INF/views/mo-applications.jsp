@@ -24,7 +24,7 @@
             <th data-i18n="moApplications.matchScore">Match Score</th>
             <th data-i18n="moApplications.missingSkills">Missing Skills</th>
             <th data-i18n="common.status">Status</th>
-            <th data-i18n="moApplications.update">Update</th>
+            <th data-i18n="moApplications.update">Update &amp; Feedback</th>
         </tr>
         </thead>
         <tbody>
@@ -64,12 +64,18 @@
                           data-confirm-key="confirm.updateApplication">
                         <input type="hidden" name="applicationId" value="${item.application.id}">
                         <input type="hidden" name="jobId" value="${job.id}">
-                        <select name="status">
+                        <select name="status" class="feedback-status-select">
                             <option value="Pending" data-status-option="Pending" <c:if test="${item.application.status == 'Pending'}">selected</c:if>>Pending</option>
                             <option value="Accepted" data-status-option="Accepted" <c:if test="${item.application.status == 'Accepted'}">selected</c:if>>Accepted</option>
                             <option value="Rejected" data-status-option="Rejected" <c:if test="${item.application.status == 'Rejected'}">selected</c:if>>Rejected</option>
                         </select>
-                        <button class="btn btn-primary btn-small" data-i18n="action.save" type="submit">Save</button>
+                        <div class="feedback-area" style="margin-top:6px;">
+                            <textarea name="moFeedback" rows="2"
+                                      style="width:100%;font-size:12px;padding:4px;border:1px solid #ced4da;border-radius:4px;resize:vertical;"
+                                      data-i18n-placeholder="moApplications.feedbackPlaceholder"
+                                      placeholder="Optional: reason for decision (visible to applicant)">${item.application.moFeedback}</textarea>
+                        </div>
+                        <button class="btn btn-primary btn-small" data-i18n="action.save" type="submit" style="margin-top:4px;">Save</button>
                     </form>
                 </td>
             </tr>

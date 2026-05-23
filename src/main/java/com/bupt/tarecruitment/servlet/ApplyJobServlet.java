@@ -29,6 +29,12 @@ public class ApplyJobServlet extends BaseServlet {
             return;
         }
 
+        // Enforce deadline: reject submissions after the deadline
+        if (job.isDeadlinePassed()) {
+            response.sendRedirect(request.getContextPath() + "/jobs/detail?id=" + jobId + "&msg=deadlinePassed");
+            return;
+        }
+
         ApplicationService applicationService = new ApplicationService(getServletContext());
         NotificationRepository notificationRepository = new NotificationRepository(getServletContext());
         User currentUser = getCurrentUser(request);

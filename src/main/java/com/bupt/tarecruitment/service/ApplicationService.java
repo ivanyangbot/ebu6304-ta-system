@@ -139,6 +139,30 @@ public class ApplicationService {
     }
 
     /**
+     * Updates the review status and saves an optional MO feedback message.
+     *
+     * @param applicationId ID of the application to update
+     * @param status        new status string ({@code "Pending"}, {@code "Accepted"}, {@code "Rejected"})
+     * @param feedback      optional explanation from the MO; {@code null} or blank is ignored
+     * @throws RuntimeException if the status value is invalid
+     */
+    public void updateApplicationStatus(String applicationId, String status, String feedback) {
+        if (!"Pending".equals(status) && !"Accepted".equals(status) && !"Rejected".equals(status)) {
+            throw new RuntimeException("Invalid application status.");
+        }
+        applicationRepository.updateStatusWithFeedback(applicationId, status, feedback);
+    }
+
+    /**
+     * Returns all application records in the system.
+     *
+     * @return list of all {@link ApplicationRecord} objects; never {@code null}
+     */
+    public List<ApplicationRecord> getAllApplications() {
+        return applicationRepository.findAll();
+    }
+
+    /**
      * Withdraws (deletes) a pending application.
      *
      * <p>Only the applicant who originally submitted the application may withdraw

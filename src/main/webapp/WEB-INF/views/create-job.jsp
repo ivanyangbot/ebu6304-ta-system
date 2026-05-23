@@ -32,6 +32,10 @@
         <label for="hours" data-i18n="createJob.workloadHours">Workload Hours</label>
         <input id="hours" name="hours" type="number" min="1" value="${param.hours}">
 
+        <label for="deadline" data-i18n="createJob.deadline">Application Deadline <span style="font-weight:normal;color:#6c757d;">(optional)</span></label>
+        <input id="deadline" name="deadline" type="date" value="${param.deadline}">
+        <p class="hint" data-i18n="createJob.deadlineHint">Leave blank for no deadline. After this date, applicants cannot submit new applications.</p>
+
         <button class="btn btn-primary" data-i18n="action.createJob" type="submit">Create Job</button>
     </form>
 </section>

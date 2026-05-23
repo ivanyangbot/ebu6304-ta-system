@@ -213,6 +213,15 @@
         <url-pattern>/admin/activity</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AdminDeadlineServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminDeadlineServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminDeadlineServlet</servlet-name>
+        <url-pattern>/admin/deadlines</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

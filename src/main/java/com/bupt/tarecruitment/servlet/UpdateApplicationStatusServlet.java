@@ -25,6 +25,7 @@ public class UpdateApplicationStatusServlet extends BaseServlet {
         String applicationId = request.getParameter("applicationId");
         String jobId = request.getParameter("jobId");
         String status = request.getParameter("status");
+        String feedback = request.getParameter("moFeedback");  // optional MO feedback
 
         ApplicationService applicationService = new ApplicationService(getServletContext());
         JobService jobService = new JobService(getServletContext());
@@ -46,7 +47,7 @@ public class UpdateApplicationStatusServlet extends BaseServlet {
         try {
             String oldStatus = record.getStatus();
 
-            applicationService.updateApplicationStatus(applicationId, status);
+            applicationService.updateApplicationStatus(applicationId, status, feedback);
             
             notificationRepository.createApplicationStatusNotification(
                     record.getApplicantId(),

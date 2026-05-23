@@ -24,6 +24,7 @@
             <th data-i18n="common.module">Module</th>
             <th data-i18n="common.status">Status</th>
             <th data-i18n="applications.appliedAt">Applied At</th>
+            <th data-i18n="applications.feedback">Decision Feedback</th>
             <th data-i18n="table.actions">Actions</th>
         </tr>
         </thead>
@@ -37,6 +38,16 @@
                 </td>
                 <td>${item.application.appliedAt}</td>
                 <td>
+                    <c:choose>
+                        <c:when test="${not empty item.application.moFeedback}">
+                            <span class="feedback-text" style="font-size:13px;color:#495057;">${item.application.moFeedback}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <span style="color:#adb5bd;font-size:13px;">—</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
                     <c:if test="${item.application.status == 'Pending'}">
                         <form action="${pageContext.request.contextPath}/applicant/withdraw" method="post" class="withdraw-form">
                             <input type="hidden" name="applicationId" value="${item.application.id}">
@@ -49,7 +60,7 @@
         </c:forEach>
         <c:if test="${empty applicationDisplays}">
             <tr>
-                <td colspan="5" class="empty-row" data-i18n="applications.empty">You have not submitted any applications yet.</td>
+                <td colspan="6" class="empty-row" data-i18n="applications.empty">You have not submitted any applications yet.</td>
             </tr>
         </c:if>
         </tbody>

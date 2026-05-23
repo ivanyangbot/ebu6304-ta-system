@@ -5,8 +5,10 @@ import com.bupt.tarecruitment.repository.JobRepository;
 import com.bupt.tarecruitment.util.IdUtil;
 
 import javax.servlet.ServletContext;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Business-logic service for managing TA job postings.
@@ -136,8 +138,20 @@ public class JobService {
      * @param moId           user ID of the Module Organiser creating this posting
      * @return the newly created and persisted {@link Job}
      */
+    /**
+     * Creates and persists a new job posting with an optional deadline.
+     *
+     * @param title          short title of the position
+     * @param moduleName     name of the related academic module
+     * @param description    detailed description of duties
+     * @param requiredSkills list of required skill strings
+     * @param hours          estimated weekly hours for the position
+     * @param moId           user ID of the Module Organiser creating this posting
+     * @param deadline       optional last date for applications; {@code null} means no deadline
+     * @return the newly created and persisted {@link Job}
+     */
     public Job createJob(String title, String moduleName, String description, List<String> requiredSkills, int hours,
-                         String moId) {
+                         String moId, LocalDate deadline) {
         Job job = new Job();
         job.setId(IdUtil.generateId("job"));
         job.setTitle(title);
@@ -147,7 +161,42 @@ public class JobService {
         job.setHours(hours);
         job.setPostedByMoId(moId);
         job.setStatus("Open");
+        job.setDeadline(deadline);
         jobRepository.save(job);
         return job;
+    }
+
+    public Job createJob(String title, String moduleName, String description, List<String> requiredSkills, int hours,
+                         String moId) {
+        return createJob(title, moduleName, description, requiredSkills, hours, moId, null);
+    }
+
+    /**
+     * Returns jobs whose deadline falls within the next {@code days} days
+     * (inclusive). Jobs without a deadline are excluded.
+     *
+     * @param days number of days to look ahead (e.g. 7 for one week)
+     * @return list of {@link Job} objects expiring soon; never {@code null}
+     */
+    public List<Job> getJobsExpiringSoon(int days) {
+        LocalDate cutoff = LocalDate.now().plusDays(days);
+        return jobRepository.findAll().stream()
+                .filter(j -> j.getDeadline() != null)
+                .filter(j -> "Open".equals(j.getStatus()))
+                .filter(j -> !j.getDeadline().isAfter(cutoff))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Updates the deadline of a job.
+     *
+     * @param jobId    ID of the job to update
+     * @param deadline new deadline; {@code null} removes it
+     */
+    public void updateDeadline(String jobId, LocalDate deadline) {
+        Job job = jobRepository.findById(jobId);
+        if (job == null) throw new RuntimeException("Job not found.");
+        job.setDeadline(deadline);
+        jobRepository.update(job);
     }
 }
