@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="pageTitle" value="Dashboard" />
 <c:set var="pageTitleKey" value="page.dashboard" />
 <%@ include file="includes/header.jspf" %>
@@ -69,7 +70,29 @@
         </div>
         <div class="card">
             <h3 data-i18n="dashboard.profileTitle">Profile</h3>
-            <p data-i18n="dashboard.profileDesc">Keep your skills updated so the system can compute a clearer match score.</p>
+            <c:choose>
+                <c:when test="${not empty applicantProfile}">
+                    <p><span data-i18n="profile.fullName">Full Name</span>: <strong>${applicantProfile.fullName}</strong></p>
+                    <p><span data-i18n="profile.email">Email</span>: <strong>${applicantProfile.email}</strong></p>
+                    <p><span data-i18n="profile.skills">Skills</span>: <strong>${fn:length(applicantProfile.skills)}</strong></p>
+                    <p>
+                        <span data-i18n="profile.selfIntroduction">Self Introduction</span>:
+                        <strong>
+                            <c:choose>
+                                <c:when test="${empty applicantProfile.selfIntroduction}">
+                                    <span data-i18n="dashboard.profileIncomplete">Incomplete</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span data-i18n="dashboard.profileCompleted">Completed</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </strong>
+                    </p>
+                </c:when>
+                <c:otherwise>
+                    <p data-i18n="dashboard.profileDesc">Keep your skills updated so the system can compute a clearer match score.</p>
+                </c:otherwise>
+            </c:choose>
             <a class="btn btn-secondary" data-i18n="action.editProfile" href="${pageContext.request.contextPath}/applicant/profile">Edit Profile</a>
         </div>
     </c:if>
@@ -78,6 +101,8 @@
         <div class="card">
             <h3 data-i18n="dashboard.moPanel">MO Panel</h3>
             <p><span data-i18n="dashboard.myPostedJobs">My Posted Jobs</span>: <strong>${myJobCount}</strong></p>
+            <p><span data-i18n="dashboard.pendingApplications">Pending Applications</span>: <strong>${pendingApplicationCount}</strong></p>
+            <p><span data-i18n="dashboard.jobsNeedingAction">Jobs Needing Action</span>: <strong>${jobsNeedingAction}</strong></p>
             <a class="btn btn-primary" data-i18n="action.viewMyJobs" href="${pageContext.request.contextPath}/mo/jobs">View My Jobs</a>
         </div>
         <div class="card">
@@ -90,7 +115,13 @@
     <c:if test="${sessionScope.currentUser.role == 'ADMIN'}">
         <div class="card">
             <h3 data-i18n="dashboard.adminPanel">Admin Panel</h3>
-            <p><span data-i18n="dashboard.applicantsInSystem">Applicants in System</span>: <strong>${summaryCount}</strong></p>
+            <p><span data-i18n="dashboard.totalUsers">Total Users</span>: <strong>${totalUserCount}</strong></p>
+            <p><span data-i18n="dashboard.totalApplicants">Applicants</span>: <strong>${applicantCount}</strong></p>
+            <p><span data-i18n="dashboard.totalMOs">Module Organisers</span>: <strong>${moCount}</strong></p>
+            <p><span data-i18n="dashboard.openJobs">Open Jobs</span>: <strong>${openJobCount}</strong></p>
+            <p><span data-i18n="dashboard.pendingApplications">Pending Applications</span>: <strong>${pendingApplicationCount}</strong></p>
+            <p><span data-i18n="dashboard.acceptanceRate">Acceptance Rate</span>: <strong>${acceptanceRate}%</strong></p>
+            <p><span data-i18n="dashboard.overloadedTAs">Overloaded TAs</span>: <strong>${overloadedCount}</strong></p>
             <a class="btn btn-primary" data-i18n="action.viewWorkload" href="${pageContext.request.contextPath}/admin/workload">View Workload</a>
         </div>
         <div class="card">
@@ -100,6 +131,60 @@
         </div>
     </c:if>
 </div>
+
+<c:if test="${sessionScope.currentUser.role == 'MO'}">
+    <div class="grid-two dashboard-extra-grid">
+        <div class="card">
+            <h3 data-i18n="dashboard.recentApplications">Recent Pending Applications</h3>
+            <c:choose>
+                <c:when test="${not empty recentPendingApplications}">
+                    <div class="dashboard-list">
+                        <c:forEach items="${recentPendingApplications}" var="item">
+                            <div class="dashboard-list-item">
+                                <div>
+                                    <strong>${item.applicantName}</strong>
+                                    <span class="hint"> · ${item.jobTitle}</span>
+                                </div>
+                                <div class="dashboard-list-meta">
+                                    <span>${item.appliedAt}</span>
+                                    <a class="btn btn-secondary btn-sm"
+                                       href="${pageContext.request.contextPath}/mo/applications?jobId=${item.jobId}"
+                                       data-i18n="action.reviewApplications">Review</a>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <p class="hint" data-i18n="dashboard.noRecentApplications">No pending applications yet.</p>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        <div class="card">
+            <h3 data-i18n="dashboard.actionRequiredJobs">Jobs Needing Action</h3>
+            <c:choose>
+                <c:when test="${not empty actionRequiredJobs}">
+                    <div class="dashboard-list">
+                        <c:forEach items="${actionRequiredJobs}" var="item">
+                            <div class="dashboard-list-item">
+                                <div>
+                                    <strong>${item.jobTitle}</strong>
+                                    <span class="hint"> · <span data-i18n="dashboard.pendingCount">Pending</span>: ${item.pendingCount}</span>
+                                </div>
+                                <a class="btn btn-primary btn-sm"
+                                   href="${pageContext.request.contextPath}/mo/applications?jobId=${item.jobId}"
+                                   data-i18n="action.reviewApplications">Review</a>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <p class="hint" data-i18n="dashboard.noActionRequiredJobs">All open jobs are up to date.</p>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+</c:if>
 
 <style>
 .notifications-card {
@@ -190,145 +275,6 @@
     padding: 2px 8px;
     border-radius: 10px;
     font-weight: bold;
-}
-</style>
-
-<%-- Recent Activity Card --%>
-<div class="card activity-card">
-    <div class="card-header">
-        <h3 data-i18n="dashboard.recentActivity">Recent Activity</h3>
-        <a href="${pageContext.request.contextPath}/activity/my" class="view-all-link" data-i18n="action.viewAll">View All</a>
-    </div>
-    <c:choose>
-        <c:when test="${not empty recentActivities}">
-            <div class="activity-list">
-                <c:forEach items="${recentActivities}" var="log">
-                    <div class="activity-item">
-                        <div class="activity-item-left">
-                            <span class="activity-type-badge activity-type-${log.actionType}">${log.actionType}</span>
-                            <span class="activity-desc">${log.description}</span>
-                        </div>
-                        <div class="activity-item-right">
-                            <c:if test="${not empty log.beforeState and not empty log.afterState}">
-                                <span class="state-before">${log.beforeState}</span>
-                                <span class="state-arrow">→</span>
-                                <span class="state-after">${log.afterState}</span>
-                            </c:if>
-                            <span class="activity-time">${log.formattedCreatedAt}</span>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </c:when>
-        <c:otherwise>
-            <p class="activity-empty" data-i18n="activity.dashboardEmpty">No recent activity. Start by browsing jobs or managing your postings.</p>
-        </c:otherwise>
-    </c:choose>
-</div>
-
-<style>
-.activity-card {
-    margin-top: 20px;
-}
-.activity-card .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-}
-.view-all-link {
-    font-size: 13px;
-    color: #007bff;
-    text-decoration: none;
-}
-.view-all-link:hover {
-    text-decoration: underline;
-}
-.activity-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.activity-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    background-color: #f8f9fa;
-    border-radius: 6px;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-.activity-item-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-    min-width: 0;
-}
-.activity-item-right {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-.activity-desc {
-    font-size: 14px;
-    color: #333;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.activity-time {
-    font-size: 12px;
-    color: #999;
-}
-.activity-empty {
-    color: #999;
-    font-size: 14px;
-    text-align: center;
-    padding: 20px 0;
-}
-.activity-type-badge {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    background-color: #e9ecef;
-    color: #495057;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-.activity-type-APPLY_JOB             { background-color: #d1ecf1; color: #0c5460; }
-.activity-type-WITHDRAW_APPLICATION  { background-color: #fff3cd; color: #856404; }
-.activity-type-CREATE_JOB            { background-color: #d4edda; color: #155724; }
-.activity-type-COMPLETE_JOB          { background-color: #cce5ff; color: #004085; }
-.activity-type-REOPEN_JOB            { background-color: #d4edda; color: #155724; }
-.activity-type-UPDATE_APPLICATION_STATUS { background-color: #e2d9f3; color: #4a235a; }
-.activity-type-CREATE_USER           { background-color: #d4edda; color: #155724; }
-.activity-type-DELETE_USER           { background-color: #f8d7da; color: #721c24; }
-.state-before {
-    display: inline-block;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background-color: #f8d7da;
-    color: #721c24;
-    font-size: 12px;
-}
-.state-arrow {
-    color: #888;
-    font-size: 12px;
-}
-.state-after {
-    display: inline-block;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background-color: #d4edda;
-    color: #155724;
-    font-size: 12px;
 }
 </style>
 

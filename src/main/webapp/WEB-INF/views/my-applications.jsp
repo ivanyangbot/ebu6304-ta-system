@@ -23,8 +23,10 @@
             <th data-i18n="common.jobTitle">Job Title</th>
             <th data-i18n="common.module">Module</th>
             <th data-i18n="common.status">Status</th>
+            <th data-i18n="applications.statusDescription">Status Description</th>
+            <th data-i18n="applications.matchScore">Match Score</th>
+            <th data-i18n="applications.missingSkills">Missing Skills</th>
             <th data-i18n="applications.appliedAt">Applied At</th>
-            <th data-i18n="applications.feedback">Decision Feedback</th>
             <th data-i18n="table.actions">Actions</th>
         </tr>
         </thead>
@@ -36,17 +38,28 @@
                 <td>
                     <span class="badge badge-${item.application.status}" data-status-label="${item.application.status}">${item.application.status}</span>
                 </td>
-                <td>${item.application.appliedAt}</td>
+                <td class="table-text-cell">
+                    <span data-i18n="statusDesc.${item.statusDescription}">${item.statusDescription}</span>
+                </td>
                 <td>
                     <c:choose>
-                        <c:when test="${not empty item.application.moFeedback}">
-                            <span class="feedback-text" style="font-size:13px;color:#495057;">${item.application.moFeedback}</span>
+                        <c:when test="${item.matchResult != null}">
+                            <span class="badge ${item.matchResult.score >= 80 ? 'badge-success' : item.matchResult.score >= 50 ? 'badge-warning' : 'badge-danger'}">${item.matchResult.score}%</span>
                         </c:when>
-                        <c:otherwise>
-                            <span style="color:#adb5bd;font-size:13px;">—</span>
-                        </c:otherwise>
+                        <c:otherwise>-</c:otherwise>
                     </c:choose>
                 </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${item.matchResult != null && not empty item.matchResult.missingSkills}">
+                            <c:forEach items="${item.matchResult.missingSkills}" var="skill" varStatus="status">
+                                <span class="badge badge-secondary">${skill}</span>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise><span data-i18n="common.none">None</span></c:otherwise>
+                    </c:choose>
+                </td>
+                <td>${item.application.appliedAt}</td>
                 <td>
                     <c:if test="${item.application.status == 'Pending'}">
                         <form action="${pageContext.request.contextPath}/applicant/withdraw" method="post" class="withdraw-form">
@@ -60,7 +73,7 @@
         </c:forEach>
         <c:if test="${empty applicationDisplays}">
             <tr>
-                <td colspan="6" class="empty-row" data-i18n="applications.empty">You have not submitted any applications yet.</td>
+                <td colspan="8" class="empty-row" data-i18n="applications.empty">You have not submitted any applications yet.</td>
             </tr>
         </c:if>
         </tbody>
