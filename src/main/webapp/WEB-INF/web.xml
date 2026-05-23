@@ -124,6 +124,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>JobEditServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.JobEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JobEditServlet</servlet-name>
+        <url-pattern>/mo/jobs/edit</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>MOApplicationsServlet</servlet-name>
         <servlet-class>com.bupt.tarecruitment.servlet.MOApplicationsServlet</servlet-class>
     </servlet>

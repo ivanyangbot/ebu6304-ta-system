@@ -32,6 +32,8 @@ public class ActivityLogService {
     public static final String APPLY_JOB = "APPLY_JOB";
     public static final String WITHDRAW_APPLICATION = "WITHDRAW_APPLICATION";
     public static final String CREATE_JOB = "CREATE_JOB";
+    /** Activity type recorded when an MO edits an open job posting. */
+    public static final String EDIT_JOB = "EDIT_JOB";
     public static final String COMPLETE_JOB = "COMPLETE_JOB";
     public static final String REOPEN_JOB = "REOPEN_JOB";
     public static final String UPDATE_APPLICATION_STATUS = "UPDATE_APPLICATION_STATUS";
@@ -92,6 +94,19 @@ public class ActivityLogService {
     public void logCreateJob(User operator, String jobTitle, String jobId) {
         log(operator, CREATE_JOB,
                 "Posted new TA position: " + jobTitle,
+                jobId, null, null);
+    }
+
+    /**
+     * Records a job-edit event for audit history.
+     *
+     * @param operator MO who updated the job
+     * @param jobTitle title of the edited job
+     * @param jobId    edited job ID
+     */
+    public void logEditJob(User operator, String jobTitle, String jobId) {
+        log(operator, EDIT_JOB,
+                "Updated TA position: " + jobTitle,
                 jobId, null, null);
     }
 

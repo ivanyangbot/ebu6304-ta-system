@@ -81,6 +81,48 @@ public class JobService {
     }
 
     /**
+     * Updates an existing open job posting.
+     *
+     * <p>Only jobs whose status is {@code "Open"} can be edited. Completed jobs
+     * are intentionally locked to preserve already reviewed recruitment records.</p>
+     *
+     * @param jobId          ID of the job to update
+     * @param title          updated short title of the position
+     * @param moduleName     updated academic module or activity name
+     * @param description    updated detailed description of duties
+     * @param requiredSkills updated required skill strings
+     * @param hours          updated estimated workload hours
+     * @throws RuntimeException if the job is missing, completed, or contains invalid required fields
+     */
+    public void updateJob(String jobId, String title, String moduleName, String description, List<String> requiredSkills, int hours) {
+        Job job = jobRepository.findById(jobId);
+        if (job == null) {
+            throw new RuntimeException("Job not found.");
+        }
+        if (!"Open".equalsIgnoreCase(job.getStatus())) {
+            throw new RuntimeException("Only open jobs can be edited.");
+        }
+        if (title == null || title.trim().isEmpty()) {
+            throw new RuntimeException("Job title cannot be empty.");
+        }
+        if (moduleName == null || moduleName.trim().isEmpty()) {
+            throw new RuntimeException("Module name cannot be empty.");
+        }
+        if (description == null || description.trim().isEmpty()) {
+            throw new RuntimeException("Description cannot be empty.");
+        }
+        if (hours <= 0) {
+            throw new RuntimeException("Hours must be a positive integer.");
+        }
+        job.setTitle(title);
+        job.setModuleName(moduleName);
+        job.setDescription(description);
+        job.setRequiredSkills(requiredSkills);
+        job.setHours(hours);
+        jobRepository.update(job);
+    }
+
+    /**
      * Creates and persists a new job posting.
      *
      * <p>A unique job ID is generated automatically and the initial status is set
@@ -89,7 +131,7 @@ public class JobService {
      * @param title          short title of the position
      * @param moduleName     name of the related academic module
      * @param description    detailed description of duties
-     * @param requiredSkills list of required skill strings (may be {@code null} or empty)
+     * @param requiredSkills list of required skill strings
      * @param hours          estimated weekly hours for the position
      * @param moId           user ID of the Module Organiser creating this posting
      * @return the newly created and persisted {@link Job}
