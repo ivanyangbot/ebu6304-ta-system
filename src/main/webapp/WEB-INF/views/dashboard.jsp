@@ -193,4 +193,143 @@
 }
 </style>
 
+<%-- Recent Activity Card --%>
+<div class="card activity-card">
+    <div class="card-header">
+        <h3 data-i18n="dashboard.recentActivity">Recent Activity</h3>
+        <a href="${pageContext.request.contextPath}/activity/my" class="view-all-link" data-i18n="action.viewAll">View All</a>
+    </div>
+    <c:choose>
+        <c:when test="${not empty recentActivities}">
+            <div class="activity-list">
+                <c:forEach items="${recentActivities}" var="log">
+                    <div class="activity-item">
+                        <div class="activity-item-left">
+                            <span class="activity-type-badge activity-type-${log.actionType}">${log.actionType}</span>
+                            <span class="activity-desc">${log.description}</span>
+                        </div>
+                        <div class="activity-item-right">
+                            <c:if test="${not empty log.beforeState and not empty log.afterState}">
+                                <span class="state-before">${log.beforeState}</span>
+                                <span class="state-arrow">→</span>
+                                <span class="state-after">${log.afterState}</span>
+                            </c:if>
+                            <span class="activity-time">${log.createdAt}</span>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <p class="activity-empty" data-i18n="activity.dashboardEmpty">No recent activity. Start by browsing jobs or managing your postings.</p>
+        </c:otherwise>
+    </c:choose>
+</div>
+
+<style>
+.activity-card {
+    margin-top: 20px;
+}
+.activity-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.view-all-link {
+    font-size: 13px;
+    color: #007bff;
+    text-decoration: none;
+}
+.view-all-link:hover {
+    text-decoration: underline;
+}
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.activity-item-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+.activity-item-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.activity-desc {
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.activity-time {
+    font-size: 12px;
+    color: #999;
+}
+.activity-empty {
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px 0;
+}
+.activity-type-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    background-color: #e9ecef;
+    color: #495057;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.activity-type-APPLY_JOB             { background-color: #d1ecf1; color: #0c5460; }
+.activity-type-WITHDRAW_APPLICATION  { background-color: #fff3cd; color: #856404; }
+.activity-type-CREATE_JOB            { background-color: #d4edda; color: #155724; }
+.activity-type-COMPLETE_JOB          { background-color: #cce5ff; color: #004085; }
+.activity-type-REOPEN_JOB            { background-color: #d4edda; color: #155724; }
+.activity-type-UPDATE_APPLICATION_STATUS { background-color: #e2d9f3; color: #4a235a; }
+.activity-type-CREATE_USER           { background-color: #d4edda; color: #155724; }
+.activity-type-DELETE_USER           { background-color: #f8d7da; color: #721c24; }
+.state-before {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background-color: #f8d7da;
+    color: #721c24;
+    font-size: 12px;
+}
+.state-arrow {
+    color: #888;
+    font-size: 12px;
+}
+.state-after {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background-color: #d4edda;
+    color: #155724;
+    font-size: 12px;
+}
+</style>
+
 <%@ include file="includes/footer.jspf" %>

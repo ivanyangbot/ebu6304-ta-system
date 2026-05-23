@@ -3,6 +3,7 @@ package com.bupt.tarecruitment.servlet;
 import com.bupt.tarecruitment.model.Notification;
 import com.bupt.tarecruitment.model.User;
 import com.bupt.tarecruitment.repository.NotificationRepository;
+import com.bupt.tarecruitment.service.ActivityLogService;
 import com.bupt.tarecruitment.service.ApplicationService;
 import com.bupt.tarecruitment.service.JobService;
 import com.bupt.tarecruitment.service.WorkloadService;
@@ -32,6 +33,9 @@ public class DashboardServlet extends BaseServlet {
         
         request.setAttribute("notifications", notifications);
         request.setAttribute("unreadCount", unreadCount);
+
+        ActivityLogService activityLogService = new ActivityLogService(getServletContext());
+        request.setAttribute("recentActivities", activityLogService.getRecentByUser(currentUser.getId(), 5));
 
         if ("APPLICANT".equalsIgnoreCase(currentUser.getRole())) {
             request.setAttribute("openJobCount", jobService.getOpenJobs().size());
