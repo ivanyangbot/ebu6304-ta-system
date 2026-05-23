@@ -135,7 +135,11 @@ public class CvDownloadServlet extends BaseServlet {
 
         response.setContentType(mimeType);
         response.setHeader("Content-Disposition", "attachment; filename=\"" + downloadName + "\"");
-        response.setContentLengthLong(Files.size(cvFile));
+        // Use setContentLength(int) for Servlet 3.0 / Tomcat 7 compatibility.
+        // setContentLengthLong(long) was introduced in Servlet 3.1 and is not
+        // available on the deployed Tomcat 7.0.47 runtime.
+        long fileSize = Files.size(cvFile);
+        response.setContentLength((int) fileSize);
 
         try (OutputStream out = response.getOutputStream()) {
             Files.copy(cvFile, out);
