@@ -150,7 +150,7 @@ public class JobEditServlet extends BaseServlet {
 
         jobService.updateJob(jobId, title.trim(), moduleName.trim(), description.trim(),
                 parseSkills(requiredSkillsText), hours);
-        new ActivityLogService(getServletContext()).logEditJob(currentUser, job.getTitle(), jobId);
+        new ActivityLogService(getServletContext()).logEditJob(currentUser, title.trim(), jobId);
         response.sendRedirect(request.getContextPath() + "/mo/jobs?msg=updated");
     }
 
