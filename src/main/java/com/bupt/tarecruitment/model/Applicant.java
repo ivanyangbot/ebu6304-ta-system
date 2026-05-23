@@ -28,6 +28,22 @@ public class Applicant extends User {
     private String selfIntroduction;
 
     /**
+     * Original filename of the uploaded CV as provided by the applicant's browser
+     * (e.g. {@code "MyResume.pdf"}). Used for display purposes only; the physical
+     * file is stored under {@code WEB-INF/data/cvs/{id}.{cvFileExt}}.
+     * {@code null} when no CV has been uploaded.
+     */
+    private String cvFileName;
+
+    /**
+     * File extension of the uploaded CV in lower-case without the leading dot
+     * (e.g. {@code "pdf"}, {@code "docx"}). Used to reconstruct the physical
+     * file path and to set the correct {@code Content-Type} on download.
+     * {@code null} when no CV has been uploaded.
+     */
+    private String cvFileExt;
+
+    /**
      * Default no-argument constructor required for JSON deserialization.
      * Initialises {@code skills} to an empty list and {@code selfIntroduction} to an empty string.
      */
@@ -113,5 +129,51 @@ public class Applicant extends User {
      */
     public void setSelfIntroduction(String selfIntroduction) {
         this.selfIntroduction = selfIntroduction == null ? "" : selfIntroduction;
+    }
+
+    /**
+     * Returns the original filename of the uploaded CV.
+     *
+     * @return original CV filename (e.g. {@code "MyResume.pdf"}), or {@code null} if none uploaded
+     */
+    public String getCvFileName() {
+        return cvFileName;
+    }
+
+    /**
+     * Sets the original filename of the uploaded CV.
+     *
+     * @param cvFileName original filename as provided by the browser; {@code null} clears the CV record
+     */
+    public void setCvFileName(String cvFileName) {
+        this.cvFileName = cvFileName;
+    }
+
+    /**
+     * Returns the file extension of the uploaded CV.
+     *
+     * @return lower-case extension without dot (e.g. {@code "pdf"}), or {@code null} if none uploaded
+     */
+    public String getCvFileExt() {
+        return cvFileExt;
+    }
+
+    /**
+     * Sets the file extension of the uploaded CV.
+     *
+     * @param cvFileExt lower-case extension without dot; {@code null} clears the CV extension record
+     */
+    public void setCvFileExt(String cvFileExt) {
+        this.cvFileExt = cvFileExt;
+    }
+
+    /**
+     * Returns {@code true} if this applicant has an uploaded CV on record.
+     *
+     * @return {@code true} when both {@code cvFileName} and {@code cvFileExt} are non-null and non-empty
+     */
+    public boolean hasCv() {
+        return cvFileName != null && !cvFileName.isEmpty()
+                && cvFileExt != null && !cvFileExt.isEmpty();
     }
 }

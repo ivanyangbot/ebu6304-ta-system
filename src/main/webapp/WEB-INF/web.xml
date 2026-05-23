@@ -204,6 +204,29 @@
         <url-pattern>/admin/activity</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CvUploadServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.CvUploadServlet</servlet-class>
+        <multipart-config>
+            <file-size-threshold>1048576</file-size-threshold>  <!-- 1 MB -->
+            <max-file-size>2097152</max-file-size>              <!-- 2 MB -->
+            <max-request-size>3145728</max-request-size>        <!-- 3 MB -->
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CvUploadServlet</servlet-name>
+        <url-pattern>/applicant/cv/upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CvDownloadServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.CvDownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CvDownloadServlet</servlet-name>
+        <url-pattern>/cv/download</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

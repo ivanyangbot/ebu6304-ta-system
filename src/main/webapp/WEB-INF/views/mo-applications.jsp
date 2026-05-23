@@ -23,6 +23,7 @@
             <th data-i18n="profile.skills">Skills</th>
             <th data-i18n="moApplications.matchScore">Match Score</th>
             <th data-i18n="moApplications.missingSkills">Missing Skills</th>
+            <th data-i18n="cv.heading">CV</th>
             <th data-i18n="common.status">Status</th>
             <th data-i18n="moApplications.update">Update</th>
         </tr>
@@ -56,6 +57,21 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
+                <td class="cv-cell">
+                    <c:choose>
+                        <c:when test="${item.applicant.hasCv()}">
+                            <a class="btn btn-secondary btn-small"
+                               href="${pageContext.request.contextPath}/cv/download?applicantId=${item.applicant.id}"
+                               title="${item.applicant.cvFileName}"
+                               data-i18n="cv.download">
+                                📄 Download CV
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="cv-none" data-i18n="cv.none">—</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
                 <td>
                     <span class="badge badge-${item.application.status}" data-status-label="${item.application.status}">${item.application.status}</span>
                 </td>
@@ -76,11 +92,16 @@
         </c:forEach>
         <c:if test="${empty applicationDisplays}">
             <tr>
-                <td colspan="8" class="empty-row" data-i18n="moApplications.empty">No applicants yet for this job.</td>
+                <td colspan="9" class="empty-row" data-i18n="moApplications.empty">No applicants yet for this job.</td>
             </tr>
         </c:if>
         </tbody>
     </table>
 </div>
+
+<style>
+.cv-cell { white-space: nowrap; }
+.cv-none  { color: #bbb; font-size: 16px; }
+</style>
 
 <%@ include file="includes/footer.jspf" %>
