@@ -186,6 +186,24 @@
         <url-pattern>/notification/delete</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>MyActivityServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.MyActivityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyActivityServlet</servlet-name>
+        <url-pattern>/activity/my</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminActivityServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminActivityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminActivityServlet</servlet-name>
+        <url-pattern>/admin/activity</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
