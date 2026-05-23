@@ -84,7 +84,7 @@
         <tbody>
         <c:forEach items="${activityLogs}" var="log">
             <tr>
-                <td class="activity-time">${log.createdAt}</td>
+                <td class="activity-time">${log.formattedCreatedAt}</td>
                 <td>${log.userFullName}</td>
                 <td>
                     <span class="role-pill" data-role-label="${log.userRole}">${log.userRole}</span>

@@ -1,6 +1,7 @@
 package com.bupt.tarecruitment.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a single auditable activity event in the TA Recruitment System.
@@ -148,4 +149,16 @@ public class ActivityLog {
     public LocalDateTime getCreatedAt() { return createdAt; }
     /** @param createdAt creation timestamp */
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    /**
+     * Returns a human-readable representation of {@link #createdAt}
+     * in the format {@code yyyy-MM-dd HH:mm}.
+     * Returns an empty string when {@link #createdAt} is {@code null}.
+     *
+     * @return formatted date-time string suitable for display in views
+     */
+    public String getFormattedCreatedAt() {
+        if (createdAt == null) return "";
+        return createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
 }

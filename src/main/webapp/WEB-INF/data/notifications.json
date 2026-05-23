@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "notification-f3661f8d",
+    "userId": "mo-001",
+    "type": "NEW_APPLICATION",
+    "message": "New application received for \u0027Programming Lab TA\u0027 from 杨志远",
+    "relatedJobId": "job-001",
+    "relatedApplicationId": "app-118fde12",
+    "read": false,
+    "createdAt": "2026-05-23T23:09:06.516708"
+  }
+]

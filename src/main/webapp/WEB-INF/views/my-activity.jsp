@@ -53,7 +53,7 @@
         <tbody>
         <c:forEach items="${activityLogs}" var="log">
             <tr>
-                <td class="activity-time">${log.createdAt}</td>
+                <td class="activity-time">${log.formattedCreatedAt}</td>
                 <td>
                     <span class="activity-type-badge activity-type-${log.actionType}">${log.actionType}</span>
                 </td>

@@ -214,7 +214,7 @@
                                 <span class="state-arrow">→</span>
                                 <span class="state-after">${log.afterState}</span>
                             </c:if>
-                            <span class="activity-time">${log.createdAt}</span>
+                            <span class="activity-time">${log.formattedCreatedAt}</span>
                         </div>
                     </div>
                 </c:forEach>

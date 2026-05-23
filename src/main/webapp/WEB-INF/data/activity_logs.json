@@ -1,0 +1,12 @@
+[
+  {
+    "id": "log-9581b2ba",
+    "userId": "applicant-ba522de2",
+    "userFullName": "杨志远",
+    "userRole": "APPLICANT",
+    "actionType": "APPLY_JOB",
+    "description": "Applied for TA position: Programming Lab TA",
+    "relatedObjectId": "app-118fde12",
+    "createdAt": "2026-05-23T23:09:06.519986"
+  }
+]
