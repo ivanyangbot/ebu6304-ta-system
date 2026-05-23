@@ -15,7 +15,41 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Servlet that provides administrators with a consolidated view of all
+ * {@link com.bupt.tarecruitment.model.ApplicationRecord ApplicationRecord}s
+ * across every job posting in the system.
+ *
+ * <p>Mapped to {@code /admin/applications} (see {@code web.xml}). Access is
+ * restricted to users with the {@code ADMIN} role; any other authenticated
+ * user is redirected to the login page by
+ * {@link BaseServlet#requireRole(HttpServletRequest, HttpServletResponse, String)}.</p>
+ *
+ * <p>The servlet fetches every application from
+ * {@link com.bupt.tarecruitment.repository.ApplicationRepository}, enriches
+ * each entry with its associated {@link com.bupt.tarecruitment.model.Job} and
+ * {@link com.bupt.tarecruitment.model.Applicant}, then exposes the combined
+ * data as a list of {@link com.bupt.tarecruitment.model.ApplicationDisplay}
+ * objects under the request attribute {@code "applications"} before forwarding
+ * to {@code admin-applications.jsp}.</p>
+ *
+ * @author  Group 71
+ * @version 1.0
+ * @see     com.bupt.tarecruitment.model.ApplicationDisplay
+ * @see     com.bupt.tarecruitment.repository.ApplicationRepository
+ */
 public class AdminApplicationsServlet extends BaseServlet {
+
+    /**
+     * Handles HTTP GET requests. Loads all applications system-wide,
+     * resolves the associated job and applicant for each entry, and
+     * forwards the enriched list to the admin applications view.
+     *
+     * @param request  the {@link HttpServletRequest} object
+     * @param response the {@link HttpServletResponse} object
+     * @throws ServletException if the request cannot be handled
+     * @throws IOException      if an I/O error occurs during forwarding
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUtf8(request, response);
