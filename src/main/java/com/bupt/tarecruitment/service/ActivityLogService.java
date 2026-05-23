@@ -9,6 +9,23 @@ import javax.servlet.ServletContext;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Service for recording and querying user activity logs.
+ *
+ * <p>Every significant user action in the system (applying for a job,
+ * changing an application status, creating/deleting a user, etc.) should
+ * be recorded via this service. Convenient helper methods cover all
+ * predefined action types; the general {@link #log(com.bupt.tarecruitment.model.User, String, String, String, String, String)}
+ * method can be used for any custom action type.</p>
+ *
+ * <p>Log-write failures are caught silently (with a console error message)
+ * to ensure that a logging failure never disrupts the primary business flow.</p>
+ *
+ * @author  Group 71
+ * @version 1.0
+ * @see     ActivityLogRepository
+ * @see     com.bupt.tarecruitment.model.ActivityLog
+ */
 public class ActivityLogService {
 
     // ---- Action type constants ----
@@ -28,7 +45,14 @@ public class ActivityLogService {
     }
 
     /**
-     * 通用记录方法
+     * Records a general activity log entry.
+     *
+     * @param operator        the user performing the action
+     * @param actionType      action type constant (see static constants in this class)
+     * @param description     human-readable description of the action
+     * @param relatedObjectId ID of the affected domain object (may be {@code null})
+     * @param beforeState     state before the action (may be {@code null})
+     * @param afterState      state after the action (may be {@code null})
      */
     public void log(User operator, String actionType, String description,
                     String relatedObjectId, String beforeState, String afterState) {
@@ -51,7 +75,7 @@ public class ActivityLogService {
         }
     }
 
-    // ---- 便捷方法（无状态变更） ----
+    // ---- Convenience methods (no state change) ----
 
     public void logApplyJob(User operator, String jobTitle, String applicationId) {
         log(operator, APPLY_JOB,
@@ -103,7 +127,7 @@ public class ActivityLogService {
                 deletedUserId, null, null);
     }
 
-    // ---- 查询方法 ----
+    // ---- Query methods ----
 
     public List<ActivityLog> getRecentByUser(String userId, int limit) {
         return repository.findRecentByUserId(userId, limit);
