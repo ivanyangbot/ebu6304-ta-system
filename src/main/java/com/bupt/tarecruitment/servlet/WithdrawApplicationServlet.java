@@ -1,6 +1,10 @@
 package com.bupt.tarecruitment.servlet;
 
+import com.bupt.tarecruitment.model.ApplicationRecord;
+import com.bupt.tarecruitment.model.Job;
+import com.bupt.tarecruitment.service.ActivityLogService;
 import com.bupt.tarecruitment.service.ApplicationService;
+import com.bupt.tarecruitment.service.JobService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,9 +38,20 @@ public class WithdrawApplicationServlet extends BaseServlet {
         }
 
         ApplicationService applicationService = new ApplicationService(getServletContext());
+        JobService jobService = new JobService(getServletContext());
 
         try {
+            ApplicationRecord appRecord = applicationService.getApplicationById(applicationId);
+            String jobTitle = "";
+            if (appRecord != null) {
+                Job job = jobService.getJobById(appRecord.getJobId());
+                if (job != null) {
+                    jobTitle = job.getTitle();
+                }
+            }
             applicationService.withdrawApplication(applicationId, applicantId);
+            new ActivityLogService(getServletContext()).logWithdrawApplication(
+                    getCurrentUser(request), jobTitle, applicationId);
             response.sendRedirect(request.getContextPath() + "/applicant/applications?msg=withdrawn");
         } catch (RuntimeException e) {
             if (jobId != null && !jobId.isEmpty()) {

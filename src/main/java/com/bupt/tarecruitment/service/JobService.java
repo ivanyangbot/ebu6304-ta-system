@@ -31,8 +31,8 @@ public class JobService {
         return jobRepository.findByMoId(moId);
     }
 
-    public void createJob(String title, String moduleName, String description, List<String> requiredSkills, int hours,
-                          String moId) {
+    public Job createJob(String title, String moduleName, String description, List<String> requiredSkills, int hours,
+                         String moId) {
         Job job = new Job();
         job.setId(IdUtil.generateId("job"));
         job.setTitle(title);
@@ -43,5 +43,6 @@ public class JobService {
         job.setPostedByMoId(moId);
         job.setStatus("Open");
         jobRepository.save(job);
+        return job;
     }
 }

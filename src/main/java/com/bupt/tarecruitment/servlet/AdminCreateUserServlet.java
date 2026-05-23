@@ -4,6 +4,7 @@ import com.bupt.tarecruitment.model.Admin;
 import com.bupt.tarecruitment.model.Applicant;
 import com.bupt.tarecruitment.model.MO;
 import com.bupt.tarecruitment.repository.UserRepository;
+import com.bupt.tarecruitment.service.ActivityLogService;
 import com.bupt.tarecruitment.util.IdUtil;
 
 import javax.servlet.ServletException;
@@ -61,6 +62,7 @@ public class AdminCreateUserServlet extends BaseServlet {
                 throw new IllegalArgumentException("Email is already registered.");
             }
 
+            ActivityLogService activityLogService = new ActivityLogService(getServletContext());
             if ("APPLICANT".equalsIgnoreCase(role)) {
                 Applicant applicant = new Applicant(
                         IdUtil.generateId("applicant"),
@@ -73,6 +75,7 @@ public class AdminCreateUserServlet extends BaseServlet {
                         ""
                 );
                 userRepository.createApplicant(applicant);
+                activityLogService.logCreateUser(getCurrentUser(request), fullName.trim(), "APPLICANT", applicant.getId());
             } else if ("MO".equalsIgnoreCase(role)) {
                 MO mo = new MO(
                         IdUtil.generateId("mo"),
@@ -83,6 +86,7 @@ public class AdminCreateUserServlet extends BaseServlet {
                         email.trim()
                 );
                 userRepository.createMO(mo);
+                activityLogService.logCreateUser(getCurrentUser(request), fullName.trim(), "MO", mo.getId());
             } else if ("ADMIN".equalsIgnoreCase(role)) {
                 Admin admin = new Admin(
                         IdUtil.generateId("admin"),
@@ -93,6 +97,7 @@ public class AdminCreateUserServlet extends BaseServlet {
                         email.trim()
                 );
                 userRepository.createAdmin(admin);
+                activityLogService.logCreateUser(getCurrentUser(request), fullName.trim(), "ADMIN", admin.getId());
             }
 
             response.sendRedirect(request.getContextPath() + "/admin/users?msg=created");

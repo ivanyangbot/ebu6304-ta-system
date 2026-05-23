@@ -1,5 +1,7 @@
 package com.bupt.tarecruitment.servlet;
 
+import com.bupt.tarecruitment.model.Job;
+import com.bupt.tarecruitment.service.ActivityLogService;
 import com.bupt.tarecruitment.service.JobService;
 
 import javax.servlet.ServletException;
@@ -51,8 +53,9 @@ public class JobCreateServlet extends BaseServlet {
         }
 
         JobService jobService = new JobService(getServletContext());
-        jobService.createJob(title.trim(), moduleName.trim(), description.trim(), parseSkills(requiredSkillsText), hours,
-                getCurrentUser(request).getId());
+        Job newJob = jobService.createJob(title.trim(), moduleName.trim(), description.trim(),
+                parseSkills(requiredSkillsText), hours, getCurrentUser(request).getId());
+        new ActivityLogService(getServletContext()).logCreateJob(getCurrentUser(request), newJob.getTitle(), newJob.getId());
         response.sendRedirect(request.getContextPath() + "/mo/jobs?msg=created");
     }
 
