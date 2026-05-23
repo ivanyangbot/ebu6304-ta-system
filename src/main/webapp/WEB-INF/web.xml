@@ -124,6 +124,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>JobEditServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.JobEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JobEditServlet</servlet-name>
+        <url-pattern>/mo/jobs/edit</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>MOApplicationsServlet</servlet-name>
         <servlet-class>com.bupt.tarecruitment.servlet.MOApplicationsServlet</servlet-class>
     </servlet>
@@ -184,6 +193,56 @@
     <servlet-mapping>
         <servlet-name>DeleteNotificationServlet</servlet-name>
         <url-pattern>/notification/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MyActivityServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.MyActivityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyActivityServlet</servlet-name>
+        <url-pattern>/activity/my</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminActivityServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminActivityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminActivityServlet</servlet-name>
+        <url-pattern>/admin/activity</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminDeadlineServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminDeadlineServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminDeadlineServlet</servlet-name>
+        <url-pattern>/admin/deadlines</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CvUploadServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.CvUploadServlet</servlet-class>
+        <multipart-config>
+            <file-size-threshold>1048576</file-size-threshold>  <!-- 1 MB -->
+            <max-file-size>2097152</max-file-size>              <!-- 2 MB -->
+            <max-request-size>3145728</max-request-size>        <!-- 3 MB -->
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CvUploadServlet</servlet-name>
+        <url-pattern>/applicant/cv/upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CvDownloadServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.CvDownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CvDownloadServlet</servlet-name>
+        <url-pattern>/cv/download</url-pattern>
     </servlet-mapping>
 
     <session-config>

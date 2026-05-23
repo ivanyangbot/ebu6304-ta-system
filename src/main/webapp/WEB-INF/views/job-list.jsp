@@ -18,6 +18,7 @@
             <th data-i18n="common.hours">Hours</th>
             <th data-i18n="common.requiredSkills">Required Skills</th>
             <th data-i18n="common.status">Status</th>
+            <th data-i18n="jobList.deadline">Deadline</th>
             <th data-i18n="common.action">Action</th>
         </tr>
         </thead>
@@ -34,6 +35,14 @@
                 </td>
                 <td><span class="badge badge-${job.status}" data-status-label="${job.status}">${job.status}</span></td>
                 <td>
+                    <c:choose>
+                        <c:when test="${job.deadline == null}"><span style="color:#adb5bd;">—</span></c:when>
+                        <c:when test="${job.deadlinePassed}"><span style="color:#dc3545;font-size:12px;">${job.deadline} <strong>Closed</strong></span></c:when>
+                        <c:when test="${job.daysUntilDeadline <= 3}"><span style="color:#fd7e14;font-size:12px;">${job.deadline} (${job.daysUntilDeadline}d left)</span></c:when>
+                        <c:otherwise><span style="font-size:12px;">${job.deadline}</span></c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
                     <a class="btn btn-secondary btn-small" data-i18n="action.viewDetail"
                        href="${pageContext.request.contextPath}/jobs/detail?id=${job.id}">View Detail</a>
                     <c:if test="${appliedJobMap[job.id]}">
@@ -44,7 +53,7 @@
         </c:forEach>
         <c:if test="${empty jobs}">
             <tr>
-                <td colspan="6" class="empty-row" data-i18n="jobList.empty">No jobs are available right now.</td>
+                <td colspan="7" class="empty-row" data-i18n="jobList.empty">No jobs are available right now.</td>
             </tr>
         </c:if>
         </tbody>

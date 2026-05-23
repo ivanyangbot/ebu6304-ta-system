@@ -421,6 +421,75 @@ textarea {
     font-size: 13px;
 }
 
+.btn-sm {
+    padding: 8px 12px;
+    min-height: 36px;
+    font-size: 13px;
+}
+
+.btn-danger {
+    color: #ffffff;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.btn-warning {
+    color: #ffffff;
+    background: linear-gradient(135deg, #d97706, #b45309);
+}
+
+.btn-info {
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.badge-success {
+    color: var(--success-text);
+    background: var(--success-soft);
+}
+
+.badge-warning {
+    color: var(--warning-text);
+    background: var(--warning-soft);
+}
+
+.badge-danger {
+    color: var(--danger-text);
+    background: var(--danger-soft);
+}
+
+.badge-secondary {
+    color: #475569;
+    background: #e2e8f0;
+}
+
+.dashboard-extra-grid {
+    margin-top: 20px;
+}
+
+.dashboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dashboard-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(248, 250, 252, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.dashboard-list-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
 .alert {
     padding: 14px 16px;
     border-radius: 16px;
@@ -492,26 +561,40 @@ tbody tr:hover {
 
 .badge-info,
 .badge-Open,
-.badge-Applied {
+.badge-Applied,
+.badge-Medium,
+.badge-Discuss,
+.badge-Light {
     color: #0f4c81;
     background: #dff1ff;
 }
 
-.badge-Pending {
+.badge-Pending,
+.badge-Hold,
+.badge-Heavy {
     color: var(--warning-text);
     background: var(--warning-soft);
 }
 
 .badge-Accepted,
-.badge-Normal {
+.badge-Normal,
+.badge-High,
+.badge-Advance {
     color: var(--success-text);
     background: var(--success-soft);
 }
 
 .badge-Rejected,
-.badge-Overloaded {
+.badge-Overloaded,
+.badge-Low,
+.badge-Critical {
     color: var(--danger-text);
     background: var(--danger-soft);
+}
+
+.workload-warning {
+    color: var(--warning-text);
+    font-weight: 700;
 }
 
 .inline-form {

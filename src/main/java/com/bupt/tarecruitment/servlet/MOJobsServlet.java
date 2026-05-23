@@ -2,6 +2,7 @@ package com.bupt.tarecruitment.servlet;
 
 import com.bupt.tarecruitment.model.Job;
 import com.bupt.tarecruitment.repository.JobRepository;
+import com.bupt.tarecruitment.service.ActivityLogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -78,6 +79,7 @@ public class MOJobsServlet extends BaseServlet {
             }
 
             jobRepository.updateStatus(jobId, "Completed");
+            new ActivityLogService(getServletContext()).logCompleteJob(getCurrentUser(request), job.getTitle(), jobId);
             request.setAttribute("successMessage", "Job marked as completed successfully.");
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
@@ -111,6 +113,7 @@ public class MOJobsServlet extends BaseServlet {
             }
 
             jobRepository.updateStatus(jobId, "Open");
+            new ActivityLogService(getServletContext()).logReopenJob(getCurrentUser(request), job.getTitle(), jobId);
             request.setAttribute("successMessage", "Job reopened successfully.");
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());

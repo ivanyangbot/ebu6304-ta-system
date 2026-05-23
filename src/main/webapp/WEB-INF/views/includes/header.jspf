@@ -40,10 +40,16 @@
                 <c:if test="${sessionScope.currentUser.role == 'ADMIN'}">
                     <a class="nav-link" data-nav-match="/admin/workload" data-i18n="nav.workload"
                        href="${pageContext.request.contextPath}/admin/workload">Workload Overview</a>
+                    <a class="nav-link" data-nav-match="/admin/deadlines" data-i18n="nav.deadlines"
+                       href="${pageContext.request.contextPath}/admin/deadlines">Deadline Monitor</a>
                     <a class="nav-link" data-nav-match="/admin/users" data-i18n="nav.userManagement"
                        href="${pageContext.request.contextPath}/admin/users">User Management</a>
-                    <a class="nav-link" data-nav-match="/admin/applications" data-i18n="nav.allApplications"
-                       href="${pageContext.request.contextPath}/admin/applications">All Applications</a>
+                    <a class="nav-link" data-nav-match="/admin/activity" data-i18n="nav.activity"
+                       href="${pageContext.request.contextPath}/admin/activity">Activity Log</a>
+                </c:if>
+                <c:if test="${sessionScope.currentUser.role == 'APPLICANT' or sessionScope.currentUser.role == 'MO'}">
+                    <a class="nav-link" data-nav-match="/activity/my" data-i18n="nav.myActivity"
+                       href="${pageContext.request.contextPath}/activity/my">My Activity</a>
                 </c:if>
             </nav>
 

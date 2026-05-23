@@ -19,5 +19,12 @@
     "applicantId": "applicant-001",
     "status": "Pending",
     "appliedAt": "2026-04-03 09:15"
+  },
+  {
+    "id": "app-118fde12",
+    "jobId": "job-001",
+    "applicantId": "applicant-ba522de2",
+    "status": "Pending",
+    "appliedAt": "2026-05-23 23:09"
   }
 ]

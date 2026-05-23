@@ -3,20 +3,83 @@ package com.bupt.tarecruitment.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a TA applicant (student) in the recruitment system.
+ *
+ * <p>An {@code Applicant} extends {@link User} with two additional profile
+ * fields: a list of skills used for job matching and a free-text
+ * self-introduction. The role is always set to {@code "APPLICANT"}.</p>
+ *
+ * <p>Skills are stored as a {@code List<String>} and are compared
+ * case-insensitively by {@link com.bupt.tarecruitment.service.MatchService}
+ * to produce a match score.</p>
+ *
+ * @author  Group 71
+ * @version 1.0
+ * @see     com.bupt.tarecruitment.service.MatchService
+ * @see     com.bupt.tarecruitment.service.AuthService
+ */
 public class Applicant extends User {
+
+    /** Skills declared by the applicant (e.g. "Java", "Python"). */
     private List<String> skills;
+
+    /** Optional free-text self-introduction shown on the profile page. */
     private String selfIntroduction;
 
+    /**
+     * Original filename of the uploaded CV as provided by the applicant's browser
+     * (e.g. {@code "MyResume.pdf"}). Used for display purposes only; the physical
+     * file is stored under {@code WEB-INF/data/cvs/{id}.{cvFileExt}}.
+     * {@code null} when no CV has been uploaded.
+     */
+    private String cvFileName;
+
+    /**
+     * File extension of the uploaded CV in lower-case without the leading dot
+     * (e.g. {@code "pdf"}, {@code "docx"}). Used to reconstruct the physical
+     * file path and to set the correct {@code Content-Type} on download.
+     * {@code null} when no CV has been uploaded.
+     */
+    private String cvFileExt;
+
+    /**
+     * Default no-argument constructor required for JSON deserialization.
+     * Initialises {@code skills} to an empty list and {@code selfIntroduction} to an empty string.
+     */
     public Applicant() {
         this.skills = new ArrayList<>();
         this.selfIntroduction = "";
     }
 
+    /**
+     * Convenience constructor without a self-introduction (defaults to empty string).
+     *
+     * @param id       unique identifier
+     * @param username login name
+     * @param password account password
+     * @param role     role string (should be {@code "APPLICANT"})
+     * @param fullName display name
+     * @param email    contact email
+     * @param skills   list of skill strings; {@code null} is treated as empty list
+     */
     public Applicant(String id, String username, String password, String role, String fullName, String email,
                      List<String> skills) {
         this(id, username, password, role, fullName, email, skills, "");
     }
 
+    /**
+     * Full constructor.
+     *
+     * @param id                unique identifier
+     * @param username          login name
+     * @param password          account password
+     * @param role              role string (should be {@code "APPLICANT"})
+     * @param fullName          display name
+     * @param email             contact email
+     * @param skills            list of skill strings; {@code null} is treated as empty list
+     * @param selfIntroduction  free-text introduction; {@code null} is treated as empty string
+     */
     public Applicant(String id, String username, String password, String role, String fullName, String email,
                      List<String> skills, String selfIntroduction) {
         super(id, username, password, role, fullName, email);
@@ -24,6 +87,12 @@ public class Applicant extends User {
         this.selfIntroduction = selfIntroduction == null ? "" : selfIntroduction;
     }
 
+    /**
+     * Returns the list of skills declared by this applicant.
+     * Lazily initialises the list if it was somehow set to {@code null}.
+     *
+     * @return non-null list of skill strings
+     */
     public List<String> getSkills() {
         if (skills == null) {
             skills = new ArrayList<>();
@@ -31,10 +100,21 @@ public class Applicant extends User {
         return skills;
     }
 
+    /**
+     * Replaces the applicant's skill list.
+     *
+     * @param skills new skill list; {@code null} is treated as empty list
+     */
     public void setSkills(List<String> skills) {
         this.skills = skills == null ? new ArrayList<>() : skills;
     }
 
+    /**
+     * Returns the applicant's self-introduction text.
+     * Lazily initialises the field if it was somehow set to {@code null}.
+     *
+     * @return non-null self-introduction string (may be empty)
+     */
     public String getSelfIntroduction() {
         if (selfIntroduction == null) {
             selfIntroduction = "";
@@ -42,7 +122,58 @@ public class Applicant extends User {
         return selfIntroduction;
     }
 
+    /**
+     * Sets the applicant's self-introduction text.
+     *
+     * @param selfIntroduction new self-introduction; {@code null} is treated as empty string
+     */
     public void setSelfIntroduction(String selfIntroduction) {
         this.selfIntroduction = selfIntroduction == null ? "" : selfIntroduction;
+    }
+
+    /**
+     * Returns the original filename of the uploaded CV.
+     *
+     * @return original CV filename (e.g. {@code "MyResume.pdf"}), or {@code null} if none uploaded
+     */
+    public String getCvFileName() {
+        return cvFileName;
+    }
+
+    /**
+     * Sets the original filename of the uploaded CV.
+     *
+     * @param cvFileName original filename as provided by the browser; {@code null} clears the CV record
+     */
+    public void setCvFileName(String cvFileName) {
+        this.cvFileName = cvFileName;
+    }
+
+    /**
+     * Returns the file extension of the uploaded CV.
+     *
+     * @return lower-case extension without dot (e.g. {@code "pdf"}), or {@code null} if none uploaded
+     */
+    public String getCvFileExt() {
+        return cvFileExt;
+    }
+
+    /**
+     * Sets the file extension of the uploaded CV.
+     *
+     * @param cvFileExt lower-case extension without dot; {@code null} clears the CV extension record
+     */
+    public void setCvFileExt(String cvFileExt) {
+        this.cvFileExt = cvFileExt;
+    }
+
+    /**
+     * Returns {@code true} if this applicant has an uploaded CV on record.
+     *
+     * @return {@code true} when both {@code cvFileName} and {@code cvFileExt} are non-null and non-empty
+     */
+    public boolean hasCv() {
+        return cvFileName != null && !cvFileName.isEmpty()
+                && cvFileExt != null && !cvFileExt.isEmpty();
     }
 }

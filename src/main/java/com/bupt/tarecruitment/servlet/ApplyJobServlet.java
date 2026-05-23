@@ -4,6 +4,7 @@ import com.bupt.tarecruitment.model.ApplicationRecord;
 import com.bupt.tarecruitment.model.Job;
 import com.bupt.tarecruitment.model.User;
 import com.bupt.tarecruitment.repository.NotificationRepository;
+import com.bupt.tarecruitment.service.ActivityLogService;
 import com.bupt.tarecruitment.service.ApplicationService;
 import com.bupt.tarecruitment.service.JobService;
 
@@ -28,6 +29,12 @@ public class ApplyJobServlet extends BaseServlet {
             return;
         }
 
+        // Enforce deadline: reject submissions after the deadline
+        if (job.isDeadlinePassed()) {
+            response.sendRedirect(request.getContextPath() + "/jobs/detail?id=" + jobId + "&msg=deadlinePassed");
+            return;
+        }
+
         ApplicationService applicationService = new ApplicationService(getServletContext());
         NotificationRepository notificationRepository = new NotificationRepository(getServletContext());
         User currentUser = getCurrentUser(request);
@@ -46,7 +53,9 @@ public class ApplyJobServlet extends BaseServlet {
             } catch (RuntimeException e) {
                 System.err.println("Failed to create notification for job application: " + e.getMessage());
             }
-            
+
+            new ActivityLogService(getServletContext()).logApplyJob(currentUser, job.getTitle(), newApplication.getId());
+
             response.sendRedirect(request.getContextPath() + "/jobs/detail?id=" + jobId + "&msg=applied");
         } catch (IllegalArgumentException e) {
             response.sendRedirect(request.getContextPath() + "/jobs/detail?id=" + jobId + "&msg=duplicate");

@@ -5,6 +5,7 @@ import com.bupt.tarecruitment.model.Applicant;
 import com.bupt.tarecruitment.model.MO;
 import com.bupt.tarecruitment.model.User;
 import com.bupt.tarecruitment.repository.UserRepository;
+import com.bupt.tarecruitment.service.ActivityLogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -97,7 +98,11 @@ public class AdminUserManagementServlet extends BaseServlet {
             if (user == null) {
                 throw new RuntimeException("User not found.");
             }
+            String deletedFullName = user.getFullName();
+            String deletedRole = user.getRole();
             userRepository.deleteUserById(userId);
+            new ActivityLogService(getServletContext()).logDeleteUser(
+                    getCurrentUser(request), deletedFullName, deletedRole, userId);
             request.setAttribute("successMessage", "User deleted successfully.");
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
