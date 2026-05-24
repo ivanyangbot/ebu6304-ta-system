@@ -44,8 +44,8 @@ public class NotificationRepository {
             notification.setUserId(object.get("userId").getAsString());
             notification.setType(object.get("type").getAsString());
             notification.setMessage(object.get("message").getAsString());
-            notification.setRelatedJobId(object.has("relatedJobId") ? object.get("relatedJobId").getAsString() : null);
-            notification.setRelatedApplicationId(object.has("relatedApplicationId") ? object.get("relatedApplicationId").getAsString() : null);
+            notification.setRelatedJobId(object.has("relatedJobId") && !object.get("relatedJobId").isJsonNull() ? object.get("relatedJobId").getAsString() : null);
+            notification.setRelatedApplicationId(object.has("relatedApplicationId") && !object.get("relatedApplicationId").isJsonNull() ? object.get("relatedApplicationId").getAsString() : null);
             notification.setRead(object.has("read") && object.get("read").getAsBoolean());
             if (object.has("createdAt") && !object.get("createdAt").isJsonNull()) {
                 notification.setCreatedAt(gson.fromJson(object.get("createdAt"), LocalDateTime.class));
