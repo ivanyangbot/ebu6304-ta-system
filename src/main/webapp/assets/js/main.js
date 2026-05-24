@@ -366,7 +366,23 @@ document.addEventListener("DOMContentLoaded", function () {
             "table.appliedAt": "Applied At",
             "admin.allApplicationsHeading": "All Applications",
             "admin.allApplicationsDesc": "View all applications submitted by applicants across all jobs.",
-            "admin.noApplications": "No applications found."
+            "admin.noApplications": "No applications found.",
+            "nav.deadlines": "Deadlines",
+            "nav.activity": "Activity Log",
+            "page.deadlines": "Deadline Monitor",
+            "common.postedBy": "Posted By",
+            "deadlines.heading": "Application Deadlines",
+            "deadlines.desc": "Jobs closing within",
+            "deadlines.days": "days",
+            "deadlines.today": "Today",
+            "deadlines.expiringSoon": "Expiring Soon",
+            "deadlines.daysLeft": "Days Left",
+            "deadlines.noneExpiring": "No jobs are expiring soon.",
+            "deadlines.overdue": "Overdue",
+            "deadlines.overdueDesc": "Jobs whose deadline has already passed.",
+            "deadlines.daysOverdue": "Days Overdue",
+            "deadlines.noneOverdue": "No overdue jobs.",
+            "deadlines.deadline": "Deadline"
         },
         zh: {
             "brand.title": "助教招聘系统",
@@ -733,7 +749,23 @@ document.addEventListener("DOMContentLoaded", function () {
             "table.appliedAt": "申请时间",
             "admin.allApplicationsHeading": "全部申请",
             "admin.allApplicationsDesc": "查看系统中所有岗位的全部申请记录。",
-            "admin.noApplications": "暂无申请记录。"
+            "admin.noApplications": "暂无申请记录。",
+            "nav.deadlines": "截止日期",
+            "nav.activity": "操作日志",
+            "page.deadlines": "截止日期监控",
+            "common.postedBy": "发布者",
+            "deadlines.heading": "申请截止日期",
+            "deadlines.desc": "即将在",
+            "deadlines.days": "天内关闭的岗位",
+            "deadlines.today": "今天",
+            "deadlines.expiringSoon": "即将到期",
+            "deadlines.daysLeft": "剩余天数",
+            "deadlines.noneExpiring": "暂无即将到期的岗位。",
+            "deadlines.overdue": "已过期",
+            "deadlines.overdueDesc": "截止日期已过的岗位。",
+            "deadlines.daysOverdue": "逾期天数",
+            "deadlines.noneOverdue": "暂无逾期岗位。",
+            "deadlines.deadline": "截止日期"
         }
     };
 

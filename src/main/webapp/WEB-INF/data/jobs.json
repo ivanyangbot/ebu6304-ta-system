@@ -11,7 +11,8 @@
     ],
     "hours": 6,
     "postedByMoId": "mo-001",
-    "status": "Open"
+    "status": "Open",
+    "deadline": "2026-06-30"
   },
   {
     "id": "job-002",
@@ -25,7 +26,8 @@
     ],
     "hours": 5,
     "postedByMoId": "mo-001",
-    "status": "Open"
+    "status": "Open",
+    "deadline": "2026-07-15"
   },
   {
     "id": "job-003",
@@ -40,5 +42,94 @@
     "hours": 4,
     "postedByMoId": "mo-001",
     "status": "Open"
+  },
+  {
+    "id": "job-004",
+    "title": "Algorithm Workshop TA",
+    "moduleName": "Data Structures and Algorithms",
+    "description": "Conduct weekly problem-solving sessions, review student submissions, and provide hints on competitive programming challenges.",
+    "requiredSkills": [
+      "C++",
+      "Algorithms",
+      "Communication"
+    ],
+    "hours": 8,
+    "postedByMoId": "mo-002",
+    "status": "Open",
+    "deadline": "2026-06-10"
+  },
+  {
+    "id": "job-005",
+    "title": "Machine Learning Lab Assistant",
+    "moduleName": "Introduction to Machine Learning",
+    "description": "Support students in implementing ML models using scikit-learn and PyTorch. Assist with Jupyter notebooks and debugging.",
+    "requiredSkills": [
+      "Python",
+      "Machine Learning",
+      "Communication",
+      "Tutoring"
+    ],
+    "hours": 7,
+    "postedByMoId": "mo-002",
+    "status": "Open",
+    "deadline": "2026-06-20"
+  },
+  {
+    "id": "job-006",
+    "title": "Seminar Coordination Assistant",
+    "moduleName": "Academic Writing and Presentation",
+    "description": "Help coordinate seminar scheduling, prepare slide templates, and assist students with presentation delivery techniques.",
+    "requiredSkills": [
+      "Presentation",
+      "Organisation",
+      "Communication"
+    ],
+    "hours": 3,
+    "postedByMoId": "mo-001",
+    "status": "Open",
+    "deadline": "2026-07-01"
+  },
+  {
+    "id": "job-007",
+    "title": "Database Lab TA",
+    "moduleName": "Database Systems",
+    "description": "Guide students through SQL labs, ERD design exercises, and support final project assessment preparation.",
+    "requiredSkills": [
+      "Java",
+      "Organisation",
+      "Communication"
+    ],
+    "hours": 5,
+    "postedByMoId": "mo-002",
+    "status": "Completed"
+  },
+  {
+    "id": "job-008",
+    "title": "Python Bootcamp TA",
+    "moduleName": "Python for Non-Programmers",
+    "description": "Support beginner students in a one-week intensive Python bootcamp covering variables, loops, functions and file I/O.",
+    "requiredSkills": [
+      "Python",
+      "Tutoring",
+      "Communication"
+    ],
+    "hours": 10,
+    "postedByMoId": "mo-001",
+    "status": "Completed"
+  },
+  {
+    "id": "job-009",
+    "title": "Research Methods TA",
+    "moduleName": "Research Methodology",
+    "description": "Assist postgraduate students with literature review techniques, citation tools, and quantitative research methods.",
+    "requiredSkills": [
+      "Data Analysis",
+      "Presentation",
+      "Excel"
+    ],
+    "hours": 4,
+    "postedByMoId": "mo-002",
+    "status": "Open",
+    "deadline": "2026-05-31"
   }
 ]

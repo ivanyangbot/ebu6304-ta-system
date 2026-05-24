@@ -6,7 +6,9 @@
       "Excel",
       "Tutoring"
     ],
-    "selfIntroduction": "Second-year student with Java tutoring experience and strong classroom communication skills.",
+    "selfIntroduction": "Second-year student with Java tutoring experience and strong classroom communication skills. I have served as a peer tutor for CS101 for two semesters and enjoy helping others understand complex programming concepts.",
+    "cvFileName": "Alice_Zhang_CV.pdf",
+    "cvFileExt": "pdf",
     "id": "applicant-001",
     "username": "applicant1",
     "password": "123456",
@@ -21,7 +23,9 @@
       "Presentation",
       "Communication"
     ],
-    "selfIntroduction": "Interested in data analysis and student support, with experience preparing tutorials and presentation materials.",
+    "selfIntroduction": "Interested in data analysis and student support, with experience preparing tutorials and presentation materials. Familiar with pandas, matplotlib and introductory machine learning.",
+    "cvFileName": "Bob_Chen_Resume.pdf",
+    "cvFileExt": "pdf",
     "id": "applicant-002",
     "username": "applicant2",
     "password": "123456",
@@ -30,12 +34,69 @@
     "email": "bob.chen@bupt.edu.cn"
   },
   {
+    "skills": [
+      "Python",
+      "Java",
+      "Machine Learning",
+      "Communication",
+      "Tutoring"
+    ],
+    "selfIntroduction": "Third-year PhD student passionate about AI and machine learning. I have two years of undergraduate TA experience in algorithm courses and love breaking down difficult concepts for students.",
+    "id": "applicant-003",
+    "username": "applicant3",
+    "password": "123456",
+    "role": "APPLICANT",
+    "fullName": "Clara Li",
+    "email": "clara.li@bupt.edu.cn"
+  },
+  {
+    "skills": [
+      "C++",
+      "Algorithms",
+      "Organisation",
+      "Communication"
+    ],
+    "selfIntroduction": "Final-year student with strong algorithmic problem-solving skills. Winner of ICPC regional contest. Eager to support competitive-programming workshops and data structures labs.",
+    "cvFileName": "David_Wu_CV.docx",
+    "cvFileExt": "docx",
+    "id": "applicant-004",
+    "username": "applicant4",
+    "password": "123456",
+    "role": "APPLICANT",
+    "fullName": "David Wu",
+    "email": "david.wu@bupt.edu.cn"
+  },
+  {
+    "skills": [
+      "Excel",
+      "Organisation",
+      "Communication",
+      "Tutoring",
+      "Presentation"
+    ],
+    "selfIntroduction": "Business administration student with excellent organisational skills. I have helped coordinate academic workshops and office hours for 60+ students per semester.",
+    "id": "applicant-005",
+    "username": "applicant5",
+    "password": "123456",
+    "role": "APPLICANT",
+    "fullName": "Eva Huang",
+    "email": "eva.huang@bupt.edu.cn"
+  },
+  {
     "id": "mo-001",
     "username": "mo1",
     "password": "123456",
     "role": "MO",
     "fullName": "Dr. Emily Wang",
     "email": "emily.wang@bupt.edu.cn"
+  },
+  {
+    "id": "mo-002",
+    "username": "mo2",
+    "password": "123456",
+    "role": "MO",
+    "fullName": "Prof. James Liu",
+    "email": "james.liu@bupt.edu.cn"
   },
   {
     "id": "admin-001",
