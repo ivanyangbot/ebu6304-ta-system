@@ -1,5 +1,6 @@
 package com.bupt.tarecruitment.listener;
 
+import com.bupt.tarecruitment.util.ConfigLoader;
 import com.bupt.tarecruitment.util.PathUtil;
 
 import javax.servlet.ServletContextEvent;
@@ -32,6 +33,8 @@ public class DataBootstrapListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        // Load local.properties first so API keys are available to all servlets
+        ConfigLoader.load(sce.getServletContext());
         PathUtil.initializeDataDirectory(sce.getServletContext());
     }
 }

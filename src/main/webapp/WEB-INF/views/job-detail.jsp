@@ -69,6 +69,20 @@
                 </c:otherwise>
             </c:choose>
         </p>
+        <c:if test="${not empty matchResult.missingSkills}">
+            <a href="${pageContext.request.contextPath}/applicant/skill-recommend?jobId=${job.id}"
+               class="btn btn-secondary" style="margin-top:6px; display:inline-flex; align-items:center; gap:7px;"
+               data-i18n="action.aiLearningPath" data-ai-link>
+                <%-- robot SVG icon --%>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="10" rx="2"/>
+                  <circle cx="9" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+                  <circle cx="15" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+                  <path d="M12 11V7"/><circle cx="12" cy="5" r="2"/>
+                </svg>
+                Get AI Learning Path
+            </a>
+        </c:if>
 
         <c:choose>
             <c:when test="${alreadyApplied && currentApplication.status == 'Pending'}">

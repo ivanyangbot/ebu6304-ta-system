@@ -60,6 +60,23 @@
 
     <build>
         <finalName>ta-recruitment-system</finalName>
+
+        <!-- Copy local.properties from project root onto the classpath so that
+             ConfigLoader.tryLoadFromClasspath() can pick it up at runtime.
+             The file is in .gitignore and is never committed. -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <includes>
+                    <include>local.properties</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

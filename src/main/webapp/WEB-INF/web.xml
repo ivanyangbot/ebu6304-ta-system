@@ -7,6 +7,29 @@
 
     <display-name>BUPT International School Teaching Assistant Recruitment System</display-name>
 
+    <!--
+        ╔══════════════════════════════════════════════════════════════════════╗
+        ║  Volcano Engine (火山方舟) API Key – DO NOT put real keys here        ║
+        ║                                                                       ║
+        ║  The real API key is loaded at startup from (highest priority first): ║
+        ║    1. Environment variable  VOLCENGINE_API_KEY                        ║
+        ║    2. local.properties  (project root – listed in .gitignore)         ║
+        ║    3. local.properties  on the classpath (WEB-INF/classes/)           ║
+        ║                                                                       ║
+        ║  Copy  local.properties.template  →  local.properties  and fill in   ║
+        ║  the real key. The value below is only a fallback placeholder; when   ║
+        ║  it is active the system silently uses the static resource catalogue. ║
+        ╚══════════════════════════════════════════════════════════════════════╝
+    -->
+    <context-param>
+        <param-name>volcengine.api.key</param-name>
+        <param-value>577134a1-e263-4d4a-a7cb-9b37af4540d5</param-value>
+    </context-param>
+    <context-param>
+        <param-name>volcengine.model.id</param-name>
+        <param-value>glm-4-7-251222</param-value>
+    </context-param>
+
     <listener>
         <listener-class>com.bupt.tarecruitment.listener.DataBootstrapListener</listener-class>
     </listener>
@@ -262,6 +285,16 @@
     <servlet-mapping>
         <servlet-name>AdminAiQueryStreamServlet</servlet-name>
         <url-pattern>/admin/ai-query/ask</url-pattern>
+    </servlet-mapping>
+
+    <!-- AI Skill Learning Path Recommender -->
+    <servlet>
+        <servlet-name>SkillRecommendServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.SkillRecommendServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SkillRecommendServlet</servlet-name>
+        <url-pattern>/applicant/skill-recommend</url-pattern>
     </servlet-mapping>
 
     <session-config>
