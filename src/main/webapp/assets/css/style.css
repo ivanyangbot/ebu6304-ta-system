@@ -421,9 +421,21 @@ textarea {
 }
 
 .btn-light {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--sidebar-line);
+color: #ffffff;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--sidebar-line);
+}
+
+.btn-ai {
+color: #065f46;
+background: #d1fae5;
+border: 1px solid #6ee7b7;
+}
+
+.btn-ai:hover {
+background: #a7f3d0;
+border-color: #34d399;
+color: #064e3b;
 }
 
 .btn-block {
