@@ -245,6 +245,25 @@
         <url-pattern>/cv/download</url-pattern>
     </servlet-mapping>
 
+    <!-- Admin AI Data Query -->
+    <servlet>
+        <servlet-name>AdminAiQueryServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminAiQueryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAiQueryServlet</servlet-name>
+        <url-pattern>/admin/ai-query</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminAiQueryStreamServlet</servlet-name>
+        <servlet-class>com.bupt.tarecruitment.servlet.AdminAiQueryStreamServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAiQueryStreamServlet</servlet-name>
+        <url-pattern>/admin/ai-query/ask</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
