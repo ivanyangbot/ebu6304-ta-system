@@ -56,6 +56,8 @@
                        href="${pageContext.request.contextPath}/admin/users">User Management</a>
                     <a class="nav-link" data-nav-match="/admin/activity" data-i18n="nav.activity"
                        href="${pageContext.request.contextPath}/admin/activity">Activity Log</a>
+                    <a class="nav-link" data-nav-match="/admin/ai-query" data-i18n="nav.aiDataQuery"
+                       href="${pageContext.request.contextPath}/admin/ai-query">AI Data Query</a>
                 </c:if>
                 <c:if test="${sessionScope.currentUser.role == 'APPLICANT' or sessionScope.currentUser.role == 'MO'}">
                     <a class="nav-link" data-nav-match="/activity/my" data-i18n="nav.myActivity"
