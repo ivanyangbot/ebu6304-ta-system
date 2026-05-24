@@ -3,6 +3,7 @@ package com.bupt.tarecruitment.service;
 import com.bupt.tarecruitment.model.Applicant;
 import com.bupt.tarecruitment.model.User;
 import com.bupt.tarecruitment.repository.UserRepository;
+import com.bupt.tarecruitment.util.PathUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.servlet.ServletContext;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -164,8 +167,19 @@ class AuthServiceTest {
         private final UserRepository injectedRepo;
 
         AuthServiceUnderTest(UserRepository repo) {
-            super(null);
+            super(testContext());
             this.injectedRepo = repo;
+        }
+
+        private static ServletContext testContext() {
+            try {
+                ServletContext context = mock(ServletContext.class);
+                Path dataDir = Files.createTempDirectory("auth-service-test");
+                when(context.getAttribute(PathUtil.DATA_DIR_ATTRIBUTE)).thenReturn(dataDir.toString());
+                return context;
+            } catch (java.io.IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override

@@ -7,12 +7,16 @@ import com.bupt.tarecruitment.model.WorkloadSummary;
 import com.bupt.tarecruitment.repository.ApplicationRepository;
 import com.bupt.tarecruitment.repository.JobRepository;
 import com.bupt.tarecruitment.repository.UserRepository;
+import com.bupt.tarecruitment.util.PathUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.servlet.ServletContext;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -132,10 +136,21 @@ class WorkloadServiceTest {
         private final JobRepository jr;
 
         WorkloadServiceUnderTest(UserRepository ur, ApplicationRepository ar, JobRepository jr) {
-            super(null);
+            super(testContext());
             this.ur = ur;
             this.ar = ar;
             this.jr = jr;
+        }
+
+        private static ServletContext testContext() {
+            try {
+                ServletContext context = mock(ServletContext.class);
+                Path dataDir = Files.createTempDirectory("workload-service-test");
+                when(context.getAttribute(PathUtil.DATA_DIR_ATTRIBUTE)).thenReturn(dataDir.toString());
+                return context;
+            } catch (java.io.IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override

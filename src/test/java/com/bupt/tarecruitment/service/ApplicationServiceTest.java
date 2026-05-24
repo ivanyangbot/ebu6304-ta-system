@@ -4,12 +4,16 @@ import com.bupt.tarecruitment.model.ApplicationRecord;
 import com.bupt.tarecruitment.model.Job;
 import com.bupt.tarecruitment.repository.ApplicationRepository;
 import com.bupt.tarecruitment.repository.JobRepository;
+import com.bupt.tarecruitment.util.PathUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.servlet.ServletContext;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -187,9 +191,20 @@ class ApplicationServiceTest {
         private final JobRepository jobRepo;
 
         ApplicationServiceUnderTest(ApplicationRepository appRepo, JobRepository jobRepo) {
-            super(null);
+            super(testContext());
             this.appRepo = appRepo;
             this.jobRepo = jobRepo;
+        }
+
+        private static ServletContext testContext() {
+            try {
+                ServletContext context = mock(ServletContext.class);
+                Path dataDir = Files.createTempDirectory("application-service-test");
+                when(context.getAttribute(PathUtil.DATA_DIR_ATTRIBUTE)).thenReturn(dataDir.toString());
+                return context;
+            } catch (java.io.IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override
