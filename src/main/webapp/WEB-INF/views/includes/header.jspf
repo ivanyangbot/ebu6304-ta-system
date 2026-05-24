@@ -30,6 +30,16 @@
                        href="${pageContext.request.contextPath}/jobs">Browse Jobs</a>
                     <a class="nav-link" data-nav-match="/applicant/applications" data-i18n="nav.myApplications"
                        href="${pageContext.request.contextPath}/applicant/applications">My Applications</a>
+                    <a class="nav-link nav-link-ai" data-nav-match="/applicant/skill-recommend"
+                       href="${pageContext.request.contextPath}/jobs" style="display:inline-flex;align-items:center;gap:8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;">
+                          <rect x="3" y="11" width="18" height="10" rx="2"/>
+                          <circle cx="9" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+                          <circle cx="15" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+                          <path d="M12 11V7"/><circle cx="12" cy="5" r="2"/>
+                        </svg>
+                        <span data-i18n="nav.aiSkillPath">AI Skill Path</span>
+                    </a>
                 </c:if>
                 <c:if test="${sessionScope.currentUser.role == 'MO'}">
                     <a class="nav-link" data-nav-match="/mo/jobs,/mo/applications" data-i18n="nav.moJobs"

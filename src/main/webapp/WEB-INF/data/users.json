@@ -46,7 +46,9 @@
     "email": "admin@bupt.edu.cn"
   },
   {
-    "skills": [],
+    "skills": [
+      "java"
+    ],
     "selfIntroduction": "",
     "id": "applicant-ba522de2",
     "username": "ivanyang",

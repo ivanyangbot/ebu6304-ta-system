@@ -1,0 +1,12 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# local.properties.template – Copy to local.properties and fill in values.
+# This TEMPLATE is committed to git; local.properties is NOT.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Volcano Engine (火山方舟) API key for the AI Skill Learning-Path Recommender.
+# Obtain a key from https://console.volcengine.com/ark
+volcengine.api.key=YOUR_VOLCANO_ENGINE_API_KEY_HERE
+
+# Model endpoint ID to use for chat completions.
+# Find the ID on the Volcano Engine console under 「推理接入点」, e.g. glm-4-7-251222
+volcengine.model.id=glm-4-7-251222

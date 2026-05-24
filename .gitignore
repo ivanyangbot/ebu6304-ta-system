@@ -25,3 +25,6 @@ Thumbs.db
 *.temp
 .smarttomcat/
 .idea/
+
+# Local machine configuration – contains API keys, never commit
+local.properties

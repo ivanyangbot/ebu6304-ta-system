@@ -45,6 +45,14 @@
                 <td>
                     <a class="btn btn-secondary btn-small" data-i18n="action.viewDetail"
                        href="${pageContext.request.contextPath}/jobs/detail?id=${job.id}">View Detail</a>
+                    <c:if test="${sessionScope.currentUser.role == 'APPLICANT' and not empty job.requiredSkills}">
+                        <a class="btn btn-light btn-small" data-i18n="nav.aiSkillPath" data-ai-link
+                           href="${pageContext.request.contextPath}/applicant/skill-recommend?jobId=${job.id}"
+                           style="display:inline-flex;align-items:center;gap:5px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="9" cy="16" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="16" r="1.5" fill="currentColor" stroke="none"/><path d="M12 11V7"/><circle cx="12" cy="5" r="2"/></svg>
+                            AI Skill Path
+                        </a>
+                    </c:if>
                     <c:if test="${appliedJobMap[job.id]}">
                         <span class="badge badge-info" data-status-label="Applied">Applied</span>
                     </c:if>
