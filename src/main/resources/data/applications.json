@@ -4,14 +4,16 @@
     "jobId": "job-001",
     "applicantId": "applicant-002",
     "status": "Accepted",
-    "appliedAt": "2026-04-01 10:30"
+    "appliedAt": "2026-04-01 10:30",
+    "moFeedback": "Bob has strong Python and data analysis skills. Although Java is not listed, his communication ability and enthusiasm convinced us he can handle the lab sessions."
   },
   {
     "id": "app-002",
     "jobId": "job-002",
     "applicantId": "applicant-002",
     "status": "Accepted",
-    "appliedAt": "2026-04-02 14:20"
+    "appliedAt": "2026-04-02 14:20",
+    "moFeedback": "Excellent match. Bob's data analysis background and presentation skills are exactly what this workshop needs. Welcome aboard!"
   },
   {
     "id": "app-003",
@@ -19,5 +21,112 @@
     "applicantId": "applicant-001",
     "status": "Pending",
     "appliedAt": "2026-04-03 09:15"
+  },
+  {
+    "id": "app-004",
+    "jobId": "job-001",
+    "applicantId": "applicant-001",
+    "status": "Accepted",
+    "appliedAt": "2026-04-05 11:00",
+    "moFeedback": "Alice's Java and tutoring experience is a great fit for the programming lab. Looking forward to working with her."
+  },
+  {
+    "id": "app-005",
+    "jobId": "job-004",
+    "applicantId": "applicant-004",
+    "status": "Accepted",
+    "appliedAt": "2026-04-08 15:45",
+    "moFeedback": "David's ICPC experience and C++ proficiency make him the ideal candidate for the algorithm workshop. Accepted."
+  },
+  {
+    "id": "app-006",
+    "jobId": "job-004",
+    "applicantId": "applicant-003",
+    "status": "Rejected",
+    "appliedAt": "2026-04-09 10:10",
+    "moFeedback": "Clara's profile is strong, but we need a candidate with competitive programming experience specifically in C++. We encourage her to apply for the ML Lab TA role."
+  },
+  {
+    "id": "app-007",
+    "jobId": "job-005",
+    "applicantId": "applicant-003",
+    "status": "Accepted",
+    "appliedAt": "2026-04-10 09:30",
+    "moFeedback": "Clara's ML background and PhD-level understanding are perfect for this role. Very happy to have her on the team."
+  },
+  {
+    "id": "app-008",
+    "jobId": "job-005",
+    "applicantId": "applicant-002",
+    "status": "Rejected",
+    "appliedAt": "2026-04-10 13:00",
+    "moFeedback": "Bob has a good data foundation, but the position requires deeper ML knowledge. Consider upskilling in PyTorch before reapplying."
+  },
+  {
+    "id": "app-009",
+    "jobId": "job-006",
+    "applicantId": "applicant-005",
+    "status": "Pending",
+    "appliedAt": "2026-04-12 14:00"
+  },
+  {
+    "id": "app-010",
+    "jobId": "job-006",
+    "applicantId": "applicant-001",
+    "status": "Pending",
+    "appliedAt": "2026-04-13 08:50"
+  },
+  {
+    "id": "app-011",
+    "jobId": "job-007",
+    "applicantId": "applicant-001",
+    "status": "Accepted",
+    "appliedAt": "2026-03-15 10:00",
+    "moFeedback": "Alice demonstrated solid SQL knowledge during her interview. Great addition to the database lab team."
+  },
+  {
+    "id": "app-012",
+    "jobId": "job-007",
+    "applicantId": "applicant-004",
+    "status": "Rejected",
+    "appliedAt": "2026-03-16 11:30",
+    "moFeedback": "David's skills are algorithm-focused. This role requires database and SQL expertise. Not a strong match."
+  },
+  {
+    "id": "app-013",
+    "jobId": "job-008",
+    "applicantId": "applicant-003",
+    "status": "Accepted",
+    "appliedAt": "2026-03-20 09:00",
+    "moFeedback": "Clara's Python expertise and tutoring experience are ideal for the bootcamp. She was our top choice."
+  },
+  {
+    "id": "app-014",
+    "jobId": "job-009",
+    "applicantId": "applicant-005",
+    "status": "Pending",
+    "appliedAt": "2026-04-18 16:20"
+  },
+  {
+    "id": "app-015",
+    "jobId": "job-003",
+    "applicantId": "applicant-005",
+    "status": "Rejected",
+    "appliedAt": "2026-04-04 10:00",
+    "moFeedback": "Eva has excellent organisational skills, but we have already filled the position with another candidate."
+  },
+  {
+    "id": "app-016",
+    "jobId": "job-002",
+    "applicantId": "applicant-003",
+    "status": "Pending",
+    "appliedAt": "2026-04-20 11:30"
+  },
+  {
+    "id": "app-118fde12",
+    "jobId": "job-001",
+    "applicantId": "applicant-ba522de2",
+    "status": "Pending",
+    "appliedAt": "2026-05-23 23:09"
   }
 ]

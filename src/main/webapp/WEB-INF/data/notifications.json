@@ -3,10 +3,160 @@
     "id": "notification-f3661f8d",
     "userId": "mo-001",
     "type": "NEW_APPLICATION",
-    "message": "New application received for \u0027Programming Lab TA\u0027 from 杨志远",
+    "message": "New application received for 'Programming Lab TA' from \u6768\u5fd7\u8fdc",
     "relatedJobId": "job-001",
     "relatedApplicationId": "app-118fde12",
     "read": false,
     "createdAt": "2026-05-23T23:09:06.516708"
+  },
+  {
+    "id": "notification-001",
+    "userId": "applicant-001",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Your application for 'Programming Lab TA' has been Accepted.",
+    "relatedJobId": "job-001",
+    "relatedApplicationId": "app-004",
+    "read": true,
+    "createdAt": "2026-04-06T10:00:00"
+  },
+  {
+    "id": "notification-002",
+    "userId": "applicant-001",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Your application for 'Database Lab TA' has been Accepted.",
+    "relatedJobId": "job-007",
+    "relatedApplicationId": "app-011",
+    "read": true,
+    "createdAt": "2026-03-18T09:30:00"
+  },
+  {
+    "id": "notification-003",
+    "userId": "applicant-001",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Your application for 'Office Hour Assistant' is still under review. Please check back later.",
+    "relatedJobId": "job-003",
+    "relatedApplicationId": "app-003",
+    "read": false,
+    "createdAt": "2026-04-15T14:00:00"
+  },
+  {
+    "id": "notification-004",
+    "userId": "applicant-002",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Congratulations! Your application for 'Data Workshop TA' has been Accepted.",
+    "relatedJobId": "job-002",
+    "relatedApplicationId": "app-002",
+    "read": true,
+    "createdAt": "2026-04-03T09:00:00"
+  },
+  {
+    "id": "notification-005",
+    "userId": "applicant-002",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Your application for 'Machine Learning Lab Assistant' has been Rejected. Please see the MO feedback.",
+    "relatedJobId": "job-005",
+    "relatedApplicationId": "app-008",
+    "read": false,
+    "createdAt": "2026-04-11T11:00:00"
+  },
+  {
+    "id": "notification-006",
+    "userId": "applicant-003",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Your application for 'Algorithm Workshop TA' has been Rejected. Please see the MO feedback.",
+    "relatedJobId": "job-004",
+    "relatedApplicationId": "app-006",
+    "read": true,
+    "createdAt": "2026-04-10T15:00:00"
+  },
+  {
+    "id": "notification-007",
+    "userId": "applicant-003",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Great news! Your application for 'Machine Learning Lab Assistant' has been Accepted.",
+    "relatedJobId": "job-005",
+    "relatedApplicationId": "app-007",
+    "read": true,
+    "createdAt": "2026-04-11T10:00:00"
+  },
+  {
+    "id": "notification-008",
+    "userId": "applicant-004",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Congratulations! Your application for 'Algorithm Workshop TA' has been Accepted.",
+    "relatedJobId": "job-004",
+    "relatedApplicationId": "app-005",
+    "read": false,
+    "createdAt": "2026-04-09T16:00:00"
+  },
+  {
+    "id": "notification-009",
+    "userId": "applicant-004",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Your application for 'Database Lab TA' has been Rejected. Please review the MO feedback.",
+    "relatedJobId": "job-007",
+    "relatedApplicationId": "app-012",
+    "read": true,
+    "createdAt": "2026-03-17T14:00:00"
+  },
+  {
+    "id": "notification-010",
+    "userId": "applicant-005",
+    "type": "APPLICATION_STATUS_UPDATED",
+    "message": "Your application for 'Office Hour Assistant' has been Rejected. Thank you for applying.",
+    "relatedJobId": "job-003",
+    "relatedApplicationId": "app-015",
+    "read": false,
+    "createdAt": "2026-04-05T09:00:00"
+  },
+  {
+    "id": "notification-011",
+    "userId": "mo-001",
+    "type": "NEW_APPLICATION",
+    "message": "New application received for 'Office Hour Assistant' from Alice Zhang",
+    "relatedJobId": "job-003",
+    "relatedApplicationId": "app-003",
+    "read": true,
+    "createdAt": "2026-04-03T09:16:00"
+  },
+  {
+    "id": "notification-012",
+    "userId": "mo-001",
+    "type": "NEW_APPLICATION",
+    "message": "New application received for 'Seminar Coordination Assistant' from Eva Huang",
+    "relatedJobId": "job-006",
+    "relatedApplicationId": "app-009",
+    "read": false,
+    "createdAt": "2026-04-12T14:01:00"
+  },
+  {
+    "id": "notification-013",
+    "userId": "mo-002",
+    "type": "NEW_APPLICATION",
+    "message": "New application received for 'Algorithm Workshop TA' from David Wu",
+    "relatedJobId": "job-004",
+    "relatedApplicationId": "app-005",
+    "read": true,
+    "createdAt": "2026-04-08T15:46:00"
+  },
+  {
+    "id": "notification-014",
+    "userId": "mo-002",
+    "type": "NEW_APPLICATION",
+    "message": "New application received for 'Machine Learning Lab Assistant' from Clara Li",
+    "relatedJobId": "job-005",
+    "relatedApplicationId": "app-007",
+    "read": true,
+    "createdAt": "2026-04-10T09:31:00"
+  },
+  {
+    "id": "notification-015",
+    "userId": "mo-001",
+    "type": "JOB_POSTED",
+    "message": "Your new job posting 'Seminar Coordination Assistant' is now live and accepting applications.",
+    "relatedJobId": "job-006",
+    "relatedApplicationId": null,
+    "read": true,
+    "createdAt": "2026-04-11T09:00:00"
   }
 ]
